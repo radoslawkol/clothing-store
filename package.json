@@ -7,9 +7,11 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"@heroicons/react": "^2.0.1",
 		"next": "latest",
 		"react": "18.1.0",
-		"react-dom": "18.1.0"
+		"react-dom": "18.1.0",
+		"react-responsive": "^9.0.0-beta.10"
 	},
 	"devDependencies": {
 		"@testing-library/jest-dom": "^5.16.5",
