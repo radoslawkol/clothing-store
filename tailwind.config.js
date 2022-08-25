@@ -32,6 +32,15 @@ module.exports = {
 				"info-on-primary": "#1867DD",
 				"light-grey-hover": "#F4F3F3",
 			},
+			keyframes: {
+				showMenuLeft: {
+					"0%": { transform: "translateX(-100%)" },
+					"100%": { transform: "translateX(0)" },
+				},
+			},
+			animation: {
+				mobileMenuOpen: "showMenuLeft 0.3s ease-out",
+			},
 		},
 	},
 	plugins: [],

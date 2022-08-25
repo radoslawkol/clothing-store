@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
 import { useMediaQuery } from "react-responsive";
-import Image from "next/image";
-import logo from "../../images/logo.svg";
 import MenuMobile from "./MenuMobile";
 import {
 	MagnifyingGlassIcon,
@@ -12,46 +10,79 @@ import {
 	UserCircleIcon,
 	HeartIcon,
 } from "@heroicons/react/24/outline";
+import MenuDesktop from "./MenuDesktop";
+import menuData from "../../data/menuData";
+import NavItem from "./NavItem";
+import Logo from "../../utils/LogoWhite";
 
 export default function Navigation() {
 	const [modalRoot, setModalRoot] = useState();
+	const [isMobile, setIsMobile] = useState(false);
+	const [navbarHeight, setNavbarHeight] = useState();
+	const [categories, setCategories] = useState([]);
+	const [selectedCategory, setSelectedCategory] = useState(null);
+	const [menuDesktopPositionLeft, setMenuDesktopPositionLeft] = useState();
 	const [isMenuOpen, setIsMenuOpen] = useState({
 		mobile: false,
 		desktop: false,
 	});
 
-	const isMobile = useMediaQuery({
-		query: "(max-width: 767px)",
-	});
+	const navbarRef = useRef();
 
-	const showMenuHandler = () => {
+	useEffect(() => {
+		let catArr = [];
+		for (let type in menuData) {
+			catArr.push(type);
+		}
+
+		setCategories([...new Set(catArr)]);
+	}, []);
+
+	const showMenuHandler = (category, ref) => {
 		if (isMobile) {
 			setIsMenuOpen((prev) => ({ ...prev, mobile: true }));
 		} else {
 			setIsMenuOpen((prev) => ({ ...prev, desktop: true }));
+		}
+
+		if (!isMobile) {
+			const rec = ref.current.getBoundingClientRect();
+			setSelectedCategory(category);
+			setMenuDesktopPositionLeft(Math.floor(rec.x + rec.width / 2));
 		}
 	};
 
 	useEffect(() => {
 		setModalRoot(document.getElementById("modal-root")); // in server rendering mode, the document is undefined so you have ot use it in useEffect
 	}, []);
+
+	const isMobileDevice = useMediaQuery({
+		query: "(max-width: 767px)",
+	});
+
+	useEffect(() => {
+		setIsMobile(isMobileDevice);
+	}, [isMobileDevice]);
+
+	useEffect(() => {
+		setNavbarHeight(navbarRef.current.clientHeight);
+	}, [navbarHeight]);
+
 	return (
 		<>
-			<nav className='flex flex-col  p-2 md:pb-0 bg-primary-key '>
+			<nav
+				className='flex flex-col  p-2 md:pb-0 bg-primary-key'
+				ref={navbarRef}
+			>
 				<div className='flex justify-between'>
 					<div className='flex items-center gap-4 '>
 						<Bars3Icon
-							className={`${
+							className={`w-8 h-8 text-on-primary-key cursor-pointer hover:text-light-grey-hover ${
 								isMobile ? "block" : "hidden"
-							} w-8 h-8 text-on-primary-key cursor-pointer hover:text-light-grey-hover`}
+							}`}
 							onClick={showMenuHandler}
 						/>
-						<Link href='/'>
-							<div href='/' className='flex items-center gap-1 cursor-pointer'>
-								<Image src={logo} alt='Logo' width={24} height={24} />
-								<h1 className='text-on-primary-key text-xl'>ClothesShop</h1>
-							</div>
-						</Link>
+						<Logo />
 					</div>
 					<ul className='flex items-center gap-1'>
 						<li>
@@ -69,46 +100,25 @@ export default function Navigation() {
 					</ul>
 				</div>
 				<ul className='hidden md:flex justify-center gap-4'>
-					<Link href='/new-product'>
-						<div
-							className='w-12 flex flex-col items-center mb-1 group'
-							onMouseOver={showMenuHandler}
-						>
-							<li className='text-on-primary-key lg:text-lg pb-2 cursor-pointer hover:text-light-grey-hover'>
-								New
-							</li>
-							<div className='invisible group-hover:visible w-full h-0.5 bg-on-primary-key duration-100'></div>
-						</div>
-					</Link>
-					<Link href='/man'>
-						<div
-							className='w-12 flex flex-col items-center mb-1 group'
-							onMouseOver={showMenuHandler}
-						>
-							<li className='text-on-primary-key lg:text-lg pb-2 cursor-pointer hover:text-light-grey-hover'>
-								Man
-							</li>
-							<div className='invisible group-hover:visible w-full h-0.5 bg-on-primary-key duration-100'></div>
-						</div>
-					</Link>
-					<Link href='/woman'>
-						<div
-							className='w-12 flex flex-col items-center mb-1 group'
-							onMouseOver={showMenuHandler}
-						>
-							<li className='text-on-primary-key lg:text-lg pb-2 cursor-pointer hover:text-light-grey-hover'>
-								Woman
-							</li>
-							<div className='invisible group-hover:visible w-full h-0.5 bg-on-primary-key duration-100'></div>
-						</div>
-					</Link>
+					{categories.map((cat, i) => (
+						<NavItem category={cat} key={i} showMenuHandler={showMenuHandler} />
+					))}
 				</ul>
 			</nav>
 			{isMenuOpen.mobile &&
 				ReactDOM.createPortal(
-					<MenuMobile setIsMenuOpen={setIsMenuOpen} />,
+					<MenuMobile setIsMenuOpen={setIsMenuOpen} categories={categories} />,
 					modalRoot
 				)}
+			{isMenuOpen.desktop && (
+				<MenuDesktop
+					setIsMenuOpen={setIsMenuOpen}
+					navbarHeight={navbarHeight}
+					categories={categories}
+					selectedCategory={selectedCategory}
+					menuDesktopPositionLeft={menuDesktopPositionLeft}
+				/>
+			)}
 		</>
 	);
 }
