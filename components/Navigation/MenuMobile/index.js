@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "next/future/image";
-import logo from "../../../images/logo.svg";
-import { XMarkIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon,  } from "@heroicons/react/24/outline";
 import MenuMobileItem from "./MenuMobileItem";
 import LogoBrown from "../../../utils/LogoBrown";
 

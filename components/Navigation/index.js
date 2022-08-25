@@ -14,6 +14,7 @@ import MenuDesktop from "./MenuDesktop";
 import menuData from "../../data/menuData";
 import NavItem from "./NavItem";
 import Logo from "../../utils/LogoWhite";
+import SearchModal from "./searchModal";
 
 export default function Navigation() {
 	const [modalRoot, setModalRoot] = useState();
@@ -22,6 +23,7 @@ export default function Navigation() {
 	const [categories, setCategories] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState(null);
 	const [menuDesktopPositionLeft, setMenuDesktopPositionLeft] = useState();
+	const [searchModalOpen, setSearchModalOpen] = useState(false);
 	const [isMenuOpen, setIsMenuOpen] = useState({
 		mobile: false,
 		desktop: false,
@@ -50,6 +52,10 @@ export default function Navigation() {
 			setSelectedCategory(category);
 			setMenuDesktopPositionLeft(Math.floor(rec.x + rec.width / 2));
 		}
+	};
+
+	const closeSearchModalHandler = () => {
+		setSearchModalOpen(false);
 	};
 
 	useEffect(() => {
@@ -85,7 +91,7 @@ export default function Navigation() {
 						<Logo />
 					</div>
 					<ul className='flex items-center gap-1'>
-						<li>
+						<li onClick={() => setSearchModalOpen(true)}>
 							<MagnifyingGlassIcon className='w-6 h-6 text-on-primary-key hover:text-light-grey-hover cursor-pointer' />
 						</li>
 						<Link href='/checkout'>
@@ -119,6 +125,11 @@ export default function Navigation() {
 					menuDesktopPositionLeft={menuDesktopPositionLeft}
 				/>
 			)}
+			{searchModalOpen &&
+				ReactDOM.createPortal(
+					<SearchModal closeSearchModalHandler={closeSearchModalHandler} />,
+					modalRoot
+				)}
 		</>
 	);
 }
