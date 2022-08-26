@@ -26,24 +26,24 @@ export default function MenuMobileItem({ category }) {
 			</div>
 			<ul className={`${tabIsOpen ? "flex" : "hidden"} flex-col gap-1`}>
 				{menuData[category].categories?.map((el, i) => (
-					<Link href={`/man/${el.category}`} key={i}>
-						<>
+					<React.Fragment key={i}>
+						<Link href={`/${category}/${el.category}`} key={i}>
 							<li className='text-sm ml-2 cursor-pointer capitalize font-bold'>
 								{el.category}
 							</li>
-							{category !== "new" && (
-								<ul className='ml-8 text-sm flex flex-col gap-1'>
-									{el.subcategories.map((item, i) => (
-										<Link key={i} href={`/man/${el.category}/${item}`}>
-											<li className='duration-300 capitalize hover:font-bold cursor-pointer'>
-												{item}
-											</li>
-										</Link>
-									))}
-								</ul>
-							)}
-						</>
-					</Link>
+						</Link>
+						{category !== "new" && (
+							<ul className='ml-8 text-sm flex flex-col gap-1'>
+								{el.subcategories.map((item, i) => (
+									<Link key={i} href={`/${category}/${el.category}/${item}`}>
+										<li className='duration-300 capitalize hover:font-bold cursor-pointer'>
+											{item}
+										</li>
+									</Link>
+								))}
+							</ul>
+						)}
+					</React.Fragment>
 				))}
 			</ul>
 		</li>

@@ -30,7 +30,7 @@ export default function MenuDesktop({
 			<div className='grid grid-flow-col gap-8'>
 				{menuData[selectedCategory]?.categories.map((cat, i) => (
 					<div key={i}>
-						<Link href={`/${cat.category}`}>
+						<Link href={`/${selectedCategory}/${cat.category}`}>
 							<h3 className='mb-2 tracking-wider capitalize cursor-pointer'>
 								{cat.category}
 							</h3>

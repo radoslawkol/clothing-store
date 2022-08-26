@@ -1,5 +1,11 @@
 import React from "react";
+import Layout from "../../components/Layout";
+import PageContainer from "../../components/Layout/PageContainer";
 
 export default function Gender() {
-	return <div>Gender: Man / Woman</div>;
+	return (
+		<Layout>
+			<PageContainer />
+		</Layout>
+	);
 }
