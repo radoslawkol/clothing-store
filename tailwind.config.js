@@ -14,7 +14,7 @@ module.exports = {
 				"on-primary-key": "#ffffff",
 				primary: "#EDEDED",
 				"on-primary": "#5D4037",
-				"secondary-key": "#00000",
+				"secondary-key": "#000000",
 				"on-secondary-key": "#ffffff",
 				secondary: "#E0E0E0",
 				"on-secondary": "#757575",

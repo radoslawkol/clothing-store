@@ -59,7 +59,7 @@ export default function Navigation() {
 	};
 
 	useEffect(() => {
-		setModalRoot(document.getElementById("modal-root")); // in server rendering mode, the document is undefined so you have ot use it in useEffect
+		setModalRoot(document.getElementById("modal-root"));
 	}, []);
 
 	const isMobileDevice = useMediaQuery({
@@ -107,7 +107,12 @@ export default function Navigation() {
 				</div>
 				<ul className='hidden md:flex justify-center gap-4'>
 					{categories.map((cat, i) => (
-						<NavItem category={cat} key={i} showMenuHandler={showMenuHandler} />
+						<NavItem
+							category={cat}
+							key={i}
+							showMenuHandler={showMenuHandler}
+							setIsMenuOpen={setIsMenuOpen}
+						/>
 					))}
 				</ul>
 			</nav>
