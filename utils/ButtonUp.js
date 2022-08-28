@@ -10,7 +10,7 @@ export default function ButtonUp() {
 	};
 	return (
 		<button
-			className='fixed right-2 bottom-5 flex items-center justify-center bg-primary-key rounded-3xl p-2 w-20 h-20'
+			className='z-30 fixed bottom-12 right-2 flex items-center justify-center bg-primary-key rounded-3xl p-2 w-10 h-10'
 			onClick={goUpHandler}
 		>
 			<ChevronDoubleUpIcon className='w-6 h-6 text-on-primary-key' />

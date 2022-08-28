@@ -1,17 +1,25 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import { useRef } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import FilterModal from "../FilterModal";
 
-export default function ToolbarMobile({ setViewHandler, view }) {
+export default function ToolbarMobile({ setViewHandler }) {
+	const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+	const [modalRoot, setModalRoot] = useState();
+	const basicView = 1;
+	const optionalView = 2;
 	const viewRef1 = useRef();
 	const viewRef2 = useRef();
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		setModalRoot(document.getElementById("modal-root"));
+	}, []);
 
 	const viewHandler = (num) => {
 		setViewHandler(num);
-		if (num === 1) {
+		if (num === basicView) {
 			viewRef1.current.classList.add("underline");
 			viewRef2.current.classList.remove("underline");
 		} else {
@@ -22,7 +30,10 @@ export default function ToolbarMobile({ setViewHandler, view }) {
 
 	return (
 		<div className='flex justify-between items-center text-primary-key mt-4'>
-			<div className='flex gap-1 items-center cursor-pointer hover:font-bold duration-400'>
+			<div
+				className='flex gap-1 items-center cursor-pointer hover:font-bold duration-400'
+				onClick={() => setIsFiltersOpen(true)}
+			>
 				<AdjustmentsHorizontalIcon className='w-6 h-6' />
 				<span className='uppercase text-sm'>Filters</span>
 			</div>
@@ -31,19 +42,24 @@ export default function ToolbarMobile({ setViewHandler, view }) {
 				View &nbsp;
 				<span
 					className='underline cursor-pointer'
-					onClick={() => viewHandler(1)}
+					onClick={() => viewHandler(basicView)}
 					ref={viewRef1}
 				>
-					1
+					{basicView}
 				</span>
 				<span
 					className='ml-1 cursor-pointer'
-					onClick={() => viewHandler(2)}
+					onClick={() => viewHandler(optionalView)}
 					ref={viewRef2}
 				>
-					2
+					{optionalView}
 				</span>
 			</p>
+			{isFiltersOpen &&
+				ReactDOM.createPortal(
+					<FilterModal setIsFiltersOpen={setIsFiltersOpen} />,
+					modalRoot
+				)}
 		</div>
 	);
 }

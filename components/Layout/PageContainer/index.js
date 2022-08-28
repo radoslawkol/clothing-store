@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import ToolbarMobile from "../../ToolbarMobile";
 import ProductsContainer from "../../ProductsContainer";
-import useMediaQuery from "react-responsive";
+import { useMediaQuery } from "react-responsive";
+import ToolbarDesktop from "../../ToolbarDesktop";
 
 export default function PageContainer() {
+	const [isMobileDevice, setIsMobileDevice] = useState();
 	const isMobile = useMediaQuery({
 		query: "(max-width: 767px)",
 	});
+	console.log(isMobile);
+
+	useEffect(() => {
+		setIsMobileDevice(isMobile);
+	}, [isMobile]);
+
 	const router = useRouter();
 
 	const [view, setView] = useState(isMobile ? 1 : 3);
@@ -36,7 +44,12 @@ export default function PageContainer() {
 				})}
 				<span className='text-primary-key text-sm'></span>
 			</div>
-			<ToolbarMobile setViewHandler={setViewHandler} view={view} />
+			{isMobileDevice ? (
+				<ToolbarMobile setViewHandler={setViewHandler} />
+			) : (
+				<ToolbarDesktop setViewHandler={setViewHandler} />
+			)}
+
 			<ProductsContainer view={view} />
 		</div>
 	);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { XMarkIcon,  } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import MenuMobileItem from "./MenuMobileItem";
 import LogoBrown from "../../../utils/LogoBrown";
 
@@ -10,7 +10,7 @@ export default function MenuMobile({ setIsMenuOpen, categories }) {
 
 	return (
 		<div
-			className={`z-50 w-full h-full p-2 absolute left-0 top-0 bg-on-primary-key animate-mobileMenuOpen`}
+			className={`fixed z-50 w-full h-full p-2  left-0 top-0 bg-on-primary-key animate-mobileMenuOpen`}
 		>
 			<div className='flex items-center gap-4 justify-between'>
 				<LogoBrown />
