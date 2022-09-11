@@ -10,7 +10,7 @@ export default function SearchModal({ closeSearchModalHandler }) {
 		<div className='z-50 absolute top-0 bg-on-primary-key p-4 flex flex-col items-center w-full border-b'>
 			<LogoBrown />
 			<XMarkIcon
-				className='absolute right-2 top-2 w-6 h-6 cursor-pointer hover:scale-125 duration-300 text-primary-key'
+				className='closeIcon absolute right-2 top-2 w-6 h-6 cursor-pointer hover:scale-125 duration-300 text-primary-key'
 				onClick={closeSearchModalHandler}
 			/>
 			<div className='mt-6'>

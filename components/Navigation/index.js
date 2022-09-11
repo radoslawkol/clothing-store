@@ -82,18 +82,23 @@ export default function Navigation() {
 			>
 				<div className='flex justify-between'>
 					<div className='flex items-center gap-4 '>
-						<Bars3Icon
-							className={`w-8 h-8 text-on-primary-key cursor-pointer hover:text-light-grey-hover ${
-								isMobile ? "block" : "hidden"
-							}`}
-							onClick={showMenuHandler}
-						/>
+						<button data-testid='menuButton'>
+							<Bars3Icon
+								className={`w-8 h-8 text-on-primary-key cursor-pointer hover:text-light-grey-hover ${
+									isMobile ? "block" : "hidden"
+								}`}
+								onClick={showMenuHandler}
+							/>
+						</button>
 						<Logo />
 					</div>
 					<ul className='flex items-center gap-1'>
-						<li onClick={() => setSearchModalOpen(true)}>
+						<button
+							id='searchModalBtn'
+							onClick={() => setSearchModalOpen(true)}
+						>
 							<MagnifyingGlassIcon className='w-6 h-6 text-on-primary-key hover:text-light-grey-hover cursor-pointer' />
-						</li>
+						</button>
 						<Link href='/checkout'>
 							<ShoppingBagIcon className='w-6 h-6 text-on-primary-key hover:text-light-grey-hover cursor-pointer' />
 						</Link>
@@ -118,7 +123,11 @@ export default function Navigation() {
 			</nav>
 			{isMenuOpen.mobile &&
 				ReactDOM.createPortal(
-					<MenuMobile setIsMenuOpen={setIsMenuOpen} categories={categories} />,
+					<MenuMobile
+						setIsMenuOpen={setIsMenuOpen}
+						categories={categories}
+						data-testid='MenuMobile'
+					/>,
 					modalRoot
 				)}
 			{isMenuOpen.desktop && (

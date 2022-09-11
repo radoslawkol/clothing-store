@@ -13,7 +13,7 @@ export default function Footer() {
 						totam atque voluptate veniam voluptatibus quam similique placeat
 						sint provident quaerat.
 					</p>
-					<Newsletter />
+					<Newsletter data-testid='Newsletter' />
 				</div>
 				<div>
 					<h3 className='text-xl fonr-bold mb-2 text-primary-key'>
