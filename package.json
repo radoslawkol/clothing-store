@@ -8,12 +8,14 @@
 	},
 	"dependencies": {
 		"@heroicons/react": "^2.0.1",
+		"@hookform/resolvers": "^2.9.8",
 		"cypress": "^10.7.0",
 		"next": "latest",
 		"react": "18.1.0",
 		"react-dom": "18.1.0",
 		"react-hook-form": "^7.35.0",
-		"react-responsive": "^9.0.0-beta.10"
+		"react-responsive": "^9.0.0-beta.10",
+		"yup": "^0.32.11"
 	},
 	"devDependencies": {
 		"@testing-library/jest-dom": "^5.16.5",
