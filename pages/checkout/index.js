@@ -1,5 +1,10 @@
 import React from "react";
-
-export default function Checkout() {
-	return <div>Checkout</div>;
+import Layout from "../../components/Layout";
+import Checkout from "../../components/Checkout";
+export default function CheckoutPage() {
+	return (
+		<Layout>
+			<Checkout />
+		</Layout>
+	);
 }
