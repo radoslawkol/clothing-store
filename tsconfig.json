@@ -21,7 +21,9 @@
 		"**/*.tsx",
 		"pages/_app.js",
 		"pages/index.js",
-		"cypress.config.js"
+		"cypress.config.js",
+		"cypress/support/e2e.js",
+		"cypress/support/commands.js"
 	],
 	"exclude": ["node_modules"]
 }

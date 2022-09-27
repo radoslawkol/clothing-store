@@ -23,6 +23,7 @@ export default function LoginForm() {
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
+		mode: "onChange",
 		resolver: yupResolver(validationSchema),
 	});
 
@@ -31,6 +32,7 @@ export default function LoginForm() {
 	};
 	return (
 		<form
+			data-testid='loginForm'
 			className='flex flex-col justify-center items-center gap-6 p-12 loginForm'
 			onSubmit={handleSubmit(submitHandler)}
 		>

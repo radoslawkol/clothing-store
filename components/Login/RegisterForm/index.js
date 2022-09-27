@@ -12,7 +12,7 @@ const validationSchema = yup.object({
 	lastName: yup.string().required("Last name is required."),
 	email: yup
 		.string()
-		.email("Email hast to be valid.")
+		.email("Email has to be valid.")
 		.lowercase()
 		.trim()
 		.required("Email is required."),
@@ -33,6 +33,7 @@ export default function RegisterForm() {
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
+		mode: "onChange",
 		resolver: yupResolver(validationSchema),
 	});
 

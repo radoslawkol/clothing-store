@@ -100,7 +100,7 @@ export default function Navigation() {
 							<MagnifyingGlassIcon className='w-6 h-6 text-on-primary-key hover:text-light-grey-hover cursor-pointer' />
 						</button>
 						<Link href='/checkout'>
-							<ShoppingBagIcon className='w-6 h-6 text-on-primary-key hover:text-light-grey-hover cursor-pointer' />
+							<ShoppingBagIcon className='bagIcon w-6 h-6 text-on-primary-key hover:text-light-grey-hover cursor-pointer' />
 						</Link>
 						<Link href='/favourite'>
 							<HeartIcon className='w-6 h-6 text-on-primary-key  hover:text-light-grey-hover cursor-pointer' />
