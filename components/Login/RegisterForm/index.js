@@ -12,7 +12,7 @@ const validationSchema = yup.object({
 	lastName: yup.string().required("Last name is required."),
 	email: yup
 		.string()
-		.email("Email has to be valid.")
+		.email("Email must be valid.")
 		.lowercase()
 		.trim()
 		.required("Email is required."),
@@ -42,7 +42,8 @@ export default function RegisterForm() {
 	};
 	return (
 		<form
-			className='flex flex-col justify-center items-center gap-6 p-12 registerForm'
+			data-testid='registerForm'
+			className='flex flex-col justify-center items-center gap-6 p-12 '
 			onSubmit={handleSubmit(submitHandler)}
 		>
 			<LoginLabel
