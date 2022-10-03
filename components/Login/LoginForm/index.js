@@ -6,6 +6,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import ButtonOutlineBrown from "../../../utils/ButtonOutlineBrown";
 import LoginLabel from "../LoginLabel";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const validationSchema = yup.object({
 	email: yup
@@ -18,6 +20,7 @@ const validationSchema = yup.object({
 });
 
 export default function LoginForm() {
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
@@ -29,11 +32,18 @@ export default function LoginForm() {
 
 	const submitHandler = async (data) => {
 		console.log(data);
+		const { password, email } = data;
 		try {
-			const res = await fetch("/api/auth/login", {
-				method: "POST",
-				body: JSON.stringify(data),
+			const res = await axios.post("/api/auth/login", {
+				email,
+				password,
 			});
+
+			if (res.status === 200) {
+				router.push("/account");
+			}
+
+			console.log(res);
 		} catch (err) {
 			console.log(err);
 		}

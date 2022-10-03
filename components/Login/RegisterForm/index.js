@@ -58,7 +58,6 @@ export default function RegisterForm() {
 	});
 
 	const submitHandler = async (formData) => {
-		console.log(formData);
 		try {
 			const {
 				firstName,
