@@ -6,10 +6,25 @@ import * as yup from "yup";
 import DateBirthForm from "../BirthDateForm";
 import LoginLabel from "../LoginLabel";
 import ButtonOutlineBrown from "../../../utils/ButtonOutlineBrown";
+import axios from "axios";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 const validationSchema = yup.object({
-	firstName: yup.string().required("First name is required."),
-	lastName: yup.string().required("Last name is required."),
+	firstName: yup
+		.string()
+		.required("First name is required.")
+		.matches(
+			/^[^\u4E00-\u9FBF\u3040-\u309f\u30A0-\u30FF]+$/,
+			"First name can only contain alphabets."
+		),
+	lastName: yup
+		.string()
+		.required("Last name is required.")
+		.matches(
+			/^[^\u4E00-\u9FBF\u3040-\u309f\u30A0-\u30FF]+$/,
+			"First name can only contain alphabets."
+		),
 	email: yup
 		.string()
 		.email("Email must be valid.")
@@ -25,9 +40,14 @@ const validationSchema = yup.object({
 		.string()
 		.oneOf([yup.ref("password"), null], "Passwords must match.")
 		.required("Confirm password is required."),
+	birthDay: yup.string().required("Birth day is required."),
+	birthMonth: yup.string().required("Birth month is required."),
+	birthYear: yup.string().required("Birth year is required."),
 });
 
 export default function RegisterForm() {
+	const router = useRouter();
+	const [error, setError] = useState("");
 	const {
 		register,
 		handleSubmit,
@@ -37,8 +57,39 @@ export default function RegisterForm() {
 		resolver: yupResolver(validationSchema),
 	});
 
-	const submitHandler = (data) => {
-		console.table(data);
+	const submitHandler = async (formData) => {
+		console.log(formData);
+		try {
+			const {
+				firstName,
+				lastName,
+				email,
+				password,
+				confirmPassword,
+				birthDay,
+				birthMonth,
+				birthYear,
+			} = formData;
+
+			const res = await axios.post("/api/auth/register", {
+				firstName,
+				lastName,
+				email,
+				password,
+				birthYear: +birthYear,
+				birthMonth: +birthMonth,
+				birthDay: +birthDay,
+			});
+
+			console.log(res);
+
+			if (res.status === 200) {
+				router.push("/account");
+			}
+		} catch (err) {
+			console.log(err);
+			setError(err.response.data.message);
+		}
 	};
 	return (
 		<form
@@ -96,8 +147,10 @@ export default function RegisterForm() {
 				register={register}
 			/>
 
-			<DateBirthForm />
+			<DateBirthForm register={register} />
 			<ButtonPrimary>Sign Up</ButtonPrimary>
+
+			{error && <p className='text-error-primary-key'>{error}</p>}
 
 			<h3 className='uppercase text-primary-key '>Or sign up with...</h3>
 			<ButtonOutlineBrown>Google</ButtonOutlineBrown>

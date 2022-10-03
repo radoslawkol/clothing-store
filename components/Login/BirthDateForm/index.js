@@ -1,22 +1,24 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { Controller } from "react-hook-form";
 
-export default function DateBirthForm() {
+export default function DateBirthForm({ register }) {
 	const currYear = +new Date().getFullYear();
 
 	const [month, setMonth] = useState(+new Date().getMonth());
-	const [year, setYear] = useState(currYear);
 	const [day, setDay] = useState(+new Date().getDate());
+	const [year, setYear] = useState(currYear);
 	const [daysInMonth, setDaysInMonth] = useState([]);
+
+	const getDaysInMonth = (year, month) => {
+		return +new Date(year, month + 1, 0).getDate(); // 0 get the last day of previous month
+	};
 
 	const monthsNames = Array.from({ length: 12 }, (e, i) => {
 		return new Date(null, i + 1, null).toLocaleDateString("en", {
 			month: "long",
 		});
 	});
-	const getDaysInMonth = (year, month) => {
-		return +new Date(year, month + 1, 0).getDate(); // 0 get the last day of previous month
-	};
 
 	useEffect(() => {
 		const days = Array.from({ length: getDaysInMonth(year, month) }, (e, i) => {
@@ -34,9 +36,10 @@ export default function DateBirthForm() {
 			<h4>Date of birth:</h4>
 			<div className='flex gap-4'>
 				<select
+					{...register("birthYear")}
 					className='border border-primary-key rounded-md cursor-pointer'
-					name='years'
-					id='years'
+					name='birthYear'
+					id='birthYear'
 					value={years[year]}
 					onChange={(e) => setYear(+e.target.value)}
 				>
@@ -47,9 +50,10 @@ export default function DateBirthForm() {
 					))}
 				</select>
 				<select
+					{...register("birthMonth")}
 					className='border border-primary-key rounded-md cursor-pointer'
-					name='months'
-					id='months'
+					name='birthMonth'
+					id='birthMonth'
 					value={month}
 					onChange={(e) => setMonth(+e.target.value)}
 				>
@@ -59,19 +63,22 @@ export default function DateBirthForm() {
 						</option>
 					))}
 				</select>
-				<select
-					className='border border-primary-key rounded-md cursor-pointer'
-					name='days'
-					id='days'
-					value={day}
-					onChange={(e) => setDay(+e.target.value)}
-				>
-					{daysInMonth.map((d, i) => (
-						<option key={i} value={d}>
-							{d}
-						</option>
-					))}
-				</select>
+				{daysInMonth.length !== 0 && (
+					<select
+						{...register("birthDay")}
+						className='border border-primary-key rounded-md cursor-pointer'
+						name='birthDay'
+						id='birthDay'
+						value={day}
+						onChange={(e) => setDay(+e.target.value)}
+					>
+						{daysInMonth.map((d, i) => (
+							<option key={i} value={d}>
+								{d}
+							</option>
+						))}
+					</select>
+				)}
 			</div>
 		</div>
 	);

@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const userSchema = Schema({
 	firstName: {
@@ -36,49 +36,44 @@ const userSchema = Schema({
 		required: [true, "User has to put a password."],
 	},
 
-	confirmPassword: {
-		type: String,
-		required: [true, "User has to confirm password."],
-	},
-
 	favourites: [
 		{
-			type: mongoose.ObjectId(),
+			type: Schema.Types.ObjectId,
 			ref: "Product",
 		},
 	],
 
 	searchHistory: [
 		{
-			type: mongoose.ObjectId(),
+			type: Schema.Types.ObjectId,
 			ref: "Product",
 		},
 	],
 
 	recentlyViewProducts: [
 		{
-			type: mongoose.ObjectId(),
+			type: Schema.Types.ObjectId,
 			ref: "Product",
 		},
 	],
 
 	reviews: [
 		{
-			type: mongoose.ObjectId(),
+			type: Schema.Types.ObjectId,
 			ref: "Review",
 		},
 	],
 
 	comments: [
 		{
-			type: mongoose.ObjectId(),
+			type: Schema.Types.ObjectId,
 			ref: "Comment",
 		},
 	],
 
 	orders: [
 		{
-			type: mongoose.ObjectId(),
+			type: Schema.Types.ObjectId,
 			ref: "Order",
 		},
 	],

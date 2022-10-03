@@ -27,8 +27,16 @@ export default function LoginForm() {
 		resolver: yupResolver(validationSchema),
 	});
 
-	const submitHandler = (data) => {
-		console.table(data);
+	const submitHandler = async (data) => {
+		console.log(data);
+		try {
+			const res = await fetch("/api/auth/login", {
+				method: "POST",
+				body: JSON.stringify(data),
+			});
+		} catch (err) {
+			console.log(err);
+		}
 	};
 	return (
 		<form
