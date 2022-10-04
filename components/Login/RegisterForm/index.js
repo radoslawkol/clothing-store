@@ -9,6 +9,8 @@ import ButtonOutlineBrown from "../../../utils/ButtonOutlineBrown";
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 
 const validationSchema = yup.object({
 	firstName: yup
@@ -46,6 +48,7 @@ const validationSchema = yup.object({
 });
 
 export default function RegisterForm() {
+	const dispatch = useDispatch();
 	const router = useRouter();
 	const [error, setError] = useState("");
 	const {
@@ -70,7 +73,7 @@ export default function RegisterForm() {
 				birthYear,
 			} = formData;
 
-			const res = await axios.post("/api/auth/register", {
+			const { data } = await axios.post("/api/auth/register", {
 				firstName,
 				lastName,
 				email,
@@ -80,10 +83,12 @@ export default function RegisterForm() {
 				birthDay: +birthDay,
 			});
 
-			console.log(res);
+			console.log(data);
 
-			if (res.status === 200) {
+			if (data.status === "success") {
 				router.push("/account");
+				Cookies.set("user", JSON.stringify(data.data));
+				dispatch({ type: "REGISTER", payload: data.data });
 			}
 		} catch (err) {
 			console.log(err);

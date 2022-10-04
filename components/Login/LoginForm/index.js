@@ -8,6 +8,8 @@ import ButtonOutlineBrown from "../../../utils/ButtonOutlineBrown";
 import LoginLabel from "../LoginLabel";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 
 const validationSchema = yup.object({
 	email: yup
@@ -20,6 +22,7 @@ const validationSchema = yup.object({
 });
 
 export default function LoginForm() {
+	const dispatch = useDispatch();
 	const router = useRouter();
 	const {
 		register,
@@ -30,20 +33,21 @@ export default function LoginForm() {
 		resolver: yupResolver(validationSchema),
 	});
 
-	const submitHandler = async (data) => {
-		console.log(data);
-		const { password, email } = data;
+	const submitHandler = async (formData) => {
+		console.log(formData);
+		const { password, email } = formData;
 		try {
-			const res = await axios.post("/api/auth/login", {
+			const { data } = await axios.post("/api/auth/login", {
 				email,
 				password,
 			});
+			console.log(data);
 
-			if (res.status === 200) {
+			if (data.status === "success") {
 				router.push("/account");
+				Cookies.set("user", JSON.stringify(data.data));
+				dispatch({ type: "LOGIN", payload: data.data });
 			}
-
-			console.log(res);
 		} catch (err) {
 			console.log(err);
 		}

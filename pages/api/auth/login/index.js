@@ -8,8 +8,6 @@ const login = async (req, res) => {
 	if (req.method === "POST") {
 		const { email, password } = req.body;
 
-		console.log(email, password);
-
 		const user = await User.findOne({ email });
 
 		if (!user) {
@@ -30,9 +28,16 @@ const login = async (req, res) => {
 
 		const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY);
 
+		const { email: userEmail, firstName, lastName, _id } = user;
 		res.status(200).json({
 			status: "success",
-			token,
+			data: {
+				token,
+				_id,
+				email: userEmail,
+				firstName,
+				lastName,
+			},
 		});
 	}
 };

@@ -40,7 +40,12 @@ const register = async (req, res) => {
 
 			const hashedPassword = await bcrypt.hash(password, 12);
 
-			const newUser = await User.create({
+			const {
+				email: userEmail,
+				firstName: name,
+				lastName: surname,
+				_id,
+			} = await User.create({
 				firstName,
 				lastName,
 				email,
@@ -50,15 +55,17 @@ const register = async (req, res) => {
 				password: hashedPassword,
 			});
 
-			newUser.password = undefined;
-			console.log(newUser);
-
-			const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
+			const token = jwt.sign({ id: _id }, process.env.JWT_SECRET_KEY);
 
 			res.status(200).json({
 				status: "success",
-				user: newUser,
-				token,
+				data: {
+					_id,
+					email: userEmail,
+					firstName: name,
+					lastName: surname,
+					token,
+				},
 			});
 		}
 	} catch (err) {
