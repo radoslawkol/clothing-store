@@ -15,7 +15,7 @@ export default function Summary({ totalPrice }) {
 				</li>
 				<hr />
 				<li className='flex justify-between uppercase font-bold'>
-					Total amount <span>$86.00</span>
+					Total amount <span>${totalPrice.toFixed(2)}</span>
 				</li>
 			</ul>
 

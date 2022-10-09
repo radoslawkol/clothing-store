@@ -4,8 +4,9 @@ import connectDB from "../../../../database/connectDB";
 import bcrypt from "bcrypt";
 
 const register = async (req, res) => {
-	await connectDB();
 	try {
+		await connectDB();
+
 		if (req.method === "POST") {
 			const {
 				firstName,

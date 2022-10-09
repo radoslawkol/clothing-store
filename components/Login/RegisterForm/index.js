@@ -87,7 +87,7 @@ export default function RegisterForm() {
 
 			if (data.status === "success") {
 				router.push("/account");
-				Cookies.set("user", JSON.stringify(data.data));
+				Cookies.set("user", JSON.stringify(data.data), { expires: 30 });
 				dispatch({ type: "REGISTER", payload: data.data });
 			}
 		} catch (err) {

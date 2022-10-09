@@ -45,7 +45,7 @@ export default function LoginForm() {
 
 			if (data.status === "success") {
 				router.push("/account");
-				Cookies.set("user", JSON.stringify(data.data));
+				Cookies.set("user", JSON.stringify(data.data), { expires: 30 });
 				dispatch({ type: "LOGIN", payload: data.data });
 			}
 		} catch (err) {

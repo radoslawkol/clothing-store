@@ -2,10 +2,28 @@ import React from "react";
 import AddedProducts from "./AddedProducts";
 import CheckoutHeader from "./CheckoutHeader";
 import Summary from "./Summary";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import {
+	calculateTotals,
+	addCartToCookies,
+	getCartFromCookies,
+} from "../../reducers/cartReducer";
 
 export default function Checkout() {
-	const { cartItems, count, totalPrice } = useSelector((store) => store.cart);
+	const { cartItems, totalPrice } = useSelector((store) => store.cart);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getCartFromCookies());
+	}, []);
+
+	useEffect(() => {
+		dispatch(calculateTotals());
+		if (cartItems.length > 0) {
+			dispatch(addCartToCookies());
+		}
+	}, [cartItems]);
 
 	return (
 		<div className='lg:flex contentWithoutMenuHeight'>
