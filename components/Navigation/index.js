@@ -102,7 +102,7 @@ export default function Navigation() {
 						<Link href='/checkout'>
 							<ShoppingBagIcon className='bagIcon w-6 h-6 text-on-primary-key hover:text-light-grey-hover cursor-pointer' />
 						</Link>
-						<Link href='/favourite'>
+						<Link href='/account/favourites'>
 							<HeartIcon className='w-6 h-6 text-on-primary-key  hover:text-light-grey-hover cursor-pointer' />
 						</Link>
 						<Link href='/account'>

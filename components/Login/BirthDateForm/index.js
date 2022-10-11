@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Controller } from "react-hook-form";
 
 export default function DateBirthForm({ register }) {
 	const currYear = +new Date().getFullYear();

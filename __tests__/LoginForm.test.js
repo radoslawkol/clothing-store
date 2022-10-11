@@ -1,10 +1,11 @@
-import { fireEvent, getByRole, render, screen } from "@testing-library/react";
+import { fireEvent, getByRole, screen } from "@testing-library/react";
 import LoginForm from "../components/Login/LoginForm";
 import userEvent from "@testing-library/user-event";
+import { renderWithProviders } from "../utils-test/renderWithProviders";
 
 describe("LoginForm", () => {
 	beforeEach(() => {
-		render(<LoginForm />);
+		renderWithProviders(<LoginForm />);
 	});
 
 	test("Displays error when email is not inputed when form is submitted", async () => {

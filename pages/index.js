@@ -5,9 +5,7 @@ import ButtonUp from "../utils/ButtonUp";
 const Home = () => {
 	return (
 		<>
-			<Navigation />
 			<p className='text-on-primary'>Home Page</p>
-			<Footer />
 		</>
 	);
 };
