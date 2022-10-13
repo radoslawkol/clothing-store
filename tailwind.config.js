@@ -42,6 +42,9 @@ module.exports = {
 			animation: {
 				mobileMenuOpen: "showMenuLeft 0.3s ease-out",
 			},
+			backgroundImage: {
+				hero: "url('../images/home-banner.jpg')",
+			},
 		},
 	},
 	plugins: [],

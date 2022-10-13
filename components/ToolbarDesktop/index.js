@@ -10,8 +10,6 @@ export default function ToolbarDesktop({ setViewHandler }) {
 	const viewRef1 = useRef();
 	const viewRef2 = useRef();
 
-	useEffect(() => {}, []);
-
 	const viewHandler = (num) => {
 		setViewHandler(num);
 		if (num === basicView) {
@@ -22,6 +20,8 @@ export default function ToolbarDesktop({ setViewHandler }) {
 			viewRef1.current.classList.remove("underline");
 		}
 	};
+
+	useEffect(() => {});
 
 	return (
 		<div className='relative flex justify-between items-center text-primary-key mt-4 mx-2'>

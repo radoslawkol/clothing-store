@@ -54,11 +54,11 @@ export default function AccountDetails() {
 	const submitHandler = async () => {};
 
 	return (
-		<section>
+		<section className='sm:w-3/4 md:ml-6 lg:w-1/2 h-[72vh]'>
 			<h2 className='text-lg font-thin tracking-wider text-primary-key mx-2 mb-4'>
 				My Details
 			</h2>
-			<div className='p-2'>
+			<div className='p-2 md:w-3/4'>
 				<h4 className='font-bold text-primary-key'>Personal information</h4>
 				<p className='text-sm my-2'>
 					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum
@@ -68,7 +68,7 @@ export default function AccountDetails() {
 			</div>
 			<form
 				onSubmit={handleSubmit(submitHandler)}
-				className='p-4 flex flex-col gap-2'
+				className='p-4 flex flex-col gap-2 md:w-3/4'
 			>
 				<LoginLabel
 					type='text'
@@ -100,7 +100,9 @@ export default function AccountDetails() {
 					register={register}
 				/>
 				<DateBirthForm register={register} />
-				<ButtonPrimary>Save</ButtonPrimary>
+				<div className='mt-4'>
+					<ButtonPrimary>Save</ButtonPrimary>
+				</div>
 			</form>
 		</section>
 	);
