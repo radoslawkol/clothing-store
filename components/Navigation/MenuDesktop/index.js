@@ -14,13 +14,8 @@ export default function MenuDesktop({
 			style={{
 				left: `${menuDesktopPositionLeft}px`,
 			}}
-			className={`z-50 absolute top-[${navbarHeight}px] p-4 border rounded-lg bg-on-primary-key -translate-x-1/2`}
+			className={`z-50 absolute top-[${navbarHeight}px] p-8 border rounded-lg bg-on-primary-key -translate-x-1/2`}
 			ref={menuRef}
-			onMouseOver={() =>
-				setTimeout(() => {
-					setIsMenuOpen((prev) => ({ ...prev, desktop: true }));
-				}, 500)
-			}
 			onMouseLeave={() =>
 				setIsMenuOpen((prev) => ({ ...prev, desktop: false }))
 			}

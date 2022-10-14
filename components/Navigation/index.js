@@ -110,17 +110,33 @@ export default function Navigation() {
 						</Link>
 					</ul>
 				</div>
-				<ul className='hidden md:flex justify-center gap-4'>
-					{categories.map((cat, i) => (
-						<NavItem
-							category={cat}
-							key={i}
-							showMenuHandler={showMenuHandler}
-							setIsMenuOpen={setIsMenuOpen}
-						/>
-					))}
-				</ul>
+				<div className='hidden md:flex justify-center'>
+					<ul
+						className='md:flex justify-center gap-4 px-2'
+						onMouseLeave={() => setIsMenuOpen({ desktop: false })}
+					>
+						{categories.map((cat, i) => (
+							<NavItem
+								category={cat}
+								key={i}
+								showMenuHandler={showMenuHandler}
+								setIsMenuOpen={setIsMenuOpen}
+							/>
+						))}
+
+						{isMenuOpen.desktop && (
+							<MenuDesktop
+								setIsMenuOpen={setIsMenuOpen}
+								navbarHeight={navbarHeight}
+								categories={categories}
+								selectedCategory={selectedCategory}
+								menuDesktopPositionLeft={menuDesktopPositionLeft}
+							/>
+						)}
+					</ul>
+				</div>
 			</nav>
+
 			{isMenuOpen.mobile &&
 				ReactDOM.createPortal(
 					<MenuMobile
@@ -130,15 +146,6 @@ export default function Navigation() {
 					/>,
 					modalRoot
 				)}
-			{isMenuOpen.desktop && (
-				<MenuDesktop
-					setIsMenuOpen={setIsMenuOpen}
-					navbarHeight={navbarHeight}
-					categories={categories}
-					selectedCategory={selectedCategory}
-					menuDesktopPositionLeft={menuDesktopPositionLeft}
-				/>
-			)}
 			{searchModalOpen &&
 				ReactDOM.createPortal(
 					<SearchModal closeSearchModalHandler={closeSearchModalHandler} />,

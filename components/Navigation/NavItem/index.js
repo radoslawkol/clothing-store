@@ -9,11 +9,11 @@ export default function NavItem({ category, showMenuHandler, setIsMenuOpen }) {
 				className='text-on-primary-key lg:text-lg pb-2 cursor-pointer hover:text-light-grey-hover capitalize'
 				onMouseOver={() => showMenuHandler(category, itemRef)}
 				ref={itemRef}
-				onMouseLeave={() =>
-					setTimeout(() => {
-						setIsMenuOpen((prev) => ({ ...prev, desktop: false }));
-					}, 500)
-				}
+				// onMouseLeave={() =>
+				// 	setTimeout(() => {
+				// 		setIsMenuOpen((prev) => ({ ...prev, desktop: false }));
+				// 	}, 500)
+				// }
 			>
 				{category}
 			</li>
