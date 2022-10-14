@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { useEffect, useState } from "react";
 import FilterModal from "../FilterModal";
 
-export default function ToolbarMobile({ setViewHandler }) {
+export default function ToolbarMobile({ setViewHandler, productsCount }) {
 	const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 	const [modalRoot, setModalRoot] = useState();
 	const basicView = 1;
@@ -37,7 +37,7 @@ export default function ToolbarMobile({ setViewHandler }) {
 				<AdjustmentsHorizontalIcon className='w-6 h-6' />
 				<span className='uppercase text-sm'>Filters</span>
 			</div>
-			<span className='text-sm '>154 products</span>
+			<span className='text-sm '>{productsCount} products</span>
 			<p className='text-sm'>
 				View &nbsp;
 				<span

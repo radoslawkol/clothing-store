@@ -17,7 +17,12 @@ const productSchema = Schema({
 		required: [true, "Product description is required."],
 	},
 
-	categories: { type: Array },
+	categories: [
+		{
+			type: String,
+			required: [true, "You must assign at least one category."],
+		},
+	],
 
 	size: { type: String },
 	color: { type: String, required: [true, "Product color is required."] },
@@ -30,14 +35,14 @@ const productSchema = Schema({
 
 	comments: [
 		{
-			type: mongoose.ObjectId(),
+			type: mongoose.Types.ObjectId,
 			ref: "Comment",
 		},
 	],
 
 	reviews: [
 		{
-			type: mongoose.ObjectId(),
+			type: mongoose.Types.ObjectId,
 			ref: "Review",
 		},
 	],

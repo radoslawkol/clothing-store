@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import SortModal from "./SortModal";
 
-export default function ToolbarDesktop({ setViewHandler }) {
+export default function ToolbarDesktop({ setViewHandler, productsCount }) {
 	const [sortOpen, setSortOpen] = useState(false);
 	const basicView = 3;
 	const optionalView = 4;
@@ -35,7 +35,7 @@ export default function ToolbarDesktop({ setViewHandler }) {
 					<ChevronDownIcon className={`w-5 h-5 ${sortOpen && "rotate-180"}`} />
 				</label>
 			</div>
-			<span className='text-sm '>154 products</span>
+			<span className='text-sm '>{productsCount} products</span>
 			<p className='text-sm'>
 				View &nbsp;
 				<span

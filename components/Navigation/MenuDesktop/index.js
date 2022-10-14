@@ -13,8 +13,9 @@ export default function MenuDesktop({
 		<div
 			style={{
 				left: `${menuDesktopPositionLeft}px`,
+				top: `${navbarHeight}px`,
 			}}
-			className={`z-50 absolute top-[${navbarHeight}px] p-8 border rounded-lg bg-on-primary-key -translate-x-1/2`}
+			className={`z-50 absolute  p-8 border rounded-lg bg-on-primary-key -translate-x-1/2`}
 			ref={menuRef}
 			onMouseLeave={() =>
 				setIsMenuOpen((prev) => ({ ...prev, desktop: false }))
