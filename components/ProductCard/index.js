@@ -18,8 +18,12 @@ export default function ProductCard({ favourite = false, product }) {
 		<Link href={`/man/clothing/white-t-shirt`}>
 			<div className='w-full p-2 rounded-md text-primary-key cursor-pointer'>
 				<div className='relative'>
-					<div className='w-[100px] h-[200px] rounded-md'>
-						<Image src={product.image} layout='fill' className='object-cover' />
+					<div className='w-[100px] h-[200px] md:h-[300px] rounded-md'>
+						<Image
+							src={product?.image}
+							layout='fill'
+							className='object-cover'
+						/>
 					</div>
 					<div className='z-10 absolute bottom-3 right-1 p-2 bg-on-primary-key rounded-full cursor-pointer'>
 						{favourite ? (
@@ -35,8 +39,8 @@ export default function ProductCard({ favourite = false, product }) {
 						)}
 					</div>
 				</div>
-				<p>White T-shirt</p>
-				<span className='font-bold'>${product.price}</span>
+				<p className='mt-2'>{product?.title}</p>
+				<span className='font-bold'>${product?.price}</span>
 			</div>
 		</Link>
 	);

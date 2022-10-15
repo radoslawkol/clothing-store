@@ -5,7 +5,7 @@ import AccountFavourites from "./AccountFavourites";
 import AccountSettings from "./AccountSettings";
 
 export default function AccountContent({ activePage }) {
-	if (activePage === undefined || activePage === "details") {
+	if (activePage == undefined || activePage === "details") {
 		return <AccountDetails />;
 	} else if (activePage === "orders") {
 		return <AccountOrders />;

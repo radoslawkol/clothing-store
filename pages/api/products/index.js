@@ -1,6 +1,80 @@
 import connectDB from "../../../database/connectDB";
 import Product from "../../../database/models/Product";
 
+const findNewProducts = async (category) => {
+	try {
+		let products;
+		if (category) {
+			products = await Product.find({
+				category,
+			});
+		} else {
+			products = await Product.find();
+		}
+		return products.sort(
+			(a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+		);
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+const findProductByProductCategoryOrCategory = async (
+	gender,
+	category,
+	productCategory
+) => {
+	try {
+		if (productCategory) {
+			return await Product.aggregate([
+				{
+					$match: {
+						$and: [{ gender }, { category }, { productCategory }],
+					},
+				},
+			]);
+		} else {
+			return await Product.aggregate([
+				{
+					$match: {
+						$and: [{ gender }, { category }],
+					},
+				},
+			]).sort({
+				createdAt: -1,
+			});
+		}
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+const findProductsByGenderOrCategory = async (
+	gender,
+	category,
+	productCategory
+) => {
+	try {
+		let products;
+		if (category) {
+			products = await findProductByProductCategoryOrCategory(
+				gender,
+				category,
+				productCategory
+			);
+		} else {
+			products = await Product.find({
+				gender,
+			}).sort({
+				createdAt: -1,
+			});
+		}
+		return products;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 const products = async (req, res) => {
 	try {
 		await connectDB();
@@ -33,7 +107,20 @@ const products = async (req, res) => {
 			});
 		}
 		if (req.method === "GET") {
-			const products = await Product.find();
+			const { gender, category, productCategory } = req.query;
+			console.log(gender, category, productCategory);
+
+			let products;
+			if (gender !== "new") {
+				products = await findProductsByGenderOrCategory(
+					gender,
+					category,
+					productCategory
+				);
+			} else {
+				products = await findNewProducts(category);
+				console.log(products);
+			}
 
 			if (products.length < 1) {
 				return res.status(404).json({

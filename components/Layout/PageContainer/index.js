@@ -52,7 +52,7 @@ export default function PageContainer({ products }) {
 			) : (
 				<ToolbarDesktop
 					setViewHandler={setViewHandler}
-					productsCount={products.length}
+					productsCount={products?.length}
 				/>
 			)}
 
