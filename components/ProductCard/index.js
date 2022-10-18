@@ -15,7 +15,9 @@ export default function ProductCard({ favourite = false, product }) {
 		console.log("%cRemoveFavourite", "color: red");
 	};
 	return (
-		<Link href={`/man/clothing/white-t-shirt`}>
+		<Link
+			href={`/${product.gender}/${product.category}/${product.productCategory}/${product.slug}`}
+		>
 			<div className='w-full p-2 rounded-md text-primary-key cursor-pointer'>
 				<div className='relative'>
 					<div className='w-[100px] h-[200px] md:h-[300px] rounded-md'>

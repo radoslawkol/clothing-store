@@ -32,8 +32,10 @@ export async function getStaticProps(context) {
 			props: {
 				products: data.products,
 			},
+			revalidate: 20,
 		};
 	} catch (err) {
 		console.log(err);
+		return { notFound: true };
 	}
 }

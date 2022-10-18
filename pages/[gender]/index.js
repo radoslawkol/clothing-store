@@ -21,7 +21,6 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
 	try {
-		console.log(context);
 		const { gender } = context.params;
 		const { data } = await axios.get(
 			`http://localhost:3000/api/products?gender=${gender}`
@@ -31,8 +30,10 @@ export async function getStaticProps(context) {
 			props: {
 				products: data.products,
 			},
+			revalidate: 20,
 		};
 	} catch (err) {
 		console.log(err);
+		return { notfound: true };
 	}
 }

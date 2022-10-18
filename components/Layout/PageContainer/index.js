@@ -5,6 +5,7 @@ import ToolbarMobile from "../../ToolbarMobile";
 import ProductsContainer from "../../ProductsContainer";
 import { useMediaQuery } from "react-responsive";
 import ToolbarDesktop from "../../ToolbarDesktop";
+import Breadcrumbs from "../../../utils/Breadcrumbs";
 
 export default function PageContainer({ products }) {
 	const [isMobileDevice, setIsMobileDevice] = useState();
@@ -31,18 +32,7 @@ export default function PageContainer({ products }) {
 	return (
 		<div className='bg-on-primary-key p-2 min-h-[60vh]'>
 			<div>
-				{breadcrumbs.map((crumb, i) => {
-					const link = breadcrumbs.slice(0, i + 1).join("/");
-					return (
-						<Link href={`${crumb === "" ? "/" : link}`} key={i}>
-							<span className='text-primary-key text-sm cursor-pointer hover:font-bold hover:duration 300'>
-								{crumb === "" ? "home" : ` ${crumb}`}
-								{i === breadcrumbs.length - 1 ? "" : " /"}
-							</span>
-						</Link>
-					);
-				})}
-				<span className='text-primary-key text-sm'></span>
+				<Breadcrumbs breadcrumbs={breadcrumbs} />
 			</div>
 			{isMobileDevice ? (
 				<ToolbarMobile

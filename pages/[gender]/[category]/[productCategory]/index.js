@@ -12,20 +12,25 @@ export default function ProductCategory({ products }) {
 }
 
 export async function getStaticPaths() {
-	const { data } = await axios.get(
-		`http://localhost:3000/api/products/allCategories`
-	);
+	try {
+		const { data } = await axios.get(
+			`http://localhost:3000/api/products/allCategories`
+		);
 
-	const pathsArr = data.productCategories.map((cat) => {
-		const { gender, category, productCategory } = cat._id;
-		console.log(gender, category, productCategory);
-		return { params: { gender, category, productCategory } };
-	});
+		const pathsArr = data.productCategories.map((cat) => {
+			const { gender, category, productCategory } = cat._id;
+			console.log(gender, category, productCategory);
+			return { params: { gender, category, productCategory } };
+		});
 
-	return {
-		paths: pathsArr,
-		fallback: false,
-	};
+		return {
+			paths: pathsArr,
+			fallback: false,
+		};
+	} catch (err) {
+		console.log(err);
+		return { notFound: true };
+	}
 }
 
 export async function getStaticProps(context) {
@@ -40,8 +45,10 @@ export async function getStaticProps(context) {
 			props: {
 				products: data.products,
 			},
+			revalidate: 20,
 		};
 	} catch (err) {
 		console.log(err);
+		return { notFound: true };
 	}
 }

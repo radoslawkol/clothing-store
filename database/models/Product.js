@@ -1,10 +1,17 @@
 import mongoose, { Schema, model, models } from "mongoose";
+import slugify from "slugify";
 
 const productSchema = Schema(
 	{
 		title: {
 			type: String,
 			required: [true, "Product title is required."],
+			unique: true,
+		},
+
+		slug: {
+			type: String,
+			required: [true, "URL slug is required."],
 			unique: true,
 		},
 
@@ -35,6 +42,7 @@ const productSchema = Schema(
 		},
 		gender: {
 			type: String,
+			enum: ["woman", "man"],
 			required: [true, "Gender is required."],
 		},
 
@@ -63,6 +71,15 @@ const productSchema = Schema(
 	},
 	{ timestamps: true }
 );
+
+productSchema.pre("validate", function (next) {
+	if (!this.slug) {
+		this.slug = slugify(this.title, {
+			lower: true,
+		});
+	}
+	next();
+});
 
 const Product = models.Product || model("Product", productSchema);
 

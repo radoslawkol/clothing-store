@@ -88,6 +88,9 @@ const products = async (req, res) => {
 				color,
 				price,
 				inStock,
+				gender,
+				category,
+				productCategory,
 			} = req.body;
 
 			const newProduct = await Product.create({
@@ -99,6 +102,9 @@ const products = async (req, res) => {
 				color,
 				price,
 				inStock,
+				gender,
+				category,
+				productCategory,
 			});
 
 			res.status(200).json({
