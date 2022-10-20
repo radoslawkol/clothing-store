@@ -16,7 +16,7 @@ const productSchema = Schema(
 		},
 
 		image: {
-			type: String,
+			type: Array,
 			required: [true, "Product image is required."],
 		},
 
@@ -46,8 +46,11 @@ const productSchema = Schema(
 			required: [true, "Gender is required."],
 		},
 
-		size: { type: String },
-		color: { type: String, required: [true, "Product color is required."] },
+		sizes: { type: Array, required: [true, "Sizes are required."] },
+		colors: {
+			type: Array,
+			required: [true, "Product avaliable colors are required."],
+		},
 		price: { type: Number, required: [true, "Product price is required."] },
 
 		inStock: {

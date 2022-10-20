@@ -1,18 +1,22 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import CommentForm from "./CommentForm";
 import CommentReview from "./CommentReview";
 
 export default function ProductComments({ comments }) {
 	const { user } = useSelector((store) => store);
+	console.log(user);
+	const [commentFormVisible, setCommentFormVisible] = useState(false);
 
-	const commentForm = user ? (
-		<CommentForm />
-	) : (
-		<p className='p-2 text-center bg-error-primary'>
-			Please, log in to write a review
-		</p>
-	);
+	useEffect(() => {
+		if (user) {
+			setCommentFormVisible(true);
+		} else {
+			setCommentFormVisible(false);
+		}
+	}, [user]);
 
 	return (
 		<section className='p-2 my-8 md:mt-12'>
@@ -20,7 +24,13 @@ export default function ProductComments({ comments }) {
 				Write a customer review
 			</h2>
 			<div>
-				{commentForm}
+				{commentFormVisible ? (
+					<CommentForm />
+				) : (
+					<p className='p-2 text-center bg-error-primary'>
+						Please, log in to write a review
+					</p>
+				)}
 				<div className='flex flex-col gap-4 '>
 					<CommentReview />
 					<CommentReview />

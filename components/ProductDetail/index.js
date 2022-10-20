@@ -26,7 +26,7 @@ export default function ProductDetail({ product }) {
 				<Breadcrumbs breadcrumbs={breadcrumbs} />
 			</div>
 			<div className='p-2 sm:p-4 md:p-8 lg:p-12 xl:p-24 md:flex gap-4 md:gap-8'>
-				<ProductSlider />
+				<ProductSlider image={product.image} />
 				<div className='flex flex-col md:w-1/2 xl:text-lg'>
 					<h1 className='mb-2 font-bold uppercase lg:text-xl'>
 						{product.title}
@@ -37,16 +37,21 @@ export default function ProductDetail({ product }) {
 					<span>status: {inStock}</span>
 					<span>color: {product.color}</span>
 					{/* other avaliable colors */}
-					<label for='size'>size:</label>
+					<label htmlFor='size'>size:</label>
 					<select
 						name='size'
 						id='size'
 						className='w-40 border border-primary-key rounded-md mt-2 mb-6'
+						defaultValue={"default"}
 					>
-						<option disabled selected hidden>
+						<option disabled hidden value={"default"}>
 							Please select
 						</option>
-						<option value={product.size}>{product.size}</option>
+						{product.sizes.map((size, i) => (
+							<option value={size} key={i}>
+								{size}
+							</option>
+						))}
 					</select>
 					<div className='flex items-center gap-3 xl:my-6'>
 						<ButtonPrimary>Add to Bag</ButtonPrimary>
