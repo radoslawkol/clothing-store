@@ -15,7 +15,7 @@ export default function Checkout() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getCartFromCookies());
+		// dispatch(getCartFromCookies());
 	}, []);
 
 	useEffect(() => {

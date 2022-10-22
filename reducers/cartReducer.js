@@ -41,21 +41,31 @@ const cartSlice = createSlice({
 	name: "cart",
 	initialState,
 	reducers: {
+		addItem: (state, { payload }) => {
+			const cartItem = state.cartItems.find((item) => item._id === payload._id);
+
+			if (cartItem && cartItem.size === payload.size) {
+				cartItem.quantity += 1;
+			} else {
+				state.cartItems.push(payload);
+			}
+		},
+
 		removeItem: (state, action) => {
 			const itemId = action.payload;
-			state.cartItems = state.cartItems.filter((item) => item.id !== itemId);
+			state.cartItems = state.cartItems.filter((item) => item._id !== itemId);
 		},
 		increase: (state, { payload }) => {
 			console.log(payload);
-			const cartItem = state.cartItems.find((item) => item.id === payload.id);
+			const cartItem = state.cartItems.find((item) => item._id === payload.id);
 			console.log(cartItem);
 			cartItem.quantity += 1;
 		},
 		decrease: (state, { payload }) => {
-			const cartItem = state.cartItems.find((item) => item.id === payload.id);
+			const cartItem = state.cartItems.find((item) => item._id === payload.id);
 			if (cartItem.quantity === 1) {
 				state.cartItems = state.cartItems.filter(
-					(item) => item.id !== payload.id
+					(item) => item._id !== payload._id
 				);
 			} else {
 				cartItem.quantity -= 1;
@@ -66,8 +76,8 @@ const cartSlice = createSlice({
 			let total = 0;
 
 			state.cartItems.forEach((item) => {
-				amount += item.amount;
-				total += item.amount * item.price;
+				amount += item.quantity;
+				total += item.quantity * item.price;
 			});
 
 			state.amount = amount;
@@ -83,6 +93,7 @@ const cartSlice = createSlice({
 });
 
 export const {
+	addItem,
 	removeItem,
 	increase,
 	decrease,

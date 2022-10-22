@@ -7,9 +7,19 @@ import ProductCouponInfo from "../ProductCouponInfo";
 import ButtonPrimary from "../../utils/ButtonPrimary";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import ProductComments from "../ProductComments";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../reducers/cartReducer";
+import { useState, useRef } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
-export default function ProductDetail({ product }) {
+export default function ProductDetail({ product, setAddToBagModalVisible }) {
 	const router = useRouter();
+	const dispatch = useDispatch();
+
+	const [size, setSize] = useState("");
+	const toastId = useRef(null);
+	const selectSizeRef = useRef();
 
 	const breadcrumbs = Object.values(router.query);
 	breadcrumbs.unshift("");
@@ -19,6 +29,27 @@ export default function ProductDetail({ product }) {
 	) : (
 		<strong className='text-error-primary-key'>unavailable</strong>
 	);
+
+	const addToBagHandler = () => {
+		if (size) {
+			dispatch(
+				addItem({
+					...product,
+					size,
+					quantity: 1,
+					reviews: undefined,
+					comments: undefined,
+				})
+			);
+			setAddToBagModalVisible(true);
+		} else {
+			if (!toast.isActive(toastId.current)) {
+				toast.error("Choose size you want to order.", {
+					toastId: "size-not-given-product-detail",
+				});
+			}
+		}
+	};
 
 	return (
 		<section className='text-primary-key'>
@@ -39,10 +70,12 @@ export default function ProductDetail({ product }) {
 					{/* other avaliable colors */}
 					<label htmlFor='size'>size:</label>
 					<select
+						ref={selectSizeRef}
 						name='size'
 						id='size'
 						className='w-40 border border-primary-key rounded-md mt-2 mb-6'
 						defaultValue={"default"}
+						onChange={(e) => setSize(e.target.value)}
 					>
 						<option disabled hidden value={"default"}>
 							Please select
@@ -54,7 +87,9 @@ export default function ProductDetail({ product }) {
 						))}
 					</select>
 					<div className='flex items-center gap-3 xl:my-6'>
-						<ButtonPrimary>Add to Bag</ButtonPrimary>
+						<div onClick={addToBagHandler}>
+							<ButtonPrimary>Add to Bag</ButtonPrimary>
+						</div>
 						<button className='bg-secondary rounded-full p-2 hover:scale-95 duration-300'>
 							<HeartIcon className='w-6 h-6' />
 						</button>

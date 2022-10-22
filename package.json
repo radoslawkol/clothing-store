@@ -27,6 +27,7 @@
 		"react-hook-form": "^7.35.0",
 		"react-redux": "^8.0.4",
 		"react-responsive": "^9.0.0-beta.10",
+		"react-toastify": "^9.0.8",
 		"slugify": "^1.6.5",
 		"tough-cookie": "^4.1.2",
 		"yup": "^0.32.11"
