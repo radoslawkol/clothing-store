@@ -1,9 +1,29 @@
 import React from "react";
 import { useState } from "react";
 import Image from "next/image";
+import {
+	ArrowLeftCircleIcon,
+	ArrowRightCircleIcon,
+} from "@heroicons/react/24/outline";
 
 export default function ProductSlider({ image }) {
 	const [sliderIndex, setSliderIndex] = useState(0);
+
+	const nextPhoto = () => {
+		if (sliderIndex >= image.length - 1) {
+			setSliderIndex(0);
+		} else {
+			setSliderIndex((prev) => prev + 1);
+		}
+	};
+
+	const prevPhoto = () => {
+		if (sliderIndex < 1) {
+			setSliderIndex(image.length - 1);
+		} else {
+			setSliderIndex((prev) => prev - 1);
+		}
+	};
 
 	return (
 		<div className='md:w-3/4 flex justify-center'>
@@ -13,6 +33,14 @@ export default function ProductSlider({ image }) {
 						src={image?.[sliderIndex]}
 						layout='fill'
 						className='object-cover'
+					/>
+					<ArrowLeftCircleIcon
+						className='absolute top-1/2 w-8 h-8 -translate-y-1/2 cursor-pointer'
+						onClick={prevPhoto}
+					/>
+					<ArrowRightCircleIcon
+						className='absolute top-1/2 right-0 w-8 h-8 -translate-y-1/2 cursor-pointer'
+						onClick={nextPhoto}
 					/>
 				</div>
 				<div className=' my-4 lg:my-0 flex lg:flex-col items-center  gap-4'>
