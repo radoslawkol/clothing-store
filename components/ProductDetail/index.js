@@ -31,10 +31,14 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 	);
 
 	const addToBagHandler = () => {
+		const itemIndex = `${Math.floor(Math.random() * 1000000)}-${size}-${
+			product._id
+		}`;
 		if (size) {
 			dispatch(
 				addItem({
 					...product,
+					index: itemIndex,
 					size,
 					quantity: 1,
 					reviews: undefined,

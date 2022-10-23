@@ -7,7 +7,7 @@ import { increase, removeItem, decrease } from "../../../reducers/cartReducer";
 import { useState } from "react";
 import { useEffect } from "react";
 export default function ProductCard({
-	id,
+	index,
 	title,
 	image,
 	size,
@@ -27,8 +27,8 @@ export default function ProductCard({
 			<Link href={`/man/clothing/jeans/bluejeans`}>
 				<div className='relative w-1/3 sm:w-1/4 md:w-[20%] lg:h-36'>
 					<Image
-						src={image}
-						alt='product name'
+						src={image[0]}
+						alt={title}
 						layout='fill'
 						className='w-20 h-full rounded-l-lg object-cover bg-center cursor-pointer'
 					/>
@@ -44,14 +44,14 @@ export default function ProductCard({
 				<div className='mt-2 flex items-center gap-1'>
 					<button
 						className='text-lg px-1 h-6 bg-primary hover:bg-primary-key duration-300 hover:text-on-primary-key rounded-md'
-						onClick={() => dispatch(decrease({ id }))}
+						onClick={() => dispatch(decrease({ index }))}
 					>
 						<MinusIcon className='h-3 w-3' />
 					</button>
 					<span>{quantity}</span>
 					<button
 						className='text-lg px-1 h-6 bg-primary hover:bg-primary-key duration-300 hover:text-on-primary-key rounded-md'
-						onClick={() => dispatch(increase({ id }))}
+						onClick={() => dispatch(increase({ index }))}
 					>
 						<PlusIcon className='h-3 w-3' />
 					</button>
@@ -59,7 +59,7 @@ export default function ProductCard({
 			</div>
 			<button
 				className='absolute top-2 right-2 '
-				onClick={() => dispatch(removeItem(id))}
+				onClick={() => dispatch(removeItem({ index }))}
 			>
 				<TrashIcon className='w-4 h-4 text-primary-key' />
 			</button>

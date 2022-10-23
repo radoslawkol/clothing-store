@@ -15,13 +15,13 @@ export default function Checkout() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		// dispatch(getCartFromCookies());
+		dispatch(getCartFromCookies());
 	}, []);
 
 	useEffect(() => {
 		dispatch(calculateTotals());
+		dispatch(addCartToCookies());
 		if (cartItems.length > 0) {
-			dispatch(addCartToCookies());
 		}
 	}, [cartItems]);
 

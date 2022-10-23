@@ -49,23 +49,29 @@ const cartSlice = createSlice({
 			} else {
 				state.cartItems.push(payload);
 			}
+			addCartToCookies();
 		},
 
-		removeItem: (state, action) => {
-			const itemId = action.payload;
-			state.cartItems = state.cartItems.filter((item) => item._id !== itemId);
+		removeItem: (state, { payload }) => {
+			state.cartItems = state.cartItems.filter(
+				(item) => item.index !== payload.index
+			);
 		},
 		increase: (state, { payload }) => {
 			console.log(payload);
-			const cartItem = state.cartItems.find((item) => item._id === payload.id);
+			const cartItem = state.cartItems.find(
+				(item) => item.index === payload.index
+			);
 			console.log(cartItem);
 			cartItem.quantity += 1;
 		},
 		decrease: (state, { payload }) => {
-			const cartItem = state.cartItems.find((item) => item._id === payload.id);
+			const cartItem = state.cartItems.find(
+				(item) => item.index === payload.index
+			);
 			if (cartItem.quantity === 1) {
 				state.cartItems = state.cartItems.filter(
-					(item) => item._id !== payload._id
+					(item) => item.index !== payload.index
 				);
 			} else {
 				cartItem.quantity -= 1;
@@ -87,7 +93,9 @@ const cartSlice = createSlice({
 			Cookies.set("cart", JSON.stringify(state));
 		},
 		getCartFromCookies: (state) => {
-			return Cookies.get("cart") && JSON.parse(Cookies.get("cart"));
+			if (state.cartItems.length < 1) {
+				return Cookies.get("cart") && JSON.parse(Cookies.get("cart"));
+			}
 		},
 	},
 });
