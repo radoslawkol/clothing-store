@@ -28,7 +28,7 @@ export default function Checkout() {
 	return (
 		<div className='lg:flex contentWithoutMenuHeight'>
 			<div className='lg:w-[70%]'>
-				<CheckoutHeader />
+				<CheckoutHeader products={cartItems.length} />
 				<AddedProducts cartItems={cartItems} />
 			</div>
 

@@ -51,6 +51,11 @@ const productSchema = Schema(
 			type: Array,
 			required: [true, "Product avaliable colors are required."],
 		},
+		color: {
+			type: String,
+			required: [true, "Product color is required."],
+		},
+
 		price: { type: Number, required: [true, "Product price is required."] },
 
 		inStock: {
