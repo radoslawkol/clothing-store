@@ -7,6 +7,64 @@ export default {
 			name: "title",
 			type: "string",
 			title: "Title",
+			description: "Title has to be unique.",
+		},
+		{
+			name: "gender",
+			type: "string",
+			title: "Sex",
+			options: {
+				list: [
+					{ title: "man", value: "man" },
+					{ title: "woman", value: "woman" },
+				],
+			},
+		},
+		{
+			name: "category",
+			type: "string",
+			title: "Category",
+			options: {
+				list: [
+					{ title: "clothing", value: "clothing" },
+					{ title: "accessories", value: "accessories" },
+				],
+			},
+		},
+		{
+			name: "productCategory",
+			type: "string",
+			title: "Product category",
+			description: "PLURAL FORM! - e.g dresses, jeans.",
+		},
+		{
+			name: "price",
+			type: "number",
+			title: "Price",
+		},
+		{
+			name: "inStock",
+			type: "boolean",
+			title: "In Stock",
+		},
+		{
+			name: "categories",
+			type: "array",
+			title: "Categories",
+			of: [{ type: "string" }],
+		},
+		{
+			name: "colors",
+			type: "array",
+			title: "Avaliable colors",
+			of: [{ type: "string" }],
+		},
+		{
+			name: "sizes",
+			type: "array",
+			title: "Avaliable sizes",
+			description: "e.g S, M, L, Xl",
+			of: [{ type: "string" }],
 		},
 		{
 			name: "image",
@@ -14,30 +72,11 @@ export default {
 			title: "Photos",
 			of: [{ type: "image" }],
 		},
+
 		{
 			name: "description",
 			type: "text",
 			title: "Description",
-		},
-		// {
-		// 	name: "categories",
-		// 	type: "",
-		// 	title: "Categories",
-		// },
-		{
-			name: "gender",
-			type: "string",
-			title: "gender",
-		},
-		{
-			name: "color",
-			type: "string",
-			title: "Color",
-		},
-		{
-			name: "price",
-			type: "number",
-			title: "Price",
 		},
 	],
 };

@@ -1,11 +1,11 @@
 {
   "root": true,
-  "project": {
-    "name": "silver-dugong"
-  },
   "api": {
     "projectId": "aairmauv",
     "dataset": "production"
+  },
+  "project": {
+    "name": "silver-dugong"
   },
   "plugins": [
     "@sanity/base",
