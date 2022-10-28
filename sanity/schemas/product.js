@@ -1,3 +1,5 @@
+<reference types='@sanity/types/parts' />;
+
 export default {
 	name: "product",
 	type: "document",
@@ -7,7 +9,6 @@ export default {
 			name: "title",
 			type: "string",
 			title: "Title",
-			description: "Title has to be unique.",
 		},
 		{
 			name: "gender",
@@ -57,7 +58,7 @@ export default {
 			name: "colors",
 			type: "array",
 			title: "Avaliable colors",
-			of: [{ type: "string" }],
+			of: [{ type: "color" }],
 		},
 		{
 			name: "sizes",
