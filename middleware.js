@@ -15,8 +15,10 @@ export async function middleware(req) {
 		} else {
 			const { payload } = await jose.jwtVerify(user.token, secret);
 
-			console.log(payload);
-			return NextResponse.rewrite(new URL("/account", req.url));
+			console.log(req.url);
+			if (!req.url.contains("account")) {
+				return NextResponse.rewrite(new URL("/account", req.url));
+			}
 		}
 	} catch (err) {
 		console.log(err);
@@ -24,5 +26,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-	matcher: "/account",
+	matcher: "/account/:page*",
 };

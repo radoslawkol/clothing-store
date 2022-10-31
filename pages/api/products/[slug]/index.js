@@ -2,6 +2,7 @@ import connectDB from "../../../../database/connectDB";
 import Product from "../../../../database/models/Product";
 
 const product = async (req, res) => {
+	req.userId;
 	try {
 		await connectDB();
 

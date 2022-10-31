@@ -1,7 +1,7 @@
 import Cart from "../../../database/models/Cart";
 import connectDB from "../../../../database/connectDB";
 
-export const cart = async (req, res) => {
+const cart = async (req, res) => {
 	try {
 		await connectDB;
 
@@ -16,3 +16,4 @@ export const cart = async (req, res) => {
 		});
 	}
 };
+export default cart;
