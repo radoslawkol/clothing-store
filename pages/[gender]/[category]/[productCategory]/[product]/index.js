@@ -4,6 +4,7 @@ import ProductDetail from "../../../../../components/ProductDetail";
 import ProductComments from "../../../../../components/ProductComments";
 import ReactDOM from "react-dom";
 import AddToBagModal from "../../../../../components/AddToBagModal";
+import product from "../../../../../sanity/schemas/product";
 
 export default function ProductPage({ product }) {
 	const [addToBagModalVisible, setAddToBagModalVisible] = useState(false);
@@ -41,8 +42,24 @@ export default function ProductPage({ product }) {
 
 export async function getStaticPaths() {
 	try {
+		const { data } = await axios.get(
+			"http://localhost:3000/api/products/getPathsParams"
+		);
+
+		const pathsArr = data.productCategories.map((cat) => {
+			const { gender, category, productCategory, slug } = cat._id;
+			console.log(gender, category, productCategory, slug);
+			return {
+				params: {
+					gender,
+					category,
+					productCategory,
+					product: `${slug}`,
+				},
+			};
+		});
 		return {
-			paths: ["/woman/clothing/dresses/white-short-dress"],
+			paths: pathsArr,
 			fallback: "blocking",
 		};
 	} catch (err) {

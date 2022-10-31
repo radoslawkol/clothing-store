@@ -7,6 +7,6 @@ module.exports = {
 		},
 	},
 	images: {
-		domains: ["cdn.pixabay.com", "images.unsplash.com"],
+		domains: ["cdn.pixabay.com", "images.unsplash.com", "res.cloudinary.com"],
 	},
 };

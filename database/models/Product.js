@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from "mongoose";
+import mongoose, { Schema, model, models, mongo, Mongoose } from "mongoose";
 import slugify from "slugify";
 
 const productSchema = Schema(
@@ -6,13 +6,16 @@ const productSchema = Schema(
 		title: {
 			type: String,
 			required: [true, "Product title is required."],
-			unique: true,
 		},
 
 		slug: {
 			type: String,
 			required: [true, "URL slug is required."],
 			unique: true,
+		},
+		sku: {
+			type: String,
+			unique: "true",
 		},
 
 		image: {
@@ -47,10 +50,22 @@ const productSchema = Schema(
 		},
 
 		sizes: { type: Array, required: [true, "Sizes are required."] },
-		colors: {
-			type: Array,
-			required: [true, "Product avaliable colors are required."],
-		},
+		colors: [
+			{
+				colorName: {
+					type: String,
+					required: [true, "ColorName is required."],
+				},
+				hex: {
+					type: "String",
+					required: [true, "Color HEX is required."],
+				},
+				sku: {
+					type: String,
+					required: [true, "SKU is required"],
+				},
+			},
+		],
 		color: {
 			type: String,
 			required: [true, "Product color is required."],
@@ -81,10 +96,27 @@ const productSchema = Schema(
 );
 
 productSchema.pre("validate", function (next) {
+	let identifier = "";
+	const characters =
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	for (let i = 0; i < 8; i++) {
+		identifier += characters.charAt(
+			Math.floor(Math.random() * [...characters].length)
+		);
+	}
+	const sku = `${identifier}-${this.color.charAt(0)}`;
+
+	if (!this.sku) {
+		this.sku = sku;
+	}
+
 	if (!this.slug) {
-		this.slug = slugify(this.title, {
+		const slug = slugify(this.title, {
 			lower: true,
 		});
+		console.log(slug, this.color);
+		this.slug = `${slug}-${sku}`;
 	}
 	next();
 });

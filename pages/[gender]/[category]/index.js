@@ -6,7 +6,7 @@ export default function Category({ products }) {
 	return <PageContainer products={products} />;
 }
 
-export async function getStaticPaths({ products }) {
+export async function getStaticPaths() {
 	return {
 		paths: [
 			{ params: { gender: "man", category: "clothing" } },

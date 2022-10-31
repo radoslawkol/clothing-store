@@ -12,6 +12,7 @@ import { addItem } from "../../reducers/cartReducer";
 import { useState, useRef } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import AvaliableColors from "./AvaliableColors";
 
 export default function ProductDetail({ product, setAddToBagModalVisible }) {
 	const router = useRouter();
@@ -71,7 +72,12 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 					<ProductCouponInfo />
 					<span>status: {inStock}</span>
 					<span>color: {product.color}</span>
-					{/* other avaliable colors */}
+					<AvaliableColors
+						colors={product.colors}
+						productSKU={product.sku}
+						productTitle={product.title}
+						productSlug={product.slug}
+					/>
 					<label htmlFor='size'>size:</label>
 					<select
 						ref={selectSizeRef}

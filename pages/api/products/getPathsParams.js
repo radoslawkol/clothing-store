@@ -1,7 +1,7 @@
 import connectDB from "../../../database/connectDB";
 import Product from "../../../database/models/Product";
 
-const allCategories = async (req, res) => {
+const getPathsParams = async (req, res) => {
 	try {
 		if (req.method === "GET") {
 			const categories = await Product.aggregate([
@@ -11,6 +11,7 @@ const allCategories = async (req, res) => {
 							gender: "$gender",
 							category: "$category",
 							productCategory: "$productCategory",
+							slug: "$slug",
 						},
 					},
 				},
@@ -31,4 +32,4 @@ const allCategories = async (req, res) => {
 	}
 };
 
-export default allCategories;
+export default getPathsParams;

@@ -22,7 +22,7 @@ export default function ProductCard({ favourite = false, product }) {
 				<div className='relative'>
 					<div className='w-[100px] h-[200px] md:h-[300px] rounded-md'>
 						<Image
-							src={product?.image}
+							src={product?.image[0]}
 							layout='fill'
 							className='object-cover'
 						/>

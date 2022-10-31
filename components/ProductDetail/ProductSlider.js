@@ -26,7 +26,7 @@ export default function ProductSlider({ image }) {
 	};
 
 	return (
-		<div className='md:w-3/4 flex justify-center'>
+		<div className='md:w-3/4 flex items-center flex-col'>
 			<div className='lg:flex gap-4'>
 				<div className='relative w-[280px] h-[350px] sm:w-[350px] sm:h-[450px] lg:w-[450px] lg:h-[600px] lg:order-1'>
 					<Image
