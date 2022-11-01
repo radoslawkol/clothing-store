@@ -32,6 +32,7 @@ const favourites = async (req, res) => {
 
 				res.status(200).json({
 					status: "success",
+					operation: "added",
 					message: "The product was added to favourites",
 				});
 			} else {
@@ -46,6 +47,7 @@ const favourites = async (req, res) => {
 
 				res.status(200).json({
 					status: "fail",
+					operation: "deleted",
 					message: "The product was deleted from favourites.",
 				});
 			}

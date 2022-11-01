@@ -8,9 +8,9 @@ export default function ProductsContainer({ view, products }) {
 				view === 4 && "md:grid-cols-4"
 			} my-8 `}
 		>
-			{products?.map((product) => (
-				<ProductCard key={product._id} product={product} />
-			))}
+			{products?.map((product) => {
+				return <ProductCard key={product._id} product={product} />;
+			})}
 		</div>
 	);
 }

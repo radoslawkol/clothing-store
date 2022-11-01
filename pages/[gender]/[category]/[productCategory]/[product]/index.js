@@ -72,7 +72,7 @@ export async function getStaticProps(context) {
 	const { product } = context.params;
 	try {
 		const { data } = await axios.get(
-			`${process.env.BASE_URL}/api/products/${product}`
+			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${product}`
 		);
 
 		console.log(data);
