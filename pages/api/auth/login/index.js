@@ -30,7 +30,7 @@ const login = async (req, res) => {
 
 			const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY);
 
-			const { email: userEmail, firstName, lastName, _id } = user;
+			const { email: userEmail, firstName, lastName, _id, favourites } = user;
 
 			res.status(200).json({
 				status: "success",
@@ -40,6 +40,7 @@ const login = async (req, res) => {
 					email: userEmail,
 					firstName,
 					lastName,
+					favourites,
 				},
 			});
 		}

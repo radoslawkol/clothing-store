@@ -10,6 +10,7 @@ const userReducer = (
 
 		case "REGISTER":
 			return action.payload;
+
 		default:
 			return state;
 	}

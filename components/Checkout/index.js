@@ -20,7 +20,6 @@ export default function Checkout() {
 
 	useEffect(() => {
 		dispatch(calculateTotals());
-		dispatch(addCartToCookies());
 		if (cartItems.length > 0) {
 		}
 	}, [cartItems]);

@@ -4,15 +4,40 @@ import AccountSidebar from "../../../components/Account/AccountSidebar";
 import AccountContent from "../../../components/Account/AccountContent";
 import { useState } from "react";
 import { useEffect } from "react";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { addFavouritesFromDB } from "../../../reducers/favouritesReducer";
 
-export default function AccountPage({ setPage }) {
+export default function AccountPage() {
 	const router = useRouter();
+	const dispatch = useDispatch();
+	const { user } = useSelector((store) => store);
 	const { page } = router.query;
-	console.log(page);
 	const [activePage, setActivePage] = useState("details");
+	const [userData, setUserData] = useState({});
 
 	useEffect(() => {
 		setActivePage(page);
+	}, [page]);
+
+	const getUserData = async () => {
+		try {
+			const { data } = await axios.get(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${user._id}`
+			);
+			if (data.status === "success") {
+				console.log(data.user.favourites);
+				dispatch(addFavouritesFromDB(data.user.favourites));
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
+		if (page === "favourites") {
+			getUserData();
+		}
 	}, [page]);
 
 	return (
@@ -22,7 +47,7 @@ export default function AccountPage({ setPage }) {
 			</h1>
 			<div className='flex'>
 				<AccountSidebar />
-				<AccountContent activePage={activePage} />
+				<AccountContent activePage={activePage} user={userData} />
 			</div>
 		</div>
 	);

@@ -1,5 +1,6 @@
 import connectDB from "../../../database/connectDB";
 import User from "../../../database/models/User";
+import Product from "../../../database/models/Product";
 
 const favourites = async (req, res) => {
 	try {
@@ -30,6 +31,10 @@ const favourites = async (req, res) => {
 					}
 				);
 
+				await Product.findByIdAndUpdate(favouriteProductId, {
+					isFavourite: true,
+				});
+
 				res.status(200).json({
 					status: "success",
 					operation: "added",
@@ -44,6 +49,10 @@ const favourites = async (req, res) => {
 						},
 					}
 				);
+
+				await Product.findByIdAndUpdate(favouriteProductId, {
+					isFavourite: false,
+				});
 
 				res.status(200).json({
 					status: "fail",

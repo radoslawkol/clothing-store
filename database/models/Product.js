@@ -77,6 +77,7 @@ const productSchema = Schema(
 			type: Boolean,
 			default: true,
 		},
+		isFavourite: { type: Boolean, default: false },
 
 		comments: [
 			{

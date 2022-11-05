@@ -10,6 +10,10 @@ export async function middleware(req) {
 
 		const secret = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
+		if (req.url.includes("login") && user.token) {
+			return NextResponse.rewrite(new URL("/", req.url));
+		}
+
 		if (!user.token) {
 			return NextResponse.rewrite(new URL("/login", req.url));
 		} else {
@@ -26,5 +30,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-	matcher: "/account/:page*",
+	matcher: ["/account/:page*", "/login"],
 };

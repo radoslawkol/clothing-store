@@ -1,35 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
-const dataProducts = [
-	{
-		id: "0",
-		title: "Blue Jeans",
-		image:
-			"https://cdn.pixabay.com/photo/2018/09/12/21/08/jeans-3673241_960_720.jpg",
-		description: "Nice blue jeans. ....",
-		categories: ["trousers", "jeans"],
-		size: "M",
-		color: "blue",
-		inStock: true,
-		quantity: 1,
-		price: 20,
-	},
-	{
-		id: "1",
-		title: "White Jeans",
-		image:
-			"https://cdn.pixabay.com/photo/2018/09/12/21/08/jeans-3673241_960_720.jpg",
-		description: "Nice white jeans. ....",
-		categories: ["trousers", "jeans"],
-		size: "M",
-		color: "blue",
-		inStock: true,
-		quantity: 1,
-		price: 30,
-	},
-];
-
 const initialState = {
 	cartItems: [],
 	amount: 0,
@@ -49,7 +20,6 @@ const cartSlice = createSlice({
 			} else {
 				state.cartItems.push(payload);
 			}
-			addCartToCookies();
 		},
 
 		removeItem: (state, { payload }) => {

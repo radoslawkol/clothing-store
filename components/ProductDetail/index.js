@@ -6,18 +6,27 @@ import ProductReviews from "./ProductReviews";
 import ProductCouponInfo from "../ProductCouponInfo";
 import ButtonPrimary from "../../utils/ButtonPrimary";
 import { HeartIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import ProductComments from "../ProductComments";
-import { useDispatch } from "react-redux";
-import { addItem } from "../../reducers/cartReducer";
-import { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem, addCartToCookies } from "../../reducers/cartReducer";
+import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import AvaliableColors from "./AvaliableColors";
+import axios from "axios";
+import {
+	addFavourite,
+	removeFavourite,
+} from "../../reducers/favouritesReducer";
 
 export default function ProductDetail({ product, setAddToBagModalVisible }) {
 	const router = useRouter();
 	const dispatch = useDispatch();
+	const { user } = useSelector((store) => store);
 
+	const [displayFavBtn, setDisplayFavBtn] = useState(false);
+	const [isFavourite, setIsFavourite] = useState(false);
 	const [size, setSize] = useState("");
 	const toastId = useRef(null);
 	const selectSizeRef = useRef();
@@ -31,28 +40,54 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 		<strong className='text-error-primary-key'>unavailable</strong>
 	);
 
+	useEffect(() => {
+		if (user) {
+			setDisplayFavBtn(true);
+		}
+	}, [user]);
+
+	useEffect(() => {
+		setIsFavourite(product.isFavourite);
+	}, [product.isFavourite]);
+
 	const addToBagHandler = () => {
 		const itemIndex = `${Math.floor(Math.random() * 1000000)}-${size}-${
 			product._id
 		}`;
 		if (size) {
-			dispatch(
-				addItem({
-					...product,
-					index: itemIndex,
-					size,
-					quantity: 1,
-					reviews: undefined,
-					comments: undefined,
-				})
-			);
+			const newCart = {
+				...product,
+				index: itemIndex,
+				size,
+				quantity: 1,
+				reviews: undefined,
+				comments: undefined,
+			};
+
+			dispatch(addItem(newCart));
 			setAddToBagModalVisible(true);
+			dispatch(addCartToCookies(newCart));
 		} else {
 			if (!toast.isActive(toastId.current)) {
 				toast.error("Choose size you want to order.", {
 					toastId: "size-not-given-product-detail",
 				});
 			}
+		}
+	};
+
+	const favouriteHandler = async () => {
+		const { data } = await axios.patch(`http://localhost:3000/api/favourites`, {
+			userId: user._id,
+			favouriteProductId: product._id,
+		});
+
+		if (data.operation === "added") {
+			setIsFavourite(true);
+			dispatch(addFavourite(product));
+		} else {
+			setIsFavourite(false);
+			dispatch(removeFavourite(product._id));
 		}
 	};
 
@@ -100,9 +135,18 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 						<div onClick={addToBagHandler}>
 							<ButtonPrimary>Add to Bag</ButtonPrimary>
 						</div>
-						<button className='bg-secondary rounded-full p-2 hover:scale-95 duration-300'>
-							<HeartIcon className='w-6 h-6' />
-						</button>
+						{displayFavBtn && (
+							<button
+								className='bg-secondary rounded-full p-2 hover:scale-95 duration-300'
+								onClick={favouriteHandler}
+							>
+								{isFavourite ? (
+									<HeartSolid className='w-6 h-6' />
+								) : (
+									<HeartIcon className='w-6 h-6' />
+								)}
+							</button>
+						)}
 					</div>
 					<ProductComments comments={product.comments} />
 				</div>

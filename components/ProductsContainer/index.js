@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import ProductCard from "../ProductCard";
 
 export default function ProductsContainer({ view, products }) {
@@ -9,7 +9,13 @@ export default function ProductsContainer({ view, products }) {
 			} my-8 `}
 		>
 			{products?.map((product) => {
-				return <ProductCard key={product._id} product={product} />;
+				return (
+					<ProductCard
+						key={product._id}
+						product={product}
+						favourite={product.isFavourite}
+					/>
+				);
 			})}
 		</div>
 	);

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import ToolbarMobile from "../../ToolbarMobile";
 import ProductsContainer from "../../ProductsContainer";
 import { useMediaQuery } from "react-responsive";
 import ToolbarDesktop from "../../ToolbarDesktop";
 import Breadcrumbs from "../../../utils/Breadcrumbs";
+import { useSelector } from "react-redux";
 
 export default function PageContainer({ products }) {
 	const [isMobileDevice, setIsMobileDevice] = useState();

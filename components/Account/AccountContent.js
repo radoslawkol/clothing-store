@@ -3,7 +3,6 @@ import AccountDetails from "./AccountDetails";
 import AccountOrders from "./AccountOrders";
 import AccountFavourites from "./AccountFavourites";
 import AccountSettings from "./AccountSettings";
-import { getStaticProps } from "../../pages/[gender]/[category]";
 
 export default function AccountContent({ user, activePage }) {
 	if (activePage == undefined || activePage === "details") {
