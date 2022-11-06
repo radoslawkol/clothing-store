@@ -6,9 +6,19 @@ import {
 	ClipboardDocumentIcon,
 	HeartIcon,
 	Cog8ToothIcon,
+	ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 export default function AccountSidebar() {
+	const router = useRouter();
+
+	const logoutHandler = () => {
+		Cookies.set("user", "");
+		router.push("/");
+	};
+
 	return (
 		<nav className='p-2 lg:p-6'>
 			<ul className='flex flex-col gap-1 lg:gap-3'>
@@ -42,6 +52,13 @@ export default function AccountSidebar() {
 						<span className='hidden md:block'>Settings</span>
 					</li>
 				</Link>
+				<button
+					className='flex items-center gap-1 text-primary-key bg-primary rounded-full p-1 cursor-pointer hover:bg-secondary duration-300'
+					onClick={logoutHandler}
+				>
+					<ArrowRightOnRectangleIcon className='text-primary-key w-6 h-6' />
+					<span className='hidden md:block'>Log out</span>
+				</button>
 			</ul>
 		</nav>
 	);

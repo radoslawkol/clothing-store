@@ -30,7 +30,7 @@ const orderSchema = Schema(
 			country: { type: String, required: [true, "Country is required."] },
 			city: { type: String, required: [true, "City is required."] },
 			region: { type: String, required: [true, "Region is required."] },
-			address: { type: String, required: [true, "Address is required."] },
+			streetAddress: { type: String, required: [true, "Address is required."] },
 			apartment: { type: String },
 			postalCode: {
 				type: Number,
