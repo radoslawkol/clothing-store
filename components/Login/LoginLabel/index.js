@@ -23,7 +23,7 @@ export default function LoginLabel({
 					placeholder={placeholder}
 					id={id}
 					name={name}
-					className='focus:outline-none '
+					className='focus:outline-none w-full'
 				/>
 			</label>
 			<FormErrorMessage>{errors[name]?.message}</FormErrorMessage>
