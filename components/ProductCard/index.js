@@ -3,11 +3,9 @@ import Image from "next/image";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import axios from "axios";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { useRef } from "react";
-import { useDispatch } from "react-redux";
 import {
 	addFavourite,
 	removeFavourite,

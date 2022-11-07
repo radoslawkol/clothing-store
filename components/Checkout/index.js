@@ -11,7 +11,9 @@ import {
 } from "../../reducers/cartReducer";
 
 export default function Checkout() {
-	const { cartItems, totalPrice } = useSelector((store) => store.cart);
+	const { cartItems, totalPrice, totalCost, deliveryCost } = useSelector(
+		(store) => store.cart
+	);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -31,7 +33,11 @@ export default function Checkout() {
 				<AddedProducts cartItems={cartItems} />
 			</div>
 
-			<Summary totalPrice={totalPrice} />
+			<Summary
+				totalPrice={totalPrice}
+				totalCost={totalCost}
+				deliveryCost={deliveryCost}
+			/>
 		</div>
 	);
 }

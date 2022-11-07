@@ -5,6 +5,9 @@ const initialState = {
 	cartItems: [],
 	amount: 0,
 	totalPrice: 0,
+	totalCost: 0,
+	deliveryCost: 6,
+	discount: 0,
 	isLoading: true,
 };
 
@@ -50,14 +53,18 @@ const cartSlice = createSlice({
 		calculateTotals: (state) => {
 			let amount = 0;
 			let total = 0;
+			const deliveryCost = 6;
 
 			state.cartItems.forEach((item) => {
 				amount += item.quantity;
 				total += item.quantity * item.price;
 			});
 
-			state.amount = amount;
 			state.totalPrice = total;
+			state.amount = amount;
+			if (total !== 0) {
+				state.totalCost = total + deliveryCost;
+			}
 		},
 		addCartToCookies: (state) => {
 			Cookies.set("cart", JSON.stringify(state));

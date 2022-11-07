@@ -52,7 +52,7 @@ export default function AddressForm() {
 				<Image src={deliverTruckIcon} width={50} height={50} />
 			</div>
 			<form
-				className='flex flex-col justify-center items-center gap-4 p-4'
+				className='sm:w-[450px] flex flex-col justify-center items-center gap-4 p-4'
 				onSubmit={handleSubmit(submitHandler)}
 			>
 				<LoginLabel
@@ -101,7 +101,7 @@ export default function AddressForm() {
 					errors={errors}
 					register={register}
 				/>
-				<div className='grid grid-cols-2 gap-2'>
+				<div className='w-full grid grid-cols-2 gap-2'>
 					<LoginLabel
 						type='text'
 						icon='BuildingOffice2Icon'
@@ -121,7 +121,7 @@ export default function AddressForm() {
 						register={register}
 					/>
 				</div>
-				<div className='grid grid-cols-2 gap-2'>
+				<div className='w-full grid grid-cols-2 gap-2'>
 					<select
 						{...register("state")}
 						name='state'

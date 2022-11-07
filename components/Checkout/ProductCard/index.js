@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { increase, removeItem, decrease } from "../../../reducers/cartReducer";
 import { useState } from "react";
 import { useEffect } from "react";
+import { addCartToCookies } from "../../../reducers/cartReducer";
 export default function ProductCard({
 	index,
 	title,
@@ -44,14 +45,20 @@ export default function ProductCard({
 				<div className='mt-2 flex items-center gap-1'>
 					<button
 						className='text-lg px-1 h-6 bg-primary hover:bg-primary-key duration-300 hover:text-on-primary-key rounded-md'
-						onClick={() => dispatch(decrease({ index }))}
+						onClick={() => {
+							dispatch(decrease({ index }));
+							dispatch(addCartToCookies());
+						}}
 					>
 						<MinusIcon className='h-3 w-3' />
 					</button>
 					<span>{quantity}</span>
 					<button
 						className='text-lg px-1 h-6 bg-primary hover:bg-primary-key duration-300 hover:text-on-primary-key rounded-md'
-						onClick={() => dispatch(increase({ index }))}
+						onClick={() => {
+							dispatch(increase({ index }));
+							dispatch(addCartToCookies());
+						}}
 					>
 						<PlusIcon className='h-3 w-3' />
 					</button>
@@ -59,7 +66,10 @@ export default function ProductCard({
 			</div>
 			<button
 				className='absolute top-2 right-2 '
-				onClick={() => dispatch(removeItem({ index }))}
+				onClick={() => {
+					dispatch(removeItem({ index }));
+					dispatch(addCartToCookies());
+				}}
 			>
 				<TrashIcon className='w-4 h-4 text-primary-key' />
 			</button>
