@@ -21,7 +21,7 @@ const discounts = async (req, res) => {
 				message: "Discount code has been successfully added.",
 			});
 		}
-		if (req.method === "GET") {
+		if (req.method === "GET" && req.query.code) {
 			const { code } = req.query;
 
 			const isCode = await DiscountCode.findOne({ code });
@@ -37,6 +37,25 @@ const discounts = async (req, res) => {
 					message: "Code does not exists or has expired.",
 				});
 			}
+		}
+		if (req.method === "GET" && req.query.code !== "") {
+			const code = await DiscountCode.findOne({}, {}, { sort: "asc" });
+
+			if (code) {
+				res.status(200).json({
+					status: "success",
+					code,
+				});
+			} else {
+				res.status(404).json({
+					status: "fail",
+					message: "Code not found.",
+				});
+			}
+		} else {
+			res
+				.status(400)
+				.json({ status: "fail", message: "Code query cannot be empty" });
 		}
 	} catch (err) {
 		console.log(err);

@@ -28,6 +28,7 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 	const [displayFavBtn, setDisplayFavBtn] = useState(false);
 	const [isFavourite, setIsFavourite] = useState(false);
 	const [size, setSize] = useState("");
+
 	const toastId = useRef(null);
 	const selectSizeRef = useRef();
 
