@@ -5,11 +5,15 @@ import mongoose, { Schema, models } from "mongoose";
 const discountCodeSchema = Schema({
 	code: {
 		type: String,
-		max: [100, 'Max possible value is "100"'],
-		min: [1, ['Min possible value is "1"']],
+		unique: true,
 		required: [true, "Code is required."],
 	},
-	discount: { type: Number, required: [true, "Discount is required."] },
+	discount: {
+		type: Number,
+		max: [100, "Max possible value is 100"],
+		min: [1, "Min possible value is 1"],
+		required: [true, "Discount is required."],
+	},
 	isActive: { type: Boolean, default: true },
 });
 
