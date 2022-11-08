@@ -29,7 +29,7 @@ const discounts = async (req, res) => {
 			if (isCode) {
 				res.status("200").json({
 					status: "success",
-					message: "Code exists.",
+					discount: isCode.discount,
 				});
 			} else {
 				res.status(400).json({

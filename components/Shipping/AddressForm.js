@@ -5,7 +5,6 @@ import LoginLabel from "../Login/LoginLabel";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { BuildingOffice2Icon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
 const validationSchema = yup.object({
@@ -29,6 +28,35 @@ const validationSchema = yup.object({
 		.lowercase()
 		.trim()
 		.required("Email is required."),
+	phone: yup
+		.string()
+		.matches(/^[0-9]*$/, "Only numbers acceptable.")
+		.length(9, "Phone number should have 9 numbers.")
+		.trim()
+		.required("Phone Number is required."),
+	streetAddress: yup
+		.string()
+		.matches(
+			/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/,
+			"Street address should have street and address."
+		)
+		.trim()
+		.required("Street address is required."),
+	apt: yup.string().trim(),
+	postalCode: yup
+		.string()
+		.matches(
+			/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/,
+			"Postal code should contain numbers and letters."
+		)
+		.trim()
+		.required("Postal code is required."),
+	city: yup
+		.string()
+		.matches(/^([^0-9]*)$/, "City name should contain only letters.")
+		.trim()
+		.required("City is required."),
+	state: yup.string().trim().required("State is required."),
 });
 
 export default function AddressForm() {
@@ -132,7 +160,6 @@ export default function AddressForm() {
 						<option disabled hidden value='default'>
 							Select State
 						</option>
-						<option value='usa'>USA</option>
 						<option value='uk'>United Kingdom</option>
 						<option value='poland'>Poland</option>
 						<option value='poland'>Germany</option>

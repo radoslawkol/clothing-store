@@ -4,10 +4,12 @@ import { useState, useRef } from "react";
 import ButtonOutlineBrown from "../../../utils/ButtonOutlineBrown";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { calculateDiscount } from "../../../reducers/cartReducer";
+import { useDispatch } from "react-redux";
 
-export default function Discount() {
+export default function Discount({ setIsDiscountApplied, isDiscountApplied }) {
+	const dispatch = useDispatch();
 	const [code, setCode] = useState("");
-	const [isCodeUsed, setIsCodeUsed] = useState(false);
 	const toastId = useRef();
 	const codeRef = useRef();
 
@@ -20,7 +22,9 @@ export default function Discount() {
 
 			if (data.status === "success") {
 				setCode(data.code);
-				setIsCodeUsed(true);
+				setIsDiscountApplied(true);
+				dispatch(calculateDiscount(data.discount));
+
 				if (!toast.isActive(toastId.current)) {
 					toast.success("Discount code successfully added.", {
 						toastId: "wrong-discount-code",
@@ -42,16 +46,18 @@ export default function Discount() {
 			<p className='uppercase'>I have discount code</p>
 			<div className='flex items-center gap-2'>
 				<input
-					disabled={isCodeUsed}
+					disabled={isDiscountApplied}
 					ref={codeRef}
 					onChange={(e) => setCode(e.target.value)}
 					type='text'
 					placeholder='Discount code'
 					className='border-b focus:outline-none my-4 focus:border-primary-key p-1 rounded-sm'
 				/>
-				<div onClick={discountHandler}>
-					<ButtonOutlineBrown>Add</ButtonOutlineBrown>
-				</div>
+				{!isDiscountApplied && (
+					<div onClick={discountHandler}>
+						<ButtonOutlineBrown>Add</ButtonOutlineBrown>
+					</div>
+				)}
 			</div>
 		</div>
 	);

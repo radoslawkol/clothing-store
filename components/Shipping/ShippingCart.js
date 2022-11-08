@@ -5,9 +5,8 @@ import { useEffect } from "react";
 import { getCartFromCookies } from "../../reducers/cartReducer";
 export default function ShippingCart() {
 	const dispatch = useDispatch();
-	const { totalPrice, cartItems, deliveryCost, totalCost } = useSelector(
-		(store) => store.cart
-	);
+	const { totalPrice, cartItems, deliveryCost, totalCost, discount } =
+		useSelector((store) => store.cart);
 
 	useEffect(() => {
 		dispatch(getCartFromCookies());
@@ -47,7 +46,7 @@ export default function ShippingCart() {
 						Delivery <span>${deliveryCost.toFixed(2)}</span>
 					</li>
 					<li className='flex justify-between uppercase text-info-primary-key'>
-						Discount Code <span>-$5.00</span>
+						Discount Code <span>-${(discount * totalPrice).toFixed(2)}</span>
 					</li>
 					<hr />
 					<li className='flex justify-between uppercase font-bold'>

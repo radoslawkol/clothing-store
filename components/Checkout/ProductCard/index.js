@@ -13,6 +13,10 @@ export default function ProductCard({
 	image,
 	size,
 	color,
+	gender,
+	category,
+	productCategory,
+	slug,
 	price,
 	quantity,
 }) {
@@ -25,7 +29,7 @@ export default function ProductCard({
 
 	return (
 		<article className='relative flex w-full rounded-lg shadow-lg '>
-			<Link href={`/man/clothing/jeans/bluejeans`}>
+			<Link href={`/${gender}/${category}/${productCategory}/${slug}`}>
 				<div className='relative w-1/3 sm:w-1/4 md:w-[20%] lg:h-36'>
 					<Image
 						src={image[0]}

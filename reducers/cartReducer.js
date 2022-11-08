@@ -53,7 +53,7 @@ const cartSlice = createSlice({
 		calculateTotals: (state) => {
 			let amount = 0;
 			let total = 0;
-			const deliveryCost = 6;
+			const deliveryCost = state.deliveryCost;
 
 			state.cartItems.forEach((item) => {
 				amount += item.quantity;
@@ -65,6 +65,12 @@ const cartSlice = createSlice({
 			if (total !== 0) {
 				state.totalCost = total + deliveryCost;
 			}
+		},
+		calculateDiscount: (state, { payload }) => {
+			const totalPrice = state.totalPrice;
+			state.discount = payload / 100;
+			state.totalCost =
+				totalPrice - (totalPrice * payload) / 100 + state.deliveryCost;
 		},
 		addCartToCookies: (state) => {
 			Cookies.set("cart", JSON.stringify(state));
@@ -85,6 +91,7 @@ export const {
 	calculateTotals,
 	addCartToCookies,
 	getCartFromCookies,
+	calculateDiscount,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

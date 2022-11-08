@@ -11,9 +11,8 @@ import {
 } from "../../reducers/cartReducer";
 
 export default function Checkout() {
-	const { cartItems, totalPrice, totalCost, deliveryCost } = useSelector(
-		(store) => store.cart
-	);
+	const { cartItems, totalPrice, totalCost, deliveryCost, discount } =
+		useSelector((store) => store.cart);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -37,6 +36,7 @@ export default function Checkout() {
 				totalPrice={totalPrice}
 				totalCost={totalCost}
 				deliveryCost={deliveryCost}
+				discount={discount}
 			/>
 		</div>
 	);
