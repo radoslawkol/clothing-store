@@ -1,8 +1,12 @@
 import React from "react";
+import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import { useEffect } from "react";
 import { getCartFromCookies } from "../../reducers/cartReducer";
+import { createRouteLoader } from "next/dist/client/route-loader";
+import axios from "axios";
+import { bindActionCreators } from "@reduxjs/toolkit";
 export default function ShippingCart() {
 	const dispatch = useDispatch();
 	const { totalPrice, cartItems, deliveryCost, totalCost, discount } =
@@ -45,14 +49,34 @@ export default function ShippingCart() {
 					<li className='flex justify-between uppercase'>
 						Delivery <span>${deliveryCost.toFixed(2)}</span>
 					</li>
-					<li className='flex justify-between uppercase text-info-primary-key'>
-						Discount Code <span>-${(discount * totalPrice).toFixed(2)}</span>
-					</li>
+					{discount > 0 && (
+						<li className='flex justify-between uppercase text-info-primary-key'>
+							Discount <span>-${(discount * totalPrice).toFixed(2)}</span>
+						</li>
+					)}
 					<hr />
 					<li className='flex justify-between uppercase font-bold'>
 						Total amount <span>${totalCost.toFixed(2)}</span>
 					</li>
 				</ul>
+				<PayPalButtons
+					createOrder={async () => {
+						try {
+							const { data } = await axios.post(
+								`${process.env.NEXT_PUBLIC_BASE_URL}/api/keys/paypal`,
+								{ value: totalCost }
+							);
+							return data.id;
+						} catch (err) {
+							console.log(err);
+						}
+					}}
+					onApprove={(data, actions) => {
+						console.log(data);
+						actions.order.capture();
+					}}
+					style={{ layout: "horizontal", tagline: false }}
+				/>
 			</div>
 		</section>
 	);
