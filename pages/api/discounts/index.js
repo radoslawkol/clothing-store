@@ -57,6 +57,41 @@ const discounts = async (req, res) => {
 				.status(400)
 				.json({ status: "fail", message: "Code query cannot be empty" });
 		}
+		if (req.method === "PATCH") {
+			const { id } = req.body;
+
+			if (id) {
+				return res.status(400).json({
+					status: "fail",
+					message: "Bad request.",
+				});
+			}
+
+			await DiscountCode.findByIdAndUpdate(id, { isActive: false });
+
+			res.status(200).json({
+				status: "success",
+				message: "Discount code was successfully disactivated.",
+			});
+		}
+
+		if (req.method === "DELETE") {
+			const { id } = req.body;
+
+			if (id) {
+				return res.status(400).json({
+					status: "fail",
+					message: "Bad request.",
+				});
+			}
+
+			await DiscountCode.findByIdAndDelete(id);
+
+			res.status(200).json({
+				status: "success",
+				message: "Discount code was successfully deleted.",
+			});
+		}
 	} catch (err) {
 		console.log(err);
 		res.status(500).json({

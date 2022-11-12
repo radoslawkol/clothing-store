@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const validationSchema = yup.object({
 	firstName: yup
@@ -49,6 +50,7 @@ const validationSchema = yup.object({
 			/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/,
 			"Postal code should contain numbers and letters."
 		)
+		.max(30, "Postal code cannot have more than 30 characters.")
 		.trim()
 		.required("Postal code is required."),
 	city: yup
@@ -59,10 +61,12 @@ const validationSchema = yup.object({
 	state: yup.string().trim().required("State is required."),
 });
 
-export default function AddressForm() {
+export default function AddressForm({ setShippingFormData }) {
 	const {
 		register,
 		handleSubmit,
+		formState,
+		getValues,
 		formState: { errors },
 	} = useForm({
 		mode: "onChange",
@@ -71,7 +75,9 @@ export default function AddressForm() {
 
 	const [country, setCountry] = useState("default");
 
-	const submitHandler = async () => {};
+	useEffect(() => {
+		console.log(getValues());
+	}, [formState]);
 
 	return (
 		<section>
@@ -79,10 +85,7 @@ export default function AddressForm() {
 				<h1 className='text-2xl tracking-wide'>Shipping</h1>
 				<Image src={deliverTruckIcon} width={50} height={50} />
 			</div>
-			<form
-				className='sm:w-[450px] flex flex-col justify-center items-center gap-4 p-4'
-				onSubmit={handleSubmit(submitHandler)}
-			>
+			<form className='sm:w-[450px] flex flex-col justify-center items-center gap-4 p-4'>
 				<LoginLabel
 					type='text'
 					icon='UserIcon'

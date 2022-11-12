@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import { useEffect } from "react";
 import { getCartFromCookies } from "../../reducers/cartReducer";
-import { createRouteLoader } from "next/dist/client/route-loader";
 import axios from "axios";
-import { bindActionCreators } from "@reduxjs/toolkit";
-export default function ShippingCart() {
+import { toast } from "react-toastify";
+
+export default function ShippingCart({ addOrderHandler }) {
 	const dispatch = useDispatch();
 	const { totalPrice, cartItems, deliveryCost, totalCost, discount } =
 		useSelector((store) => store.cart);
@@ -56,7 +56,7 @@ export default function ShippingCart() {
 					)}
 					<hr />
 					<li className='flex justify-between uppercase font-bold'>
-						Total amount <span>${totalCost.toFixed(2)}</span>
+						Total amount <span>${totalCost}</span>
 					</li>
 				</ul>
 				<PayPalButtons
@@ -74,6 +74,8 @@ export default function ShippingCart() {
 					onApprove={(data, actions) => {
 						console.log(data);
 						actions.order.capture();
+						toast.success("Thank you for your purchase.");
+						addOrderHandler();
 					}}
 					style={{ layout: "horizontal", tagline: false }}
 				/>

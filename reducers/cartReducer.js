@@ -69,8 +69,11 @@ const cartSlice = createSlice({
 		calculateDiscount: (state, { payload }) => {
 			const totalPrice = state.totalPrice;
 			state.discount = payload / 100;
-			state.totalCost =
-				totalPrice - (totalPrice * payload) / 100 + state.deliveryCost;
+			state.totalCost = (
+				totalPrice -
+				(totalPrice * payload) / 100 +
+				state.deliveryCost
+			).toFixed(2);
 		},
 		addCartToCookies: (state) => {
 			Cookies.set("cart", JSON.stringify(state));
