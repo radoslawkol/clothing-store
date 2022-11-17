@@ -16,7 +16,12 @@ const product = async (req, res) => {
 				});
 			}
 
-			const product = await Product.findOne({ slug });
+			const product = await Product.findOne({ slug }).populate({
+				path: "comments",
+				populate: {
+					path: "user",
+				},
+			});
 
 			console.log(product);
 

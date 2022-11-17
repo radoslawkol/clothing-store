@@ -2,7 +2,6 @@ import React from "react";
 import ProductSlider from "./ProductSlider";
 import { useRouter } from "next/router";
 import Breadcrumbs from "../../utils/Breadcrumbs";
-import ProductReviews from "./ProductReviews";
 import ProductCouponInfo from "../ProductCouponInfo";
 import ButtonPrimary from "../../utils/ButtonPrimary";
 import { HeartIcon } from "@heroicons/react/24/outline";
@@ -104,7 +103,7 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 						{product.title}
 					</h1>
 					<span>${product.price}</span>
-					<ProductReviews />
+					{/* <ProductReviews /> */}
 					<ProductCouponInfo />
 					<span>status: {inStock}</span>
 					<span>color: {product.color}</span>
@@ -149,7 +148,7 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 							</button>
 						)}
 					</div>
-					<ProductComments comments={product.comments} />
+					<ProductComments product={product} />
 				</div>
 			</div>
 		</section>

@@ -4,17 +4,18 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import CommentForm from "./CommentForm";
 import CommentReview from "./CommentReview";
+import Link from "next/link";
 
-export default function ProductComments({ comments }) {
+export default function ProductComments({ product }) {
 	const { user } = useSelector((store) => store);
 	console.log(user);
-	const [commentFormVisible, setCommentFormVisible] = useState(false);
+	const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
 	useEffect(() => {
 		if (user) {
-			setCommentFormVisible(true);
+			setIsUserLoggedIn(true);
 		} else {
-			setCommentFormVisible(false);
+			setIsUserLoggedIn(false);
 		}
 	}, [user]);
 
@@ -24,20 +25,22 @@ export default function ProductComments({ comments }) {
 				Write a customer review
 			</h2>
 			<div>
-				{commentFormVisible ? (
-					<CommentForm />
+				{isUserLoggedIn ? (
+					<CommentForm product={product} />
 				) : (
-					<p className='p-2 text-center bg-error-primary'>
-						Please, log in to write a review
-					</p>
+					<Link href='/login'>
+						<button className='p-2 text-center bg-error-primary w-full my-2 rounded-lg text-error-on-primary'>
+							Please, log in to write a review
+						</button>
+					</Link>
 				)}
 				<div className='flex flex-col gap-4 '>
-					<CommentReview />
-					<CommentReview />
-					<CommentReview />
-					{/* {comments?.map((comment) => (
-					<CommentReview comment={comment} key={comment._id} />
-				))} */}
+					{product.comments.length > 0}
+					{product.comments.map((comment) => (
+						<CommentReview comment={comment} key={comment._id} />
+					))}
+					{/* <CommentReview />
+					<CommentReview /> */}
 				</div>
 			</div>
 		</section>
