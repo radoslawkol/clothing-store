@@ -9,6 +9,7 @@ export default function MenuMobileItem({ category }) {
 	const unrollHandler = () => {
 		setTabIsOpen((prev) => !prev);
 	};
+
 	return (
 		<li>
 			<div
