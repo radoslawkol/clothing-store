@@ -3,6 +3,7 @@ import Link from "next/link";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 export default function SearchingResults({
 	searchWord,
@@ -10,6 +11,7 @@ export default function SearchingResults({
 }) {
 	const [results, setResults] = useState([]);
 	const router = useRouter();
+	const { user } = useSelector((store) => store);
 
 	const getResult = async () => {
 		try {
@@ -41,6 +43,19 @@ export default function SearchingResults({
 		};
 	});
 
+	const addToHistoryhandler = async (productId) => {
+		try {
+			const { data } = await axios.patch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/addToSearchHistory`,
+				{ id: user._id, productId }
+			);
+
+			console.log(data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	if (results.length > 0) {
 		return (
 			<div className='flex gap-2 flex-wrap mt-2'>
@@ -49,7 +64,10 @@ export default function SearchingResults({
 						key={i}
 						href={`/${result.gender}/${result.category}/${result.productCategory}/${result.slug}`}
 					>
-						<button className='text-primary-key'>
+						<button
+							className='text-primary-key'
+							onClick={() => addToHistoryhandler(result._id)}
+						>
 							<Image src={result.image[0]} height={60} width={40} />
 							<div className='flex flex-col'>
 								<strong className='font-light'>{result.title}</strong>
