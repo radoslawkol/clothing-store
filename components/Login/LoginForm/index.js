@@ -10,6 +10,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const validationSchema = yup.object({
 	email: yup
@@ -50,6 +52,7 @@ export default function LoginForm() {
 			}
 		} catch (err) {
 			console.log(err);
+			toast.error(err.response.data.message);
 		}
 	};
 	return (

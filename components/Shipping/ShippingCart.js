@@ -5,10 +5,10 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { getCartFromCookies } from "../../reducers/cartReducer";
 import axios from "axios";
-import { toast } from "react-toastify";
 
-export default function ShippingCart({ addOrderHandler }) {
+export default function ShippingCart({ isShippingFormValid, addOrderHandler }) {
 	const dispatch = useDispatch();
+
 	const { totalPrice, cartItems, deliveryCost, totalCost, discount } =
 		useSelector((store) => store.cart);
 
@@ -60,6 +60,7 @@ export default function ShippingCart({ addOrderHandler }) {
 					</li>
 				</ul>
 				<PayPalButtons
+					disabled={!isShippingFormValid}
 					createOrder={async () => {
 						try {
 							const { data } = await axios.post(
@@ -74,8 +75,10 @@ export default function ShippingCart({ addOrderHandler }) {
 					onApprove={(data, actions) => {
 						console.log(data);
 						actions.order.capture();
-						toast.success("Thank you for your purchase.");
 						addOrderHandler();
+					}}
+					onCancel={(data, actions) => {
+						console.log("Payment canceled");
 					}}
 					style={{ layout: "horizontal", tagline: false }}
 				/>

@@ -1,25 +1,35 @@
-import React, { useEffect } from "react";
-import deliverTruckIcon from "../../images/delivery-truck.png";
+import React from "react";
 import Image from "next/image";
+import deliverTruckIcon from "../../images/delivery-truck.png";
+import validationSchema from "../../utils/AddressFormValidSchema";
 import LoginLabel from "../Login/LoginLabel";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch, useSelector } from "react-redux";
-import { addAddress } from "../../reducers/addressReducer";
-import Cookies from "js-cookie";
-import validationSchema from "../../utils/AddressFormValidSchema";
-import ButtonPrimary from "../../utils/ButtonPrimary";
+import { useSelector } from "react-redux";
 
-export default function AddressForm({ setIsShippingFormValid }) {
-	const dispatch = useDispatch();
+export default function AccountDeliveryAddress() {
 	const { address } = useSelector((store) => store);
+	const formOnChangeHandler2 = () => {
+		trigger();
+		console.log(isDirty);
+		console.log(getValues());
+		console.log(`valid: ${formState.isValid}`);
+		console.log(errors);
+		setIsShippingFormValid(formState.isValid);
+		setShippingFormData(getValues());
+		dispatch(addAddress(getValues()));
+		Cookies.set("address", JSON.stringify(getValues()));
+	};
 	const {
 		register,
 		handleSubmit,
+		trigger,
+		formState,
 		getValues,
-		formState: { errors },
+		formState: { errors, isDirty },
 	} = useForm({
-		mode: "onChange",
+		mode: "all",
+		reValidateMode: "onChange",
 		defaultValues: {
 			firstName: address.firstName ? address.firstName : "",
 			lastName: address.lastName ? address.lastName : "",
@@ -33,21 +43,15 @@ export default function AddressForm({ setIsShippingFormValid }) {
 		},
 		resolver: yupResolver(validationSchema),
 	});
-
-	const submitHandler = () => {
-		setIsShippingFormValid(true);
-		dispatch(addAddress(getValues()));
-		Cookies.set("address", JSON.stringify(getValues()));
-	};
 	return (
 		<section>
-			<div className='mb-8 flex items-center gap-1 mx-4 mt-6'>
+			<div className='mb-2 flex items-center gap-1 mx-4'>
 				<h1 className='text-2xl tracking-wide'>Shipping</h1>
 				<Image src={deliverTruckIcon} width={50} height={50} />
 			</div>
 			<form
 				className='sm:w-[450px] flex flex-col justify-center items-center gap-4 p-4'
-				onSubmit={handleSubmit(submitHandler)}
+				onChange={formOnChangeHandler2}
 			>
 				<LoginLabel
 					type='text'
@@ -117,6 +121,7 @@ export default function AddressForm({ setIsShippingFormValid }) {
 				</div>
 				<div className='w-full grid grid-cols-2 gap-2'>
 					<select
+						onChange={formOnChangeHandler2}
 						{...register("state")}
 						name='state'
 						id='state'
@@ -136,7 +141,6 @@ export default function AddressForm({ setIsShippingFormValid }) {
 						register={register}
 					/>
 				</div>
-				<ButtonPrimary width={"full"}>Confirm</ButtonPrimary>
 			</form>
 		</section>
 	);

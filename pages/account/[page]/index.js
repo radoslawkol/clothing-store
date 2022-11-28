@@ -14,7 +14,6 @@ export default function AccountPage() {
 	const { user } = useSelector((store) => store);
 	const { page } = router.query;
 	const [activePage, setActivePage] = useState("details");
-	const [userData, setUserData] = useState({});
 
 	useEffect(() => {
 		setActivePage(page);
@@ -42,12 +41,12 @@ export default function AccountPage() {
 
 	return (
 		<div className='mt-6'>
-			<h1 className='lg:p-6 lg:text-3xl ml-2 mb-4 text-primary-key text-xl font-bold'>
+			<h1 className='lg:p-6 lg:text-3xl ml-2 mb-4 text-primary-key text-xl font-bold '>
 				My Account
 			</h1>
-			<div className='flex'>
+			<div className='flex '>
 				<AccountSidebar />
-				<AccountContent activePage={activePage} user={userData} />
+				<AccountContent activePage={activePage} />
 			</div>
 		</div>
 	);

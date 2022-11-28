@@ -18,7 +18,7 @@ export default function LoginLabel({
 			>
 				<InputIcon icon={icon} />
 				<input
-					{...register(name)}
+					{...register(name, { shouldUnregister: true })}
 					type={type}
 					placeholder={placeholder}
 					id={id}

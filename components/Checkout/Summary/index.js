@@ -3,14 +3,22 @@ import ButtonPrimary from "../../../utils/ButtonPrimary";
 import Discount from "../Discount";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 export default function Summary({
 	totalPrice,
 	totalCost,
 	deliveryCost,
 	discount,
+	areProductsInBag,
 }) {
 	const [isDiscountApplied, setIsDiscountApplied] = useState(false);
+	const { user } = useSelector((store) => store);
+	const checkoutBtnHandler = () => {
+		!areProductsInBag && toast.error("Add products to bag to continue.");
+		!user && toast.error("Create an account or log in to buy products.");
+	};
 
 	return (
 		<div className='mt-8 lg:mt-0 p-4 sm:w-3/4 lg:w-[30%] lg:bg-primary mx-auto lg:pt-24 xl:px-16'>
@@ -28,13 +36,17 @@ export default function Summary({
 				)}
 				<hr />
 				<li className='flex justify-between uppercase font-bold'>
-					Total amount <span>${totalCost}</span>
+					Total amount <span>${totalCost.toFixed(2)}</span>
 				</li>
 			</ul>
-
-			<ButtonPrimary width='full' href='/shipping'>
-				Checkout
-			</ButtonPrimary>
+			<div onClick={checkoutBtnHandler}>
+				<ButtonPrimary
+					width='full'
+					href={areProductsInBag ? "/shipping" : "/checkout"}
+				>
+					Checkout
+				</ButtonPrimary>
+			</div>
 
 			<Discount
 				setIsDiscountApplied={setIsDiscountApplied}

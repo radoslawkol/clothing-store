@@ -1,5 +1,6 @@
 import mongoose, { Schema, model, models, mongo, Mongoose } from "mongoose";
 import slugify from "slugify";
+import Comment from "./Comment";
 
 const productSchema = Schema(
 	{

@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
 	calculateTotals,
-	addCartToCookies,
 	getCartFromCookies,
 } from "../../reducers/cartReducer";
 
@@ -37,6 +36,7 @@ export default function Checkout() {
 				totalCost={totalCost}
 				deliveryCost={deliveryCost}
 				discount={discount}
+				areProductsInBag={cartItems.length > 0 ? true : false}
 			/>
 		</div>
 	);

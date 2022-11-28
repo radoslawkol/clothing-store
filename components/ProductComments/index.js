@@ -34,13 +34,13 @@ export default function ProductComments({ product }) {
 						</button>
 					</Link>
 				)}
-				<div className='flex flex-col gap-4 '>
-					{product.comments.length > 0}
-					{product.comments.map((comment) => (
-						<CommentReview comment={comment} key={comment._id} />
-					))}
-					{/* <CommentReview />
-					<CommentReview /> */}
+				<div className='flex flex-col gap-4 overflow-auto max-h-[400px]'>
+					{product.comments.length > 0 &&
+						product.comments
+							.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+							.map((comment) => (
+								<CommentReview comment={comment} key={comment._id} />
+							))}
 				</div>
 			</div>
 		</section>

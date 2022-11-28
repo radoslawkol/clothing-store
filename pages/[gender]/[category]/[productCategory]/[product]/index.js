@@ -1,10 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ProductDetail from "../../../../../components/ProductDetail";
-import ProductComments from "../../../../../components/ProductComments";
 import ReactDOM from "react-dom";
 import AddToBagModal from "../../../../../components/AddToBagModal";
-import product from "../../../../../sanity/schemas/product";
 
 export default function ProductPage({ product }) {
 	const [addToBagModalVisible, setAddToBagModalVisible] = useState(false);

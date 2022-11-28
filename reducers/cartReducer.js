@@ -29,6 +29,7 @@ const cartSlice = createSlice({
 			state.cartItems = state.cartItems.filter(
 				(item) => item.index !== payload.index
 			);
+			Cookies.set("cart", JSON.stringify(state));
 		},
 		increase: (state, { payload }) => {
 			console.log(payload);
@@ -65,15 +66,15 @@ const cartSlice = createSlice({
 			if (total !== 0) {
 				state.totalCost = total + deliveryCost;
 			}
+			if (state.cartItems.length === 0) {
+				state.totalCost = 0;
+			}
 		},
 		calculateDiscount: (state, { payload }) => {
 			const totalPrice = state.totalPrice;
 			state.discount = payload / 100;
-			state.totalCost = (
-				totalPrice -
-				(totalPrice * payload) / 100 +
-				state.deliveryCost
-			).toFixed(2);
+			state.totalCost =
+				totalPrice - (totalPrice * payload) / 100 + state.deliveryCost;
 		},
 		addCartToCookies: (state) => {
 			Cookies.set("cart", JSON.stringify(state));

@@ -1,5 +1,6 @@
 import connectDB from "../../../../database/connectDB";
 import Product from "../../../../database/models/Product";
+import Comment from "../../../../database/models/Comment";
 
 const product = async (req, res) => {
 	req.userId;
@@ -16,14 +17,32 @@ const product = async (req, res) => {
 				});
 			}
 
-			const product = await Product.findOne({ slug }).populate({
+			const product = await Product.findOne({ slug });
+
+			if (!product) {
+				return res.status(404).json({
+					status: "fail",
+					message: "Product was not found.",
+				});
+			}
+
+			await product.populate({
 				path: "comments",
 				populate: {
 					path: "user",
+					select: "firstName lastName",
 				},
 			});
+			let avgRating = 0;
+			let result = 0;
 
-			console.log(product);
+			if (product.comments.length > 0) {
+				product.comments.forEach((comment) => {
+					console.log(comment);
+					result += comment.rating;
+				});
+				avgRating = result / product.comments.length;
+			}
 
 			if (!product) {
 				res.status(404).json({
@@ -34,7 +53,10 @@ const product = async (req, res) => {
 
 			res.status(200).json({
 				status: "success",
-				product,
+				product: {
+					...product.toObject(),
+					avgRating,
+				},
 			});
 		}
 	} catch (err) {

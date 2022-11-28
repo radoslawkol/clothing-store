@@ -8,7 +8,12 @@ import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import ProductComments from "../ProductComments";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, addCartToCookies } from "../../reducers/cartReducer";
+import {
+	addItem,
+	addCartToCookies,
+	calculateTotals,
+	getCartFromCookies,
+} from "../../reducers/cartReducer";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
@@ -18,6 +23,9 @@ import {
 	addFavourite,
 	removeFavourite,
 } from "../../reducers/favouritesReducer";
+import ProductReviews from "./ProductReviews";
+import ReviewStars from "../ProductComments/ReviewStars";
+import Cookies from "js-cookie";
 
 export default function ProductDetail({ product, setAddToBagModalVisible }) {
 	const router = useRouter();
@@ -50,7 +58,7 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 		setIsFavourite(product.isFavourite);
 	}, [product.isFavourite]);
 
-	const addToBagHandler = () => {
+	const addToBagHandler = async () => {
 		const itemIndex = `${Math.floor(Math.random() * 1000000)}-${size}-${
 			product._id
 		}`;
@@ -64,9 +72,10 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 				comments: undefined,
 			};
 
-			dispatch(addItem(newCart));
+			await dispatch(addItem(newCart));
+			await dispatch(calculateTotals());
 			setAddToBagModalVisible(true);
-			dispatch(addCartToCookies(newCart));
+			dispatch(addCartToCookies());
 		} else {
 			if (!toast.isActive(toastId.current)) {
 				toast.error("Choose size you want to order.", {
@@ -77,10 +86,13 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 	};
 
 	const favouriteHandler = async () => {
-		const { data } = await axios.patch(`http://localhost:3000/api/favourites`, {
-			userId: user._id,
-			favouriteProductId: product._id,
-		});
+		const { data } = await axios.patch(
+			`${process.env.NEXT_PUBLIC_BASE_URL}/api/favourites`,
+			{
+				userId: user._id,
+				favouriteProductId: product._id,
+			}
+		);
 
 		if (data.operation === "added") {
 			setIsFavourite(true);
@@ -102,8 +114,8 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 					<h1 className='mb-2 font-bold uppercase lg:text-xl'>
 						{product.title}
 					</h1>
+					<ReviewStars rating={product.avgRating} />
 					<span>${product.price}</span>
-					{/* <ProductReviews /> */}
 					<ProductCouponInfo />
 					<span>status: {inStock}</span>
 					<span>color: {product.color}</span>

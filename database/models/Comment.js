@@ -1,9 +1,11 @@
 import { Schema, model, models } from "mongoose";
+import User from "../models/User";
 
 const commentSchema = Schema(
 	{
 		user: {
 			type: Schema.Types.ObjectId,
+			ref: "User",
 			required: true,
 		},
 		rating: {

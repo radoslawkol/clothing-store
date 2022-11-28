@@ -1,14 +1,18 @@
 import connectDB from "../../../database/connectDB";
 import Order from "../../../database/models/Order";
+import mongoose from "mongoose";
 
 const orders = async (req, res) => {
 	try {
 		await connectDB();
 
 		if (req.method === "POST") {
+			console.log(req.body);
 			const {
 				userId,
 				products,
+				total,
+				deliveryCost,
 				amount,
 				firstName,
 				lastName,
@@ -24,6 +28,8 @@ const orders = async (req, res) => {
 			const order = await Order.create({
 				userId,
 				products,
+				total,
+				deliveryCost,
 				amount,
 				deliveryAddress: {
 					firstName,
@@ -44,20 +50,33 @@ const orders = async (req, res) => {
 			});
 		}
 		if (req.method === "GET") {
-			const { orderId } = req.query;
+			const { userId } = req.query;
 
-			const order = await Order.findById(orderId);
+			const orders = await Order.find({ userId });
+			const ordersInfo = await Order.aggregate([
+				{ $match: { userId: mongoose.Types.ObjectId(userId) } },
 
-			if (!order) {
-				res.status(404).json({
+				{
+					$group: {
+						_id: "_id",
+						total: { $sum: "$total" },
+						totalShippingCost: { $sum: "$deliveryCost" },
+						ordersAmount: { $sum: 1 },
+					},
+				},
+			]);
+
+			if (orders.length < 1) {
+				return res.status(404).json({
 					status: "fail",
-					message: "Order with that ID does not exist.",
+					message: "Orders not found.",
 				});
 			}
 
 			res.status(200).json({
 				status: "success",
-				order,
+				orders,
+				ordersInfo: ordersInfo[0],
 			});
 		}
 	} catch (err) {

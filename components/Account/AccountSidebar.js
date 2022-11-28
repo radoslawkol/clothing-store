@@ -46,12 +46,7 @@ export default function AccountSidebar() {
 						<span className='hidden md:block'>Favourites</span>
 					</li>
 				</Link>
-				<Link href='/account/settings'>
-					<li className='flex items-center gap-1 text-primary-key bg-primary rounded-full p-1 cursor-pointer hover:bg-secondary duration-300'>
-						<Cog8ToothIcon className='text-primary-key w-6 h-6' />
-						<span className='hidden md:block'>Settings</span>
-					</li>
-				</Link>
+
 				<button
 					className='flex items-center gap-1 text-primary-key bg-primary rounded-full p-1 cursor-pointer hover:bg-secondary duration-300'
 					onClick={logoutHandler}
