@@ -3,7 +3,7 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import { useEffect } from "react";
-import { getCartFromCookies } from "../../reducers/cartReducer";
+import { addCartItems, getCartFromCookies } from "../../reducers/cartReducer";
 import axios from "axios";
 
 export default function ShippingCart({ isShippingFormValid, addOrderHandler }) {
@@ -14,6 +14,10 @@ export default function ShippingCart({ isShippingFormValid, addOrderHandler }) {
 
 	useEffect(() => {
 		dispatch(getCartFromCookies());
+		const data = JSON.parse(localStorage.getItem("cart"));
+		if (data) {
+			dispatch(addCartItems(data));
+		}
 	}, []);
 
 	return (
@@ -23,7 +27,7 @@ export default function ShippingCart({ isShippingFormValid, addOrderHandler }) {
 				{cartItems.map((item) => (
 					<article
 						className='  flex items-center justify-between gap-2 shadow-md pr-4'
-						key={item._id}
+						key={item.index}
 					>
 						<div className='relative w-16 h-20'>
 							<Image
@@ -56,7 +60,7 @@ export default function ShippingCart({ isShippingFormValid, addOrderHandler }) {
 					)}
 					<hr />
 					<li className='flex justify-between uppercase font-bold'>
-						Total amount <span>${totalCost}</span>
+						Total amount <span>${totalCost.toFixed(2)}</span>
 					</li>
 				</ul>
 				<PayPalButtons

@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import {
 	calculateTotals,
 	getCartFromCookies,
+	addCartItems,
 } from "../../reducers/cartReducer";
 
 export default function Checkout() {
@@ -15,7 +16,11 @@ export default function Checkout() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getCartFromCookies());
+		// dispatch(getCartFromCookies());
+		const data = JSON.parse(localStorage.getItem("cart"));
+		if (data) {
+			dispatch(addCartItems(data));
+		}
 	}, []);
 
 	useEffect(() => {

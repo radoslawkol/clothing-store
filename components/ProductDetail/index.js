@@ -75,7 +75,8 @@ export default function ProductDetail({ product, setAddToBagModalVisible }) {
 			await dispatch(addItem(newCart));
 			await dispatch(calculateTotals());
 			setAddToBagModalVisible(true);
-			dispatch(addCartToCookies());
+			// dispatch(addCartToCookies());
+			// localStorage.setItem("cart", JSON.stringify(newCart));
 		} else {
 			if (!toast.isActive(toastId.current)) {
 				toast.error("Choose size you want to order.", {

@@ -1,21 +1,11 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import { useRef } from "react";
-import { useEffect, useState } from "react";
-import FilterModal from "../FilterModal";
 
 export default function ToolbarMobile({ setViewHandler, productsCount }) {
-	const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-	const [modalRoot, setModalRoot] = useState();
 	const basicView = 1;
 	const optionalView = 2;
 	const viewRef1 = useRef();
 	const viewRef2 = useRef();
-
-	useEffect(() => {
-		setModalRoot(document.getElementById("modal-root"));
-	}, []);
 
 	const viewHandler = (num) => {
 		setViewHandler(num);
@@ -29,14 +19,7 @@ export default function ToolbarMobile({ setViewHandler, productsCount }) {
 	};
 
 	return (
-		<div className='flex justify-between items-center text-primary-key mt-4'>
-			<div
-				className='flex gap-1 items-center cursor-pointer hover:font-bold duration-400'
-				onClick={() => setIsFiltersOpen(true)}
-			>
-				<AdjustmentsHorizontalIcon className='w-6 h-6' />
-				<span className='uppercase text-sm'>Filters</span>
-			</div>
+		<div className='flex justify-between items-center text-primary-key mt-4 px-2'>
 			<span className='text-sm '>{productsCount} products</span>
 			<p className='text-sm'>
 				View &nbsp;
@@ -55,11 +38,6 @@ export default function ToolbarMobile({ setViewHandler, productsCount }) {
 					{optionalView}
 				</span>
 			</p>
-			{isFiltersOpen &&
-				ReactDOM.createPortal(
-					<FilterModal setIsFiltersOpen={setIsFiltersOpen} />,
-					modalRoot
-				)}
 		</div>
 	);
 }
