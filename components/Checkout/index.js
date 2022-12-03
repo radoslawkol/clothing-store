@@ -4,11 +4,7 @@ import CheckoutHeader from "./CheckoutHeader";
 import Summary from "./Summary";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import {
-	calculateTotals,
-	getCartFromCookies,
-	addCartItems,
-} from "../../reducers/cartReducer";
+import { calculateTotals, addCartItems } from "../../reducers/cartReducer";
 
 export default function Checkout() {
 	const { cartItems, totalPrice, totalCost, deliveryCost, discount } =
@@ -16,7 +12,6 @@ export default function Checkout() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		// dispatch(getCartFromCookies());
 		const data = JSON.parse(localStorage.getItem("cart"));
 		if (data) {
 			dispatch(addCartItems(data));

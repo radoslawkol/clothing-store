@@ -4,7 +4,10 @@ import Discount from "../Discount";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Summary({
 	totalPrice,
@@ -14,10 +17,56 @@ export default function Summary({
 	areProductsInBag,
 }) {
 	const [isDiscountApplied, setIsDiscountApplied] = useState(false);
-	const { user } = useSelector((store) => store);
+	const { user, cart } = useSelector((store) => store);
+	const [cartItems, setCartItems] = useState([]);
+	const router = useRouter();
+
+	useEffect(() => {
+		setIsDiscountApplied(cart.discount ? true : false);
+		const items = cart.cartItems.map((item) => {
+			return {
+				product: item._id,
+				quantity: item.quantity,
+			};
+		});
+		setCartItems(items);
+	}, [cart]);
+
+	const createCart = async () => {
+		try {
+			const { data } = await axios.post(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
+				{
+					cartItems,
+					discount: cart.discount,
+				},
+				{
+					headers: {
+						authorization: `Bearer ${user.token}`,
+					},
+				}
+			);
+
+			console.log(data);
+
+			if (data.status === "success") {
+				router.push("/shipping");
+			} else {
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	const checkoutBtnHandler = () => {
-		!areProductsInBag && toast.error("Add products to bag to continue.");
-		!user && toast.error("Create an account or log in to buy products.");
+		if (user && areProductsInBag) {
+			createCart();
+		} else if (!user) {
+			toast.error("Create an account or log in to buy products.");
+			router.push("/login");
+		} else if (!areProductsInBag) {
+			toast.error("Add products to bag to continue.");
+		}
 	};
 
 	return (
@@ -40,12 +89,7 @@ export default function Summary({
 				</li>
 			</ul>
 			<div onClick={checkoutBtnHandler}>
-				<ButtonPrimary
-					width='full'
-					href={areProductsInBag ? "/shipping" : "/checkout"}
-				>
-					Checkout
-				</ButtonPrimary>
+				<ButtonPrimary width='full'>Checkout</ButtonPrimary>
 			</div>
 
 			<Discount

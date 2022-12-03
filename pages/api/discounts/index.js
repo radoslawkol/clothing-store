@@ -42,7 +42,7 @@ const discounts = async (req, res) => {
 			const code = await DiscountCode.findOne({}, {}, { sort: "asc" });
 
 			if (code) {
-				res.status(200).json({
+				return res.status(200).json({
 					status: "success",
 					code,
 				});

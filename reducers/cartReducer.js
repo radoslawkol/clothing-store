@@ -67,7 +67,7 @@ const cartSlice = createSlice({
 			state.totalPrice = total;
 			state.amount = amount;
 			if (total !== 0) {
-				state.totalCost = total + deliveryCost;
+				state.totalCost = total - total * state.discount + deliveryCost;
 			}
 			if (state.cartItems.length === 0) {
 				state.totalCost = 0;

@@ -78,7 +78,7 @@ export default function ProductCard({
 				<TrashIcon className='w-4 h-4 text-primary-key' />
 			</button>
 			<strong className='absolute bottom-2 right-2 text-primary-key'>
-				${totalPrice}
+				${totalPrice.toFixed(2)}
 			</strong>
 		</article>
 	);

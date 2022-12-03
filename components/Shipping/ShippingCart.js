@@ -8,16 +8,36 @@ import axios from "axios";
 
 export default function ShippingCart({ isShippingFormValid, addOrderHandler }) {
 	const dispatch = useDispatch();
+	const { user } = useSelector((store) => store);
 
 	const { totalPrice, cartItems, deliveryCost, totalCost, discount } =
 		useSelector((store) => store.cart);
 
+	const getCartFromDb = async () => {
+		try {
+			const { data } = await axios.get(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
+				{
+					headers: {
+						authorization: `Bearer ${user.token}`,
+					},
+				}
+			);
+
+			console.log(data);
+
+			if (data.status === "success") {
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	useEffect(() => {
 		dispatch(getCartFromCookies());
-		const data = JSON.parse(localStorage.getItem("cart"));
-		if (data) {
-			dispatch(addCartItems(data));
-		}
+		// const data = JSON.parse(localStorage.getItem("cart"));
+
+		getCartFromDb();
 	}, []);
 
 	return (
@@ -69,7 +89,13 @@ export default function ShippingCart({ isShippingFormValid, addOrderHandler }) {
 						try {
 							const { data } = await axios.post(
 								`${process.env.NEXT_PUBLIC_BASE_URL}/api/keys/paypal`,
-								{ value: totalCost }
+								{},
+								{
+									headers: {
+										authorization: `Bearer ${user.token}`,
+									},
+								}
+								// { value: totalCost }
 							);
 							return data.id;
 						} catch (err) {
