@@ -1,6 +1,7 @@
 import paypal from "@paypal/checkout-server-sdk";
 import jwt from "jsonwebtoken";
 import Cart from "../../../database/models/Cart";
+import { countTotals } from "../cart/index";
 
 let clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
 let clientSecret = process.env.NEXT_PUBLIC_PAYPAL_SECRET;
@@ -11,7 +12,6 @@ let client = new paypal.core.PayPalHttpClient(environment);
 export default async function handler(req, res) {
 	try {
 		if (req.method === "POST") {
-			// const { value } = req.body;
 			const { authorization } = req.headers;
 
 			if (!authorization) {
@@ -22,9 +22,13 @@ export default async function handler(req, res) {
 			}
 			const token = authorization.split(" ")[1];
 
-			const userId = jwt.verify(token, process.env.JWT_SECRET_KEY);
+			const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-			const cart = await Cart.findOne({ user: userId }).select();
+			const cart = await Cart.findOne({ user: id }).populate({
+				path: "cartItems.product",
+				select: "_id title price size color image inStock",
+			});
+			const { totalCost } = await countTotals(cart);
 
 			let request = new paypal.orders.OrdersCreateRequest();
 			request.requestBody({
@@ -33,7 +37,7 @@ export default async function handler(req, res) {
 					{
 						amount: {
 							currency_code: "USD",
-							value,
+							value: totalCost,
 						},
 					},
 				],

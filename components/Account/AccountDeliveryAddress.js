@@ -9,27 +9,11 @@ import { useSelector } from "react-redux";
 
 export default function AccountDeliveryAddress() {
 	const { address } = useSelector((store) => store);
-	const formOnChangeHandler2 = () => {
-		trigger();
-		console.log(isDirty);
-		console.log(getValues());
-		console.log(`valid: ${formState.isValid}`);
-		console.log(errors);
-		setIsShippingFormValid(formState.isValid);
-		setShippingFormData(getValues());
-		dispatch(addAddress(getValues()));
-		Cookies.set("address", JSON.stringify(getValues()));
-	};
 	const {
 		register,
-		handleSubmit,
-		trigger,
-		formState,
-		getValues,
-		formState: { errors, isDirty },
+		formState: { errors },
 	} = useForm({
-		mode: "all",
-		reValidateMode: "onChange",
+		mode: "onSubmit",
 		defaultValues: {
 			firstName: address.firstName ? address.firstName : "",
 			lastName: address.lastName ? address.lastName : "",
@@ -49,11 +33,9 @@ export default function AccountDeliveryAddress() {
 				<h1 className='text-2xl tracking-wide'>Shipping</h1>
 				<Image src={deliverTruckIcon} width={50} height={50} />
 			</div>
-			<form
-				className='sm:w-[450px] flex flex-col justify-center items-center gap-4 p-4'
-				onChange={formOnChangeHandler2}
-			>
+			<form className='sm:w-[450px] flex flex-col justify-center items-center gap-4 p-4'>
 				<LoginLabel
+					isDisabled={true}
 					type='text'
 					icon='UserIcon'
 					name='firstName'
@@ -63,6 +45,7 @@ export default function AccountDeliveryAddress() {
 					register={register}
 				/>
 				<LoginLabel
+					isDisabled={true}
 					type='text'
 					icon='UserIcon'
 					name='lastName'
@@ -73,6 +56,7 @@ export default function AccountDeliveryAddress() {
 				/>
 
 				<LoginLabel
+					isDisabled={true}
 					type='text'
 					icon='EnvelopeIcon'
 					name='email'
@@ -82,6 +66,7 @@ export default function AccountDeliveryAddress() {
 					register={register}
 				/>
 				<LoginLabel
+					isDisabled={true}
 					type='text'
 					icon='PhoneIcon'
 					name='phoneNumber'
@@ -91,6 +76,7 @@ export default function AccountDeliveryAddress() {
 					register={register}
 				/>
 				<LoginLabel
+					isDisabled={true}
 					type='text'
 					icon='HomeIcon'
 					name='streetAddress'
@@ -101,6 +87,7 @@ export default function AccountDeliveryAddress() {
 				/>
 				<div className='w-full grid grid-cols-2 gap-2'>
 					<LoginLabel
+						isDisabled={true}
 						type='text'
 						icon='BuildingOffice2Icon'
 						name='apt'
@@ -110,6 +97,7 @@ export default function AccountDeliveryAddress() {
 						register={register}
 					/>
 					<LoginLabel
+						isDisabled={true}
 						type='text'
 						icon='BuildingOffice2Icon'
 						name='postalCode'
@@ -121,7 +109,7 @@ export default function AccountDeliveryAddress() {
 				</div>
 				<div className='w-full grid grid-cols-2 gap-2'>
 					<select
-						onChange={formOnChangeHandler2}
+						disabled={true}
 						{...register("state")}
 						name='state'
 						id='state'
@@ -132,6 +120,7 @@ export default function AccountDeliveryAddress() {
 						<option value='uk'>United Kingdom</option>
 					</select>
 					<LoginLabel
+						isDisabled={true}
 						type='text'
 						icon='BuildingOffice2Icon'
 						name='city'

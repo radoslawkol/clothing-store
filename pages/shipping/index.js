@@ -12,21 +12,58 @@ import { removeItem } from "../../reducers/cartReducer";
 export default function ShippingPage() {
 	const router = useRouter();
 	const dispatch = useDispatch();
-	const { user, cart, address } = useSelector((store) => store);
+	const { user, address } = useSelector((store) => store);
 	const [isShippingFormValid, setIsShippingFormValid] = useState(false);
 
+	const [cart, setCart] = useState({
+		totalPrice: 0,
+		cartItems: [],
+		deliveryCost: 0,
+		totalCost: 0,
+		discount: 0,
+		amount: 0,
+	});
+
+	const getCartFromDb = async () => {
+		try {
+			const { data } = await axios.get(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
+				{
+					headers: {
+						authorization: `Bearer ${user.token}`,
+					},
+				}
+			);
+
+			console.log(data);
+
+			if (data.status === "success") {
+				setCart({
+					totalPrice: data.cart.totalPrice,
+					cartItems: data.cart.cartItems,
+					deliveryCost: data.cart.deliveryCost,
+					totalCost: data.cart.totalCost,
+					discount: data.cart.discount,
+					amount: data.cart.amount,
+				});
+			}
+		} catch (err) {
+			console.log(err);
+			toast.error("Try again later.");
+			router.push("/checkout");
+		}
+	};
+
+	useEffect(() => {
+		getCartFromDb();
+	}, []);
+
 	const addOrderHandler = async () => {
-		console.log(address);
-		console.log(cart);
 		try {
 			const { data } = await axios.post(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/api/orders`,
 				{
 					userId: user._id,
-					products: cart.cartItems,
-					total: cart.totalCost,
-					deliveryCost: cart.deliveryCost,
-					amount: cart.amount,
 					firstName: address?.firstName,
 					lastName: address?.lastName,
 					email: address?.email,
@@ -39,6 +76,8 @@ export default function ShippingPage() {
 				}
 			);
 
+			console.log(data);
+
 			if (data.status === "success") {
 				toast.success("Thank you for your purchase.");
 				router.push("/account/orders");
@@ -47,18 +86,16 @@ export default function ShippingPage() {
 				});
 			}
 		} catch (err) {
-			console.log(err.message);
+			console.log(err);
 		}
 	};
 
 	return (
 		<div className='p-2 sm:flex  justify-center'>
 			<div className='lg:flex lg:w-full lg:justify-center lg:gap-6 xl:gap-20 min-h-[90vh]'>
-				<AddressForm
-					// setShippingFormData={setShippingFormData}
-					setIsShippingFormValid={setIsShippingFormValid}
-				/>
+				<AddressForm setIsShippingFormValid={setIsShippingFormValid} />
 				<ShippingCart
+					cart={cart}
 					addOrderHandler={addOrderHandler}
 					isShippingFormValid={isShippingFormValid}
 				/>

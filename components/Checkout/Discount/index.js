@@ -6,8 +6,14 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { calculateDiscount } from "../../../reducers/cartReducer";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
-export default function Discount({ setIsDiscountApplied, isDiscountApplied }) {
+export default function Discount({
+	setIsDiscountApplied,
+	isDiscountApplied,
+	setDiscountCode,
+	discountCode,
+}) {
 	const dispatch = useDispatch();
 	const [code, setCode] = useState("");
 	const toastId = useRef();
@@ -15,15 +21,21 @@ export default function Discount({ setIsDiscountApplied, isDiscountApplied }) {
 
 	const discountHandler = async () => {
 		try {
+			console.log(code);
 			const { data } = await axios.get(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/api/discounts?code=${code}`
 			);
 			console.log(data);
 
 			if (data.status === "success") {
-				setCode(data.code);
+				setDiscountCode(data.code);
 				setIsDiscountApplied(true);
-				dispatch(calculateDiscount(data.discount));
+				dispatch(
+					calculateDiscount({
+						discount: data.discount,
+						discountCode: data.code,
+					})
+				);
 
 				if (!toast.isActive(toastId.current)) {
 					toast.success("Discount code successfully added.", {
@@ -50,7 +62,7 @@ export default function Discount({ setIsDiscountApplied, isDiscountApplied }) {
 					ref={codeRef}
 					onChange={(e) => setCode(e.target.value)}
 					type='text'
-					placeholder='Discount code'
+					placeholder={discountCode ? discountCode : "Discount Code"}
 					className='border-b focus:outline-none my-4 focus:border-primary-key p-1 rounded-sm'
 				/>
 				{!isDiscountApplied && (

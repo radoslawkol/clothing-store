@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { increase, removeItem, decrease } from "../../../reducers/cartReducer";
 import { useState } from "react";
 import { useEffect } from "react";
-import { addCartToCookies } from "../../../reducers/cartReducer";
 export default function ProductCard({
 	index,
 	title,
@@ -51,7 +50,6 @@ export default function ProductCard({
 						className='text-lg px-1 h-6 bg-primary hover:bg-primary-key duration-300 hover:text-on-primary-key rounded-md'
 						onClick={() => {
 							dispatch(decrease({ index }));
-							dispatch(addCartToCookies());
 						}}
 					>
 						<MinusIcon className='h-3 w-3' />
@@ -61,7 +59,6 @@ export default function ProductCard({
 						className='text-lg px-1 h-6 bg-primary hover:bg-primary-key duration-300 hover:text-on-primary-key rounded-md'
 						onClick={() => {
 							dispatch(increase({ index }));
-							dispatch(addCartToCookies());
 						}}
 					>
 						<PlusIcon className='h-3 w-3' />
@@ -72,7 +69,6 @@ export default function ProductCard({
 				className='absolute top-2 right-2 '
 				onClick={() => {
 					dispatch(removeItem({ index }));
-					dispatch(addCartToCookies());
 				}}
 			>
 				<TrashIcon className='w-4 h-4 text-primary-key' />

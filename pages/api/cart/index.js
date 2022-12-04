@@ -2,9 +2,9 @@ import Cart from "../../../database/models/Cart";
 import connectDB from "../../../database/connectDB";
 import jwt from "jsonwebtoken";
 import Product from "../../../database/models/Product";
+import DiscountCode from "../../../database/models/DiscountCode";
 
-const countTotals = (cart) => {
-	console.log(cart);
+export const countTotals = (cart) => {
 	let amount = 0;
 	let totalPrice = 0;
 	let totalCost = 0;
@@ -29,18 +29,18 @@ const cart = async (req, res) => {
 		await connectDB();
 
 		if (req.method === "POST") {
-			const { cartItems, discount } = req.body;
+			const { cartItems, discountCode } = req.body;
 			const { authorization } = req.headers;
 
-			const token = authorization.split(" ")[1];
-			const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
-			if (!id) {
+			if (!authorization) {
 				return res.status(403).json({
 					status: "fail",
 					message: "You are not authorized to perform this action.",
 				});
 			}
+
+			const token = authorization.split(" ")[1];
+			const { id } = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
 			if (!cartItems) {
 				return res.status(400).json({
@@ -48,12 +48,17 @@ const cart = async (req, res) => {
 					message: "CartItems are required.",
 				});
 			}
+			let discount = 0;
+			if (discountCode) {
+				const code = await DiscountCode.findOne({ code: discountCode });
+				discount = code.discount / 100;
+			}
 
 			const cartHasAlreadyExists = await Cart.findOne({ user: id });
 			if (cartHasAlreadyExists) {
 				const cart = await Cart.findOneAndUpdate(
 					{ user: id },
-					{ cartItems, discount },
+					{ cartItems, discount: discount },
 					{ new: true }
 				);
 
@@ -63,7 +68,11 @@ const cart = async (req, res) => {
 				});
 			}
 
-			const newCart = await Cart.create({ user: id, cartItems, discount });
+			const newCart = await Cart.create({
+				user: id,
+				cartItems,
+				discount: discount,
+			});
 
 			res.status(200).json({
 				status: "success",
@@ -73,6 +82,7 @@ const cart = async (req, res) => {
 		if (req.method === "GET") {
 			const { authorization } = req.headers;
 
+			console.log(authorization);
 			const token = authorization.split(" ")[1];
 
 			if (!token) {
@@ -86,7 +96,7 @@ const cart = async (req, res) => {
 
 			const cart = await Cart.findOne({ user: id }).populate({
 				path: "cartItems.product",
-				select: "_id title price size color image inStock",
+				select: "_id title price size color image inStock sku",
 			});
 
 			const totals = await countTotals(cart);

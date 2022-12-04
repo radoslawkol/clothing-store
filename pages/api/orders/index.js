@@ -1,7 +1,8 @@
 import connectDB from "../../../database/connectDB";
 import Order from "../../../database/models/Order";
 import mongoose from "mongoose";
-
+import Cart from "../../../database/models/Cart";
+import { countTotals } from "../cart";
 const orders = async (req, res) => {
 	try {
 		await connectDB();
@@ -10,10 +11,6 @@ const orders = async (req, res) => {
 			console.log(req.body);
 			const {
 				userId,
-				products,
-				total,
-				deliveryCost,
-				amount,
 				firstName,
 				lastName,
 				email,
@@ -25,12 +22,18 @@ const orders = async (req, res) => {
 				city,
 			} = req.body;
 
+			const cart = await Cart.findOne({ user: userId }).populate({
+				path: "cartItems.product",
+				select: "_id title image color price inStock sku",
+			});
+			const totals = await countTotals(cart);
+
 			const order = await Order.create({
 				userId,
-				products,
-				total,
-				deliveryCost,
-				amount,
+				products: cart.cartItems,
+				total: totals.totalCost,
+				deliveryCost: cart.deliveryCost,
+				amount: totals.amount,
 				deliveryAddress: {
 					firstName,
 					lastName,
@@ -43,6 +46,8 @@ const orders = async (req, res) => {
 					city,
 				},
 			});
+
+			await Cart.deleteOne({ user: userId });
 
 			res.status(200).json({
 				status: "success",

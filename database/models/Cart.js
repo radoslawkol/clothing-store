@@ -19,7 +19,7 @@ const cartSchema = Schema(
 
 		deliveryCost: { type: Number, default: 6 },
 		discount: { type: Number, default: 0 },
-		totalCost: { type: Number, default: 0 },
+		discountCode: { type: String },
 	},
 	{
 		timestamps: true,

@@ -19,6 +19,7 @@ export default function Summary({
 	const [isDiscountApplied, setIsDiscountApplied] = useState(false);
 	const { user, cart } = useSelector((store) => store);
 	const [cartItems, setCartItems] = useState([]);
+	const [discountCode, setDiscountCode] = useState("");
 	const router = useRouter();
 
 	useEffect(() => {
@@ -38,7 +39,7 @@ export default function Summary({
 				`${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
 				{
 					cartItems,
-					discount: cart.discount,
+					discountCode,
 				},
 				{
 					headers: {
@@ -69,6 +70,14 @@ export default function Summary({
 		}
 	};
 
+	useEffect(() => {
+		setDiscountCode(
+			localStorage.getItem("cart")
+				? JSON.parse(localStorage.getItem("cart")).discountCode
+				: ""
+		);
+	}, []);
+
 	return (
 		<div className='mt-8 lg:mt-0 p-4 sm:w-3/4 lg:w-[30%] lg:bg-primary mx-auto lg:pt-24 xl:px-16'>
 			<ul className='flex flex-col gap-2 text-primary-key mb-8'>
@@ -93,6 +102,8 @@ export default function Summary({
 			</div>
 
 			<Discount
+				discountCode={discountCode}
+				setDiscountCode={setDiscountCode}
 				setIsDiscountApplied={setIsDiscountApplied}
 				isDiscountApplied={isDiscountApplied}
 			/>

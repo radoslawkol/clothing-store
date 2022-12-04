@@ -9,6 +9,7 @@ export default function LoginLabel({
 	id,
 	register,
 	errors,
+	isDisabled = false,
 }) {
 	return (
 		<div className='w-full'>
@@ -24,6 +25,7 @@ export default function LoginLabel({
 					id={id}
 					name={name}
 					className='focus:outline-none w-full'
+					disabled={isDisabled}
 				/>
 			</label>
 			<FormErrorMessage>{errors[name]?.message}</FormErrorMessage>

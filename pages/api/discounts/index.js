@@ -27,12 +27,13 @@ const discounts = async (req, res) => {
 			const isCode = await DiscountCode.findOne({ code });
 
 			if (isCode) {
-				res.status("200").json({
+				return res.status("200").json({
 					status: "success",
 					discount: isCode.discount,
+					code: isCode.code,
 				});
 			} else {
-				res.status(400).json({
+				return res.status(400).json({
 					status: "fail",
 					message: "Code does not exists or has expired.",
 				});
@@ -47,7 +48,7 @@ const discounts = async (req, res) => {
 					code,
 				});
 			} else {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "fail",
 					message: "Code not found.",
 				});

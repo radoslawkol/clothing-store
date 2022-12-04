@@ -8,6 +8,7 @@ const initialState = {
 	totalCost: 0,
 	deliveryCost: 6,
 	discount: 0,
+	discountCode: "",
 	isLoading: true,
 };
 
@@ -30,7 +31,6 @@ const cartSlice = createSlice({
 			state.cartItems = state.cartItems.filter(
 				(item) => item.index !== payload.index
 			);
-			// Cookies.set("cart", JSON.stringify(state));
 			localStorage.setItem("cart", JSON.stringify(state));
 		},
 		increase: (state, { payload }) => {
@@ -75,22 +75,19 @@ const cartSlice = createSlice({
 			localStorage.setItem("cart", JSON.stringify(state));
 		},
 		calculateDiscount: (state, { payload }) => {
+			console.log(payload);
+			state.discountCode = payload.discountCode;
 			const totalPrice = state.totalPrice;
-			state.discount = payload / 100;
+			state.discount = payload.discount / 100;
 			state.totalCost =
-				totalPrice - (totalPrice * payload) / 100 + state.deliveryCost;
+				totalPrice - (totalPrice * payload.discount) / 100 + state.deliveryCost;
 			localStorage.setItem("cart", JSON.stringify(state));
-		},
-		addCartToCookies: (state) => {
-			Cookies.set("cart", JSON.stringify(state));
 		},
 		addCartItems: (state, { payload }) => {
 			return payload;
 		},
-		getCartFromCookies: (state) => {
-			if (state.cartItems.length < 1) {
-				return Cookies.get("cart") && JSON.parse(Cookies.get("cart"));
-			}
+		resetCart: (state) => {
+			return initialState;
 		},
 	},
 });
@@ -105,6 +102,7 @@ export const {
 	getCartFromCookies,
 	calculateDiscount,
 	addCartItems,
+	resetCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
