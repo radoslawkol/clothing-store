@@ -1,6 +1,6 @@
 import React from "react";
 import Navigation from "../../components/Navigation";
-import Footer from "../Footer";
+import Footer from "../Footer/index";
 import ButtonUp from "../../utils/ButtonUp";
 
 export default function Layout({ children }) {
