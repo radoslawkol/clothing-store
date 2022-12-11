@@ -35,8 +35,6 @@ export default function ShippingPage() {
 				}
 			);
 
-			console.log(data);
-
 			if (data.status === "success") {
 				setCart({
 					totalPrice: data.cart.totalPrice,
@@ -75,8 +73,6 @@ export default function ShippingPage() {
 					city: address?.city,
 				}
 			);
-
-			console.log(data);
 
 			if (data.status === "success") {
 				toast.success("Thank you for your purchase.");

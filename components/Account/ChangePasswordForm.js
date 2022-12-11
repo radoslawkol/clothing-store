@@ -53,8 +53,6 @@ export default function ChangePasswordForm() {
 				}
 			);
 
-			console.log(data);
-
 			if (data.status === "success") {
 				toast.success("Your password was changed successfully");
 				Cookies.set("user", "");

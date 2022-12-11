@@ -82,7 +82,6 @@ const cart = async (req, res) => {
 		if (req.method === "GET") {
 			const { authorization } = req.headers;
 
-			console.log(authorization);
 			const token = authorization.split(" ")[1];
 
 			if (!token) {
@@ -100,8 +99,6 @@ const cart = async (req, res) => {
 			});
 
 			const totals = await countTotals(cart);
-			console.log(totals);
-
 			res.status(200).json({
 				status: "success",
 				cart: { ...cart.toObject(), ...totals },

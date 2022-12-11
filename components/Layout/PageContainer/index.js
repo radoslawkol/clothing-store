@@ -12,7 +12,7 @@ export default function PageContainer({ products }) {
 	const isMobile = useMediaQuery({
 		query: "(max-width: 767px)",
 	});
-	console.log(isMobile);
+	isMobile;
 
 	useEffect(() => {
 		setIsMobileDevice(isMobile);

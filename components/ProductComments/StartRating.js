@@ -3,7 +3,7 @@ import React from "react";
 
 export default function StartRating({ setRating, rating }) {
 	const ratingChanged = (newRating) => {
-		console.log(newRating);
+		newRating;
 		setRating(newRating);
 	};
 	return (

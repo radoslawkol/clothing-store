@@ -41,12 +41,12 @@ export default function ProductPage({ product }) {
 export async function getStaticPaths() {
 	try {
 		const { data } = await axios.get(
-			"http://localhost:3000/api/products/getPathsParams"
+			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/getPathsParams`
 		);
 
 		const pathsArr = data.productCategories.map((cat) => {
 			const { gender, category, productCategory, slug } = cat._id;
-			console.log(gender, category, productCategory, slug);
+			gender, category, productCategory, slug;
 			return {
 				params: {
 					gender,
@@ -72,8 +72,6 @@ export async function getStaticProps(context) {
 		const { data } = await axios.get(
 			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${product}`
 		);
-
-		console.log(data);
 
 		return {
 			props: {

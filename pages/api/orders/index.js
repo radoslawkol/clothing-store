@@ -8,7 +8,7 @@ const orders = async (req, res) => {
 		await connectDB();
 
 		if (req.method === "POST") {
-			console.log(req.body);
+			req.body;
 			const {
 				userId,
 				firstName,

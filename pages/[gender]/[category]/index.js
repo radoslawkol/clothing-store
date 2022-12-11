@@ -24,10 +24,8 @@ export async function getStaticProps(context) {
 	try {
 		const { gender, category } = context.params;
 		const { data } = await axios.get(
-			`http://localhost:3000/api/products?gender=${gender}&category=${category}`
+			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products?gender=${gender}&category=${category}`
 		);
-		console.log(data);
-
 		return {
 			props: {
 				products: data.products,

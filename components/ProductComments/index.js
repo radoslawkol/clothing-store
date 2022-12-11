@@ -8,7 +8,6 @@ import Link from "next/link";
 
 export default function ProductComments({ product }) {
 	const { user } = useSelector((store) => store);
-	console.log(user);
 	const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
 	useEffect(() => {

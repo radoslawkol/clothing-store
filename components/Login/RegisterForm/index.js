@@ -83,8 +83,6 @@ export default function RegisterForm() {
 				birthDay: +birthDay,
 			});
 
-			console.log(data);
-
 			if (data.status === "success") {
 				router.push("/account");
 				Cookies.set("user", JSON.stringify(data.data), { expires: 30 });

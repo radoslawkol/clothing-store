@@ -7,8 +7,6 @@ const getSearchHistory = async (req, res) => {
 		if (req.method === "GET") {
 			const { id } = req.query;
 
-			console.log(id);
-
 			if (!id) {
 				return res.status(400).json({
 					status: "fail",

@@ -48,8 +48,6 @@ export default function Summary({
 				}
 			);
 
-			console.log(data);
-
 			if (data.status === "success") {
 				router.push("/shipping");
 			} else {

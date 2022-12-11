@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 
 		const pathsArr = data.productCategories.map((cat) => {
 			const { gender, category, productCategory } = cat._id;
-			console.log(gender, category, productCategory);
+			gender, category, productCategory;
 			return { params: { gender, category, productCategory } };
 		});
 
@@ -37,10 +37,8 @@ export async function getStaticProps(context) {
 	try {
 		const { gender, category, productCategory } = context.params;
 		const { data } = await axios.get(
-			`http://localhost:3000/api/products?gender=${gender}&category=${category}&productCategory=${productCategory}`
+			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products?gender=${gender}&category=${category}&productCategory=${productCategory}`
 		);
-		console.log(data);
-
 		return {
 			props: {
 				products: data.products,

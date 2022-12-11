@@ -13,11 +13,11 @@ const menuData = {
 		categories: [
 			{
 				category: "clothing",
-				subcategories: ["t-shirts", "polo", "jeans", "pullover"],
+				subcategories: ["t-shirts", "jeans"],
 			},
 			{
 				category: "accessories",
-				subcategories: ["hat", "glasses"],
+				subcategories: ["glasses"],
 			},
 		],
 	},
@@ -25,11 +25,11 @@ const menuData = {
 		categories: [
 			{
 				category: "clothing",
-				subcategories: ["t-shirts", "skirts", "jeans", "underwear"],
+				subcategories: ["skirts", "jeans"],
 			},
 			{
 				category: "accessories",
-				subcategories: ["hat", "glasses", "jewellery"],
+				subcategories: ["necklaces", "bracelets"],
 			},
 		],
 	},

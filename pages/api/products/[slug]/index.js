@@ -38,7 +38,7 @@ const product = async (req, res) => {
 
 			if (product.comments.length > 0) {
 				product.comments.forEach((comment) => {
-					console.log(comment);
+					comment;
 					result += comment.rating;
 				});
 				avgRating = result / product.comments.length;

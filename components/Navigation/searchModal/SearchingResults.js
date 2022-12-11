@@ -19,8 +19,6 @@ export default function SearchingResults({
 				`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/getResult/${searchWord}`
 			);
 
-			console.log(data);
-
 			if (data.status === "success") {
 				setResults(data.products);
 			}
@@ -49,8 +47,6 @@ export default function SearchingResults({
 				`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/addToSearchHistory`,
 				{ id: user._id, productId }
 			);
-
-			console.log(data);
 		} catch (err) {
 			console.log(err);
 		}

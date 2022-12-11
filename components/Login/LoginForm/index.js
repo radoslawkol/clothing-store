@@ -36,15 +36,12 @@ export default function LoginForm() {
 	});
 
 	const submitHandler = async (formData) => {
-		console.log(formData);
 		const { password, email } = formData;
 		try {
 			const { data } = await axios.post("/api/auth/login", {
 				email,
 				password,
 			});
-			console.log(data);
-
 			if (data.status === "success") {
 				router.push("/account");
 				Cookies.set("user", JSON.stringify(data.data), { expires: 30 });

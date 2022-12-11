@@ -75,7 +75,6 @@ export default function ShippingCart({
 						}
 					}}
 					onApprove={(data, actions) => {
-						console.log(data);
 						dispatch(resetCart());
 						localStorage.removeItem("cart");
 						addOrderHandler();

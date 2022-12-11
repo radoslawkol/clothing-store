@@ -41,10 +41,13 @@ export default function ProductCard({ favourite = false, product }) {
 	};
 
 	const favouriteHandler = async () => {
-		const { data } = await axios.patch(`http://localhost:3000/api/favourites`, {
-			userId: user._id,
-			favouriteProductId: product._id,
-		});
+		const { data } = await axios.patch(
+			`${process.env.NEXT_PUBLIC_BASE_URL}/api/favourites`,
+			{
+				userId: user._id,
+				favouriteProductId: product._id,
+			}
+		);
 
 		if (data.operation === "added") {
 			setIsFavourite(true);

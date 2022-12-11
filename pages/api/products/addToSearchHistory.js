@@ -7,8 +7,6 @@ const addToSearchHistory = async (req, res) => {
 		if (req.method === "PATCH") {
 			const { id, productId } = req.body;
 
-			console.log(id, productId);
-
 			if (!id) {
 				return res.status(400).json({
 					status: "fail",
@@ -35,7 +33,7 @@ const addToSearchHistory = async (req, res) => {
 					message: "Product is already added to history.",
 				});
 			}
-			console.log(isAlreadyInHistory);
+			isAlreadyInHistory;
 
 			await User.findByIdAndUpdate(id, {
 				$push: { searchHistory: productId },

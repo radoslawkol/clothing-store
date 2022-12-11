@@ -116,7 +116,7 @@ const products = async (req, res) => {
 		}
 		if (req.method === "GET") {
 			const { gender, category, productCategory } = req.query;
-			console.log(gender, category, productCategory);
+			gender, category, productCategory;
 
 			let products;
 			if (gender !== "new") {
@@ -127,7 +127,6 @@ const products = async (req, res) => {
 				);
 			} else {
 				products = await findNewProducts(category);
-				console.log(products);
 			}
 
 			if (products.length < 1) {

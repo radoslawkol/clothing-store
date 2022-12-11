@@ -17,8 +17,6 @@ export default function AccountOrders() {
 			const { data } = await axios.get(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/api/orders?userId=${user._id}`
 			);
-			console.log(data);
-
 			if (data.status === "success") {
 				setOrdersInfo(data.ordersInfo);
 				setOrders(data.orders);

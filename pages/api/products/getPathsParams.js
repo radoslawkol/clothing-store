@@ -17,7 +17,7 @@ const getPathsParams = async (req, res) => {
 				},
 			]);
 
-			console.log(categories);
+			categories;
 			res.status(200).json({
 				status: "success",
 				productCategories: categories,

@@ -8,7 +8,6 @@ export default function AddToBagModal({ productId, setAddToBagModalVisible }) {
 	const [product, setProduct] = useState();
 	useEffect(() => {
 		setProduct(cart.cartItems.find((item) => item._id === productId));
-		console.log(product);
 	}, [cart.cartItems]);
 
 	return (

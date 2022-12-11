@@ -14,7 +14,7 @@ export default function MostPopular() {
 							</button>
 						</Link>
 
-						<Link href='/woman/clothing/jeans'>
+						<Link href='/man/clothing/jeans'>
 							<button className='p-2 border border-primary-key rounded-lg hover:bg-on-primary hover:text-on-primary-key duration-300'>
 								jeans
 							</button>
@@ -24,15 +24,15 @@ export default function MostPopular() {
 				<div>
 					<h4>Woman</h4>
 					<div className='flex gap-3 justify-center text-sm flex-wrap gap-y-1 mt-2'>
-						<Link href='/man/accessories/t-shirts'>
-							<button className='p-2 border border-primary-key rounded-lg hover:bg-on-primary hover:text-on-primary-key duration-300'>
-								blouses
-							</button>
-						</Link>
-
 						<Link href='/woman/clothing/jeans'>
 							<button className='p-2 border border-primary-key rounded-lg hover:bg-on-primary hover:text-on-primary-key duration-300'>
 								jeans
+							</button>
+						</Link>
+
+						<Link href='/woman/clothing/skirts'>
+							<button className='p-2 border border-primary-key rounded-lg hover:bg-on-primary hover:text-on-primary-key duration-300'>
+								skirts
 							</button>
 						</Link>
 					</div>

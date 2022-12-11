@@ -72,8 +72,6 @@ export default function AccountDetails() {
 				}
 			);
 
-			console.log(data);
-
 			if (data.status === "success") {
 				toast.success("Your personal data was updated successfully");
 				const newUserInfo = {

@@ -4,8 +4,6 @@ export default function AvaliableColors({ colors, productSKU, productSlug }) {
 	const router = useRouter();
 
 	const changeColorHandler = ({ sku }) => {
-		console.log(sku);
-		console.log(productSKU);
 		if (sku !== productSKU) {
 			const path = router.asPath.split("/");
 			const slug = productSlug.replace(productSKU, sku);

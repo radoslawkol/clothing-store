@@ -75,7 +75,6 @@ const cartSlice = createSlice({
 			localStorage.setItem("cart", JSON.stringify(state));
 		},
 		calculateDiscount: (state, { payload }) => {
-			console.log(payload);
 			state.discountCode = payload.discountCode;
 			const totalPrice = state.totalPrice;
 			state.discount = payload.discount / 100;

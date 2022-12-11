@@ -25,7 +25,7 @@ export default function AccountPage() {
 				`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${user._id}`
 			);
 			if (data.status === "success") {
-				console.log(data.user.favourites);
+				data.user.favourites;
 				dispatch(addFavouritesFromDB(data.user.favourites));
 			}
 		} catch (err) {

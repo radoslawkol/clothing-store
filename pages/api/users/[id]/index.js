@@ -6,7 +6,7 @@ const userId = async (req, res) => {
 	try {
 		await connectDB();
 		if (req.method === "GET") {
-			console.log(req.query);
+			req.query;
 			const { id } = req.query;
 
 			const user = await User.findById(id)
@@ -19,8 +19,6 @@ const userId = async (req, res) => {
 					message: "User not found.",
 				});
 			}
-
-			console.log(user);
 
 			res.status(200).json({
 				status: "success",

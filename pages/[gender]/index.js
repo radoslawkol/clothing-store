@@ -4,7 +4,6 @@ import PageContainer from "../../components/Layout/PageContainer";
 import axios from "axios";
 
 export default function Gender({ products }) {
-	console.log(products);
 	return <PageContainer products={products} />;
 }
 

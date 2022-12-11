@@ -117,7 +117,6 @@ productSchema.pre("validate", function (next) {
 		const slug = slugify(this.title, {
 			lower: true,
 		});
-		console.log(slug, this.color);
 		this.slug = `${slug}-${sku}`;
 	}
 	next();

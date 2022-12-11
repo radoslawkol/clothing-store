@@ -19,7 +19,7 @@ export async function middleware(req) {
 		} else {
 			const { payload } = await jose.jwtVerify(user.token, secret);
 
-			console.log(req.url);
+			req.url;
 			if (!req.url.contains("account")) {
 				return NextResponse.rewrite(new URL("/account", req.url));
 			}

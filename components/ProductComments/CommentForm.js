@@ -27,8 +27,6 @@ export default function CommentForm({ product }) {
 					comment,
 				}
 			);
-			console.log(data);
-
 			if (data.status === "success") {
 				toast.success("Your opinion has been added.");
 				setComment("");

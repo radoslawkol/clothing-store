@@ -13,8 +13,6 @@ export default function RecentSearches() {
 				`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/getSearchHistory?id=${user._id}`
 			);
 
-			console.log(data);
-
 			if (data.status === "success") {
 				setRecentSearches(data.searchHistory);
 			}

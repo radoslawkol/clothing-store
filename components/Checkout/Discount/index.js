@@ -21,12 +21,9 @@ export default function Discount({
 
 	const discountHandler = async () => {
 		try {
-			console.log(code);
 			const { data } = await axios.get(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/api/discounts?code=${code}`
 			);
-			console.log(data);
-
 			if (data.status === "success") {
 				setDiscountCode(data.code);
 				setIsDiscountApplied(true);
