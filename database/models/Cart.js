@@ -1,7 +1,6 @@
 import { Schema, model, models } from "mongoose";
 import User from "../models/User";
 import Product from "./Product";
-import CartItem from "./cartItem";
 
 const cartSchema = Schema(
 	{
