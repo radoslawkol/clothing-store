@@ -35,6 +35,7 @@ I am aware that code might not be everywhere perfect and there are things to imp
 - figma
 - paypal api
 - redux toolkit
+- react-hook-form
 - axios
 - bcrypt
 - jsonwebtoken
@@ -59,3 +60,7 @@ After some time I realised that it's a nonsense if we pass price value from tota
 
 3. I has stopped implementing testing, because I realised that this project is to complex to test for a begginner. I firstly try create testing on smaller project and maybe in the future I will implement them also to this project. I wanted have tests to every components at the beginning, but I with time it slowed me down. So I left this idea and focused on site functionality. I know how test are important, but I think that I should practise them on easier projects first, and learn more.
 
+
+## API
+#products
+Create product - POST: /api/products
