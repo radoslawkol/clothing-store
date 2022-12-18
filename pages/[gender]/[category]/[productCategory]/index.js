@@ -14,7 +14,7 @@ export default function ProductCategory({ products }) {
 export async function getStaticPaths() {
 	try {
 		const { data } = await axios.get(
-			`http://localhost:3000/api/products/getPathsParams`
+			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/getPathsParams`
 		);
 
 		const pathsArr = data.productCategories.map((cat) => {

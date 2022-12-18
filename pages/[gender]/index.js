@@ -22,7 +22,7 @@ export async function getStaticProps(context) {
 	try {
 		const { gender } = context.params;
 		const { data } = await axios.get(
-			`http://localhost:3000/api/products?gender=${gender}`
+			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products?gender=${gender}`
 		);
 
 		return {
