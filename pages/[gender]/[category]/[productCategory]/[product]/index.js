@@ -59,7 +59,7 @@ export async function getStaticPaths() {
 		});
 		return {
 			paths: pathsArr,
-			fallback: "false",
+			fallback: false,
 		};
 	} catch (err) {
 		console.log(err);
