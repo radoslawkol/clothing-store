@@ -46,7 +46,6 @@ export async function getStaticPaths() {
 
 		const pathsArr = data.productCategories.map((cat) => {
 			const { gender, category, productCategory, slug } = cat._id;
-			gender, category, productCategory, slug;
 			return {
 				params: {
 					gender,
