@@ -3,6 +3,7 @@ import Product from "../../../database/models/Product";
 
 const getPathsParams = async (req, res) => {
 	try {
+		await connectDB();
 		if (req.method === "GET") {
 			const categories = await Product.aggregate([
 				{

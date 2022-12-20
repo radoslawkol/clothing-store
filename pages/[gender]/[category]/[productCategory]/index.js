@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import axios from "axios";
 import PageContainer from "../../../../components/Layout/PageContainer";
 
@@ -25,7 +24,7 @@ export async function getStaticPaths() {
 
 		return {
 			paths: pathsArr,
-			fallback: false,
+			fallback: true,
 		};
 	} catch (err) {
 		console.log(err);
