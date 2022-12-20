@@ -8,12 +8,7 @@ import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import ProductComments from "../ProductComments";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	addItem,
-	addCartToCookies,
-	calculateTotals,
-	getCartFromCookies,
-} from "../../reducers/cartReducer";
+import { addItem, calculateTotals } from "../../reducers/cartReducer";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
@@ -23,9 +18,7 @@ import {
 	addFavourite,
 	removeFavourite,
 } from "../../reducers/favouritesReducer";
-import ProductReviews from "./ProductReviews";
 import ReviewStars from "../ProductComments/ReviewStars";
-import Cookies from "js-cookie";
 
 export default function ProductDetail({ product, setAddToBagModalVisible }) {
 	const router = useRouter();

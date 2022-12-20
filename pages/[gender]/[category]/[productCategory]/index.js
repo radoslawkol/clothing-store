@@ -2,6 +2,8 @@ import React from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import PageContainer from "../../../../components/Layout/PageContainer";
+import Product from "../../../../database/models/Product";
+import connectDB from "../../../../database/connectDB";
 
 export default function ProductCategory({ products }) {
 	const router = useRouter();
@@ -12,18 +14,26 @@ export default function ProductCategory({ products }) {
 
 export async function getStaticPaths() {
 	try {
-		const { data } = await axios.get(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/getPathsParams`
-		);
-
-		const pathsArr = data.productCategories.map((cat) => {
-			const { gender, category, productCategory } = cat._id;
-			return { params: { gender, category, productCategory } };
-		});
+		await connectDB();
+		const categories = await Product.aggregate([
+			{
+				$group: {
+					_id: {
+						gender: "$gender",
+						category: "$category",
+						productCategory: "$productCategory",
+						slug: "$slug",
+					},
+				},
+			},
+		]);
 
 		return {
-			paths: pathsArr,
-			fallback: false,
+			paths: categories.map((cat) => {
+				const { gender, category, productCategory } = cat._id;
+				return { params: { gender, category, productCategory } };
+			}),
+			fallback: true,
 		};
 	} catch (err) {
 		console.log(err);

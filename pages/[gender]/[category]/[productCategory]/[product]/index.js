@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import ProductDetail from "../../../../../components/ProductDetail";
 import ReactDOM from "react-dom";
 import AddToBagModal from "../../../../../components/AddToBagModal";
+import Product from "../../../../../database/models/Product";
+import connectDB from "../../../../../database/connectDB";
 
 export default function ProductPage({ product }) {
 	const [addToBagModalVisible, setAddToBagModalVisible] = useState(false);
@@ -40,27 +42,25 @@ export default function ProductPage({ product }) {
 
 export async function getStaticPaths() {
 	try {
-		const { data } = await axios.get(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/getPathsParams`
-		);
-
-		console.log(data);
-
-		const pathsArr = data.productCategories.map((cat) => {
-			const { gender, category, productCategory, slug } = cat._id;
-			return {
-				params: {
-					gender,
-					category,
-					productCategory,
-					product: `${slug}`,
+		await connectDB();
+		const categories = await Product.aggregate([
+			{
+				$group: {
+					_id: {
+						gender: "$gender",
+						category: "$category",
+						productCategory: "$productCategory",
+						slug: "$slug",
+					},
 				},
-			};
-		});
+			},
+		]);
 
-		console.log(pathsArr);
 		return {
-			paths: pathsArr,
+			paths: categories.map((cat) => {
+				const { gender, category, productCategory, slug } = cat._id;
+				return { params: { gender, category, productCategory, product: slug } };
+			}),
 			fallback: false,
 		};
 	} catch (err) {
@@ -80,6 +80,7 @@ export async function getStaticProps(context) {
 			props: {
 				product: data.product,
 			},
+			revalidate: 20,
 		};
 	} catch (err) {
 		console.log(err);
