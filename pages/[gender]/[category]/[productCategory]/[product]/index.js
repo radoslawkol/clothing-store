@@ -44,6 +44,8 @@ export async function getStaticPaths() {
 			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/getPathsParams`
 		);
 
+		console.log(data);
+
 		const pathsArr = data.productCategories.map((cat) => {
 			const { gender, category, productCategory, slug } = cat._id;
 			return {
@@ -55,9 +57,11 @@ export async function getStaticPaths() {
 				},
 			};
 		});
+
+		console.log(pathsArr);
 		return {
 			paths: pathsArr,
-			fallback: true,
+			fallback: false,
 		};
 	} catch (err) {
 		console.log(err);

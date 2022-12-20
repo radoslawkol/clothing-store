@@ -18,13 +18,12 @@ export async function getStaticPaths() {
 
 		const pathsArr = data.productCategories.map((cat) => {
 			const { gender, category, productCategory } = cat._id;
-			gender, category, productCategory;
 			return { params: { gender, category, productCategory } };
 		});
 
 		return {
 			paths: pathsArr,
-			fallback: true,
+			fallback: false,
 		};
 	} catch (err) {
 		console.log(err);
