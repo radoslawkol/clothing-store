@@ -31,7 +31,7 @@ export default function ProductPage({ product }) {
 			{addToBagModalVisible &&
 				ReactDOM.createPortal(
 					<AddToBagModal
-						productId={JSON.parse(product._id)}
+						productId={JSON.parse(product)._id}
 						setAddToBagModalVisible={setAddToBagModalVisible}
 					/>,
 					modalRoot
