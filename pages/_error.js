@@ -1,7 +1,16 @@
+import { useState, useEffect } from "react";
 import errorImage from "../images/server-error-image.svg";
 import Image from "next/image";
+import ReactDOM from "react-dom";
+
 function Error({ statusCode }) {
-	return (
+	const [modalRoot, setModalRoot] = useState();
+
+	useEffect(() => {
+		setModalRoot(document.getElementById("modal-root"));
+	}, []);
+
+	return ReactDOM.createPortal(
 		<div className='uppercase text-primary-key bg-secondary  z-50 text-center p-20 h-full w-full flex justify-center items-center rounded-md'>
 			<Image src={errorImage} width={130} height={130} />
 			<p className='text-lg mb-4'>
@@ -10,7 +19,8 @@ function Error({ statusCode }) {
 					: "An error occurred on client"}
 			</p>
 			<strong className='text-xl'>Try again later</strong>
-		</div>
+		</div>,
+		modalRoot
 	);
 }
 
