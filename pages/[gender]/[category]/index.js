@@ -1,9 +1,10 @@
 import React from "react";
 import PageContainer from "../../../components/Layout/PageContainer";
-import axios from "axios";
+import connectDB from "../../../database/connectDB";
+import Product from "../../../database/models/Product";
 
 export default function Category({ products }) {
-	return <PageContainer products={products} />;
+	return <PageContainer products={JSON.parse(products)} />;
 }
 
 export async function getStaticPaths() {
@@ -23,12 +24,29 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
 	try {
 		const { gender, category } = context.params;
-		const { data } = await axios.get(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products?gender=${gender}&category=${category}`
-		);
+		await connectDB();
+
+		let products = [];
+
+		if (gender === "new") {
+			products = await Product.find({
+				category,
+			});
+			products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+		} else {
+			products = await Product.aggregate([
+				{
+					$match: {
+						$and: [{ gender }, { category }],
+					},
+				},
+			]).sort({
+				createdAt: -1,
+			});
+		}
 		return {
 			props: {
-				products: data.products,
+				products: JSON.stringify(products),
 			},
 			revalidate: 20,
 		};

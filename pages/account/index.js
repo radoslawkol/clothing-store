@@ -27,7 +27,7 @@ export default function Account() {
 			<p className='text-xl text-center tracking-wider'>
 				Welcome to your account, {userData.name}
 			</p>
-			<strong className=''>{userData.email}</strong>
+			<strong>{userData.email}</strong>
 		</div>
 	);
 }

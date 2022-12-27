@@ -44,13 +44,6 @@ const product = async (req, res) => {
 				avgRating = result / product.comments.length;
 			}
 
-			if (!product) {
-				res.status(404).json({
-					status: "fail",
-					message: "Product not found.",
-				});
-			}
-
 			res.status(200).json({
 				status: "success",
 				product: {

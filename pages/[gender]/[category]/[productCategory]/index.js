@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import PageContainer from "../../../../components/Layout/PageContainer";
 import Product from "../../../../database/models/Product";
 import connectDB from "../../../../database/connectDB";
@@ -9,7 +8,7 @@ export default function ProductCategory({ products }) {
 	const router = useRouter();
 	const breadcrumbs = Object.values(router.query);
 	breadcrumbs.unshift("");
-	return <PageContainer products={products} />;
+	return <PageContainer products={JSON.parse(products)} />;
 }
 
 export async function getStaticPaths() {
@@ -33,7 +32,7 @@ export async function getStaticPaths() {
 				const { gender, category, productCategory } = cat._id;
 				return { params: { gender, category, productCategory } };
 			}),
-			fallback: true,
+			fallback: false,
 		};
 	} catch (err) {
 		console.log(err);
@@ -44,12 +43,24 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
 	try {
 		const { gender, category, productCategory } = context.params;
-		const { data } = await axios.get(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products?gender=${gender}&category=${category}&productCategory=${productCategory}`
-		);
+		await connectDB();
+		let products = [];
+
+		products = await Product.aggregate([
+			{
+				$match: {
+					$and: [{ gender }, { category }, { productCategory }],
+				},
+			},
+		]);
+
+		if (products.length === 0) {
+			return { notFound: true };
+		}
+
 		return {
 			props: {
-				products: data.products,
+				products: JSON.stringify(products),
 			},
 			revalidate: 20,
 		};

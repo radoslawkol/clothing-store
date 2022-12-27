@@ -25,13 +25,13 @@ export default function ProductPage({ product }) {
 	return (
 		<>
 			<ProductDetail
-				product={product}
+				product={JSON.parse(product)}
 				setAddToBagModalVisible={setAddToBagModalVisible}
 			/>
 			{addToBagModalVisible &&
 				ReactDOM.createPortal(
 					<AddToBagModal
-						productId={product._id}
+						productId={JSON.parse(product._id)}
 						setAddToBagModalVisible={setAddToBagModalVisible}
 					/>,
 					modalRoot
@@ -72,13 +72,40 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
 	const { product } = context.params;
 	try {
-		const { data } = await axios.get(
-			`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${product}`
-		);
+		await connectDB();
+
+		let productData = await Product.findOne({ slug: product });
+
+		if (!productData) {
+			return { notFound: true };
+		}
+
+		await productData.populate({
+			path: "comments",
+			populate: {
+				path: "user",
+				select: "firstName lastName",
+			},
+		});
+
+		let avgRating = 0;
+		let result = 0;
+
+		if (productData.comments.length > 0) {
+			productData.comments.forEach((comment) => {
+				result += comment.rating;
+			});
+			avgRating = result / productData.comments.length;
+		}
+
+		productData = {
+			...productData.toObject(),
+			avgRating,
+		};
 
 		return {
 			props: {
-				product: data.product,
+				product: JSON.stringify(productData),
 			},
 			revalidate: 20,
 		};
