@@ -1,9 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import image from "../../images/pageNotFoundImage.svg";
+import ReactDOM from "react-dom";
 
 export default function Custom404() {
-	return (
+	const [modalRoot, setModalRoot] = useState();
+
+	useEffect(() => {
+		setModalRoot(document.getElementById("modal-root"));
+	}, []);
+
+	return ReactDOM.createPortal(
 		<div className='bg-secondary h-screen flex items-center justify-center'>
 			<div className='bg-on-primary-key text-center rounded-xl p-4'>
 				<Image src={image} alt='Not found' width={400} height={260} />
@@ -16,6 +23,7 @@ export default function Custom404() {
 					</button>
 				</Link>
 			</div>
-		</div>
+		</div>,
+		modalRoot
 	);
 }
