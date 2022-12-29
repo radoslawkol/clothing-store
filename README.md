@@ -2,6 +2,8 @@
 **Figma project design:**
 https://www.figma.com/file/5dZsEWvc13uiPYECowWZMG/E-commerce-website?node-id=6%3A29&t=QKCcgFdEghkeICUN-3
 
+**Demo app:** https://clothing-store-rose.vercel.app
+
 ## Story
 I wanted to create an ecommerce website. I knew that it will be a challenge for me, but also an important experience.
 Also, the purpose of this project was to get familiar with Next.js. I think this project enhanced my programming and solving problems skills.
