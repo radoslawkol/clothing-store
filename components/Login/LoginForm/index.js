@@ -89,9 +89,6 @@ export default function LoginForm() {
 					Forgot password?
 				</p>
 			</Link>
-
-			<h3 className='uppercase text-primary-key '>Or sign in with...</h3>
-			<ButtonOutlineBrown>Google</ButtonOutlineBrown>
 		</form>
 	);
 }
