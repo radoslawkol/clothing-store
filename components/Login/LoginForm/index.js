@@ -33,6 +33,10 @@ export default function LoginForm() {
 	} = useForm({
 		mode: "onChange",
 		resolver: yupResolver(validationSchema),
+		defaultValues: {
+			email: "tevefo1821@syswift.com",
+			password: "123456",
+		},
 	});
 
 	const submitHandler = async (formData) => {
