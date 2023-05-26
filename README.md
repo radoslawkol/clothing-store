@@ -2,10 +2,20 @@
 **Figma project design:**
 https://www.figma.com/file/5dZsEWvc13uiPYECowWZMG/E-commerce-website?node-id=6%3A29&t=QKCcgFdEghkeICUN-3
 
+**Demo app:** https://clothing-store-rose.vercel.app
+
 ## Story
-I wanted to create an ecommerce website. I knew that it will be a challenge for me, but also an important experience.
-Also, the purpose of this project was to get familiar with Next.js. I think this project enhanced my programming and solving problems skills.
-I am aware that code might not be everywhere perfect and there are things to improve, but this project was quite complicated, because I tried a lot of new technologies and I spent some time to create an idea how this website will look and work. It took me a long period of time to complete this, because of school and problems I encountered. Now I am much more aware how ecommerce sites work, but there is still some things to learn.
+
+Embarking on the journey of creating my first ecommerce website was both exciting and challenging. I knew from the start that it would be a valuable learning experience that would push my programming skills to a new level. Additionally, this project provided the perfect opportunity for me to become acquainted with Next.js, a powerful framework for building web applications.
+
+Throughout the development process, I encountered various obstacles and had to find innovative solutions. This experience sharpened my problem-solving skills and expanded my knowledge of web development. This project allowed me to explore new technologies and invest time in creating a functional fullstack website. As a result, I now have a better understanding of how ecommerce sites operate. However, I recognize that there is still more to learn and room for improvement.
+<br>
+
+## Screenshots
+
+<img src="https://res.cloudinary.com/detfhw9ll/image/upload/v1685120662/github%20docs/clothes-shop/clothesshop-hero_ohmxtk.png" width=500 height=300><img src="https://res.cloudinary.com/detfhw9ll/image/upload/v1685120663/github%20docs/clothes-shop/clothesshop-man_bxpv0l.png" width=500 height=300><img src="https://res.cloudinary.com/detfhw9ll/image/upload/v1685120661/github%20docs/clothes-shop/clothesshop-search_sdqcn4.png" width=500 height=300><img src="https://res.cloudinary.com/detfhw9ll/image/upload/v1685120661/github%20docs/clothes-shop/clothesshop-detail_g2cm7z.png" width=500 height=300><img src="https://res.cloudinary.com/detfhw9ll/image/upload/v1685120660/github%20docs/clothes-shop/clothesshop-bag_b2iige.png" width=500 height=300><img src="https://res.cloudinary.com/detfhw9ll/image/upload/v1685120661/github%20docs/clothes-shop/clothesshop-favourites_ohegmw.png" width=500 height=300><img src="https://res.cloudinary.com/detfhw9ll/image/upload/v1685120662/github%20docs/clothes-shop/clothesshop-orders_wyf8sk.png" width=500 height=300>
+
+<br>
 
 ## Main Features
 - Displaying products by different categories and subcategories
@@ -25,6 +35,7 @@ I am aware that code might not be everywhere perfect and there are things to imp
 - Discount codes
 - Recent searched products
 
+<br>
 
 ## Used Technologies
 - react
@@ -51,16 +62,65 @@ I am aware that code might not be everywhere perfect and there are things to imp
 - cypress
 - react-testing-library
 
+<br>
+
 ## The most important encountered problems 
-1. **Using only product's id.**\
-I wasn't aware how ecommerce system should be like. Firstly, I based on products' ids, which wasn't great, because e.g in shopping cart product could have the same id, but different size chose by user and color, so I had to introduced SKU numbers to make each cart product unique. I read about SKU on the Inthernet and I applied this to every product. SKU is unique for the same products, but with different color or size. I realised how important is a knowledge about what you want to build. In future I will plan app more carefully and do more reaserch to not change logic so many times. 
 
-2. **Price and discounts code based on client side**\
-After some time I realised that it's a nonsense if we pass price value from totals calculated on client side. User could pass any value, which he wanted, so I tried in order to price was comming from backend and discount as well. So I created user shopping cart in datebase. User sends only products ids, amount of particular products and size he chose. Then we calculate price on a server and discounts if discount code is relevant with this in db. If user pays, paypal function fetch cart from backend and pass it through it's API. So user cannot easily overwrite his price and discount.
+1. **Using only product IDs**\
+When I started building my ecommerce system, I initially relied on the product IDs. However, I soon realized that this approach had its limitations. For example, in the shopping cart, different product variants, such as different sizes or colors, would have the same ID. To address this issue, I researched and implemented something like SKU numbers. SKUs made each cart product unique, allowing for accurate tracking of product variants. This experience taught me the importance of understanding the system I'm building and planning more carefully in the future to avoid frequent logic changes.
 
-3. I has stopped implementing testing, because I realised that this project is to complex to test for a begginner. I firstly try create testing on smaller project and maybe in the future I will implement them also to this project. I wanted have tests to every components at the beginning, but I with time it slowed me down. So I left this idea and focused on site functionality. I know how test are important, but I think that I should practise them on easier projects first, and learn more.
+2. **Price and discount logic on the client side**\
+At some point, I realized that it didn't make sense to rely on the client-side for price calculations. Users could manipulate the price values in the browser, so I redesigned the system to fetch the prices and discounts from the backend. I created a user shopping cart in the database, where the user would send product IDs, quantities, and chosen sizes. The server would then calculate the price and apply relevant discounts based on the discount code stored in the database. This ensured that users couldn't easily manipulate the price or discount values.
+
+<br>
+
+## API Endpoints
+
+<br>
+
+### Products
+- Create a product - `POST /api/products`
+- Get products - `GET /api/products`
+- Get products with filters - `GET /api/gender=woman&category=accessories&productCategory=necklace`
+- Get a product - `GET /api/products/product-slug`
+- Add to search history `PATCH /api/products/addToSearchHistory`
+- Get recent searches `GET /api/products/getSearchHistory`
 
 
-## API
-#products
-Create product - POST: /api/products
+### Users
+- Update personal data - `PATCH /api/users/:id`
+- Change password - `PATCH /api/users/changePassword`
+<br>
+
+### Authentication
+- Login - `POST /api/auth/login`
+- Register - `POST /api/auth/register`
+<br>
+
+### Shopping cart
+- Create a shopping cart - `POST /api/cart`
+- Get a shopping cart - `GET /api/cart`
+<br>
+
+### Comments 
+- Create a comment - `POST /api/comments`
+<br>
+
+### Discounts
+- Create a discount code - `POST /api/discounts`
+- Verify a discount code - `GET /api/discounts?code=${codeNumber}`
+- Disactivate a discount code - `PATCH /api/discounts`
+- Delete a discount code - `DELETE /api/discounts`
+<br>
+
+### Orders
+- Create an order - `POST /api/orders`
+- Get orders - `GET /api/orders`
+<br>
+
+### Favourites products
+- Add or delete favourite product `PATCH /api/favourites`
+<br>
+
+### Paypal
+- Provide data to transaction - `/api/keys/paypal`
