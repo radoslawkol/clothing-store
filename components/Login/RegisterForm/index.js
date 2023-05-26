@@ -153,9 +153,6 @@ export default function RegisterForm() {
 			<ButtonPrimary>Sign Up</ButtonPrimary>
 
 			{error && <p className='text-error-primary-key'>{error}</p>}
-
-			<h3 className='uppercase text-primary-key '>Or sign up with...</h3>
-			<ButtonOutlineBrown>Google</ButtonOutlineBrown>
 		</form>
 	);
 }
